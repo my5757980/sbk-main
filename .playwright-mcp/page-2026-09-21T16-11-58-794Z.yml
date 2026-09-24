@@ -1,0 +1,162 @@
+- generic [active] [ref=f19e1]:
+  - paragraph [ref=f19e5]: Loading Premium Stock
+  - banner [ref=f19e6]:
+    - generic [ref=f19e7]:
+      - generic [ref=f19e8]:
+        - generic [ref=f19e9]: +81 70-9427-5106
+        - generic [ref=f19e10]: info@sbkautotrading.com
+        - generic [ref=f19e11]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=f19e12]:
+        - generic [ref=f19e13]: USA (MN) 11:11:58 AM
+        - generic: JAMAICA 11:11:58 AM
+        - generic: KENYA 07:11:58 PM
+        - generic: UAE 08:11:58 PM
+        - generic: JAPAN 01:11:58 AM
+  - navigation [ref=f19e14]:
+    - generic [ref=f19e15]:
+      - link [ref=f19e16] [cursor=pointer]:
+        - /url: "#"
+        - img "SBK Global Auto Trading" [ref=f19e17]
+      - generic [ref=f19e18]:
+        - link "Home" [ref=f19e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021
+        - link "About Us" [ref=f19e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/about-us
+        - link "Shop" [ref=f19e21] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/shop
+        - link "Services" [ref=f19e22] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/services
+        - link "Brand" [ref=f19e24] [cursor=pointer]:
+          - /url: "#"
+        - link "Blogs" [ref=f19e27] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/blog
+        - link "Our Locations" [ref=f19e28] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/our-locations
+        - link "Contact Us" [ref=f19e29] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+      - generic [ref=f19e30]:
+        - searchbox "Search here..." [ref=f19e31]
+        - link "Sign In" [ref=f19e32] [cursor=pointer]:
+          - /url: "#"
+        - button "Buy Now" [ref=f19e33]
+  - generic [ref=f19e34]:
+    - heading "SBK Services" [level=1] [ref=f19e36]
+    - generic [ref=f19e38]:
+      - heading "Our Services - End-to-End Vehicle Export Management" [level=2] [ref=f19e39]: Our Services - End-to-EndVehicle Export Management
+      - paragraph [ref=f19e40]: Structured sourcing. Disciplined bidding. Managed logistics. Complete documentation support. Our services bring the entire Japanese vehicle export process under one coordinated system. Each step is handled with clarity, from vehicle selection to final shipment. We work with car dealers, resellers, fleet and rental operators, import-export businesses, bulk buyers, construction companies, taxi services, and individual buyers seeking reliable access to Japan's vehicle market. When the process demands accuracy and oversight, our services provide the control needed to move forward with confidence.
+    - generic [ref=f19e42]:
+      - img "Japanese Vehicle Sourcing" [ref=f19e44]
+      - generic [ref=f19e45]:
+        - generic [ref=f19e46]: Japanese Vehicle Sourcing
+        - heading "Japanese Vehicle Sourcing" [level=2] [ref=f19e47]
+        - paragraph [ref=f19e48]: We source vehicles directly from Japanese auctions and trusted dealer networks. You get access to verified listings, clear specifications, and real market value. We shortlist options based on your budget and destination requirements, so you review serious choices, not random inventory.
+        - link "View Stock" [ref=f19e49] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+    - generic [ref=f19e51]:
+      - img "Auction Bidding and Consultation" [ref=f19e53]
+      - generic [ref=f19e54]:
+        - generic [ref=f19e55]: Auction Bidding and Consultation
+        - heading "Auction Bidding and Consultation" [level=2] [ref=f19e56]
+        - paragraph [ref=f19e57]: Japanese auctions can be complex. We simplify them. Our team explains auction grades, reviews condition reports, and recommends practical bid ranges. You stay informed at every step and make decisions with clarity, not pressure.
+        - link "Start Consultation" [ref=f19e58] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+    - generic [ref=f19e60]:
+      - img "Vehicle Inspection and Condition Verification" [ref=f19e62]
+      - generic [ref=f19e63]:
+        - generic [ref=f19e64]: Vehicle Inspection and Condition Verification
+        - heading "Vehicle Inspection and Condition Verification" [level=2] [ref=f19e65]
+        - paragraph [ref=f19e66]: Before any commitment, we carefully review the vehicle's condition. That includes auction sheet translation, mileage verification, and accident history checks. You receive a clear understanding of what you're buying before it moves forward.
+        - link "Verify Vehicle" [ref=f19e67] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+    - generic [ref=f19e69]:
+      - img "Shipping and Logistics Management" [ref=f19e71]
+      - generic [ref=f19e72]:
+        - generic [ref=f19e73]: Shipping and Logistics Management
+        - heading "Shipping and Logistics Management" [level=2] [ref=f19e74]
+        - paragraph [ref=f19e75]: We manage shipping from Japan to your destination port with structured coordination. Freight booking, export clearance, and shipment tracking are handled professionally. You receive timely updates while your vehicle moves through each stage.
+        - link "Track Shipment" [ref=f19e76] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+    - generic [ref=f19e78]:
+      - img "Documentation and Import Assistance" [ref=f19e80]
+      - generic [ref=f19e81]:
+        - generic [ref=f19e82]: Documentation and Import Assistance
+        - heading "Documentation and Import Assistance" [level=2] [ref=f19e83]
+        - paragraph [ref=f19e84]: Before any commitment, we carefully review the vehicle's condition. That includes auction sheet translation, mileage verification, and accident history checks. You receive a clear understanding of what you're buying before it moves forward.
+        - link "Get Support" [ref=f19e85] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+    - generic [ref=f19e88]:
+      - heading "Let's Structure Your Next Shipment" [level=2] [ref=f19e89]
+      - paragraph [ref=f19e90]: Japanese vehicle sourcing requires clarity, timing, and the right execution partner. If you're planning your next purchase or bulk order, let's structure it properly from the start.
+      - generic [ref=f19e91]:
+        - link "Start Consultation" [ref=f19e92] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+        - link "Contact Our Team" [ref=f19e93] [cursor=pointer]:
+          - /url: http://127.0.0.1:8021/contact-us
+  - contentinfo [ref=f19e94]:
+    - generic [ref=f19e95]:
+      - paragraph [ref=f19e97]:
+        - img "SBK" [ref=f19e98]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=f19e99]:
+        - heading "Quick link" [level=3] [ref=f19e100]
+        - generic [ref=f19e101]: "* Home"
+        - generic [ref=f19e102]: "* Shop"
+        - generic [ref=f19e103]: "* About us"
+        - generic [ref=f19e104]: "* Contact us"
+        - generic [ref=f19e105]: "* Bank Details"
+      - generic [ref=f19e106]:
+        - heading "By Types" [level=3] [ref=f19e107]
+        - generic [ref=f19e108]: "* SUV"
+        - generic [ref=f19e109]: "* Coupe"
+        - generic [ref=f19e110]: "* Hatchback"
+        - generic [ref=f19e111]: "* Sedan"
+        - generic [ref=f19e112]: "* Wagon"
+        - generic [ref=f19e113]: "* Van"
+        - generic [ref=f19e114]: "* Roadster"
+      - generic [ref=f19e115]:
+        - heading "By Brands" [level=3] [ref=f19e116]
+        - generic [ref=f19e117]: "* Honda"
+        - generic [ref=f19e118]: "* Toyota"
+        - generic [ref=f19e119]: "* Mazda"
+        - generic [ref=f19e120]: "* Mitsubushi"
+        - generic [ref=f19e121]: "* Subaru"
+        - generic [ref=f19e122]: "* BMW"
+        - generic [ref=f19e123]: "* Suzuki"
+        - generic [ref=f19e124]: "* Daihatsu"
+        - generic [ref=f19e125]: "* Lexus"
+        - generic [ref=f19e126]: "* Hino"
+        - generic [ref=f19e127]: "* Mercedes-Benz"
+        - generic [ref=f19e128]: "* Volkswagen"
+        - generic [ref=f19e129]: "* Audi"
+        - generic [ref=f19e130]: "* Volvo"
+        - generic [ref=f19e131]: "* Ford"
+        - generic [ref=f19e132]: "* Jeep"
+        - generic [ref=f19e133]: "* Land Rover"
+        - generic [ref=f19e134]: "* Hyundai"
+      - generic [ref=f19e135]:
+        - generic [ref=f19e136]:
+          - strong [ref=f19e137]: Headquarter UAE
+          - paragraph [ref=f19e138]: ☎ +971 55 417 7311
+          - paragraph [ref=f19e139]: • Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=f19e140]:
+          - strong [ref=f19e141]: USA Office
+          - paragraph [ref=f19e142]: ☎ +1 (321) 357-857
+          - paragraph [ref=f19e143]: "• Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=f19e144]:
+          - strong [ref=f19e145]: Japan Office
+          - paragraph [ref=f19e146]: ☎ +81 70-9427-5106
+          - paragraph [ref=f19e147]: • Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=f19e148]:
+          - strong [ref=f19e149]: Showroom Mombasa
+          - paragraph [ref=f19e150]: ☎ +254 705719918
+          - paragraph [ref=f19e151]: • Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=f19e152]:
+          - strong [ref=f19e153]: Jamaica Office
+          - paragraph [ref=f19e154]: ☎ +1 876 8036277
+          - paragraph [ref=f19e155]: • 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=f19e156]:
+          - strong [ref=f19e157]: Pakistan Office
+          - paragraph [ref=f19e158]: ☎ +92 213 339-3946
+          - paragraph [ref=f19e159]: • SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+    - paragraph [ref=f19e160]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main

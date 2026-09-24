@@ -1,0 +1,260 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e5]: Loading Premium Stock
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: +81 70-9427-5106
+        - generic [ref=e10]: info@sbkautotrading.com
+        - generic [ref=e11]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=e12]:
+        - generic [ref=e13]: USA (MN) 03:52:58 PM
+        - generic: JAMAICA 03:52:58 PM
+        - generic: KENYA 11:52:58 PM
+        - generic: UAE 12:52:58 AM
+        - generic: JAPAN 05:52:58 AM
+  - navigation [ref=e14]:
+    - generic [ref=e15]:
+      - link [ref=e16] [cursor=pointer]:
+        - /url: http://127.0.0.1:8010
+        - img "SBK Global Auto Trading" [ref=e17]
+      - generic [ref=e18]:
+        - link "Home" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010
+        - link "About Us" [ref=e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/about-us
+        - link "Shop" [ref=e21] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/shop
+        - link "Services" [ref=e22] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/services
+        - link "Brand" [ref=e24] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/shop
+        - link "Blogs" [ref=e27] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/blog
+        - link "Our Locations" [ref=e28] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/our-locations
+        - link "Contact Us" [ref=e29] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/contact-us
+      - generic [ref=e30]:
+        - searchbox "Search products" [ref=e32]
+        - link "Wishlist" [ref=e33] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/wishlist
+          - generic [ref=e34]: ♡
+        - link "Cart" [ref=e35] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/cart
+          - generic [ref=e36]: 🛒
+        - button "Buy Now" [ref=e37]
+  - generic [ref=e38]:
+    - generic [ref=e39]:
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: Home
+          - generic [ref=e43]: /
+          - generic [ref=e44]: Shop
+          - generic [ref=e45]: /
+          - generic [ref=e46]: Vehicle Detail
+        - generic [ref=e47]: Toyota / Mark X
+        - heading "TOYOTA MARK X Black 2016" [level=1] [ref=e48]
+        - paragraph [ref=e49]: 2016 Toyota Mark X 250G F Package in Black with a GRX130 chassis, 2500 cc engine, automatic transmission, AAC, and 132,000 km mileage. Equipped with power steering, power windows, alloy wheels, keyless entry, push start, DVD, HD navigation, back camera, rear camera, and sunvisors.
+        - generic [ref=e50]:
+          - generic [ref=e51]: "2016"
+          - generic [ref=e52]: 132,000 km
+          - generic [ref=e53]: Petrol
+          - generic [ref=e54]: Japan
+      - text: SBK
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]:
+          - generic [ref=e60]:
+            - text: Verified Stock
+            - img "TOYOTA MARK X Black 2016" [ref=e61]
+          - generic [ref=e62]:
+            - button [ref=e63] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 1" [ref=e64]
+            - button [ref=e65] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 2" [ref=e66]
+            - button [ref=e67] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 3" [ref=e68]
+            - button [ref=e69] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 4" [ref=e70]
+            - button [ref=e71] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 5" [ref=e72]
+            - button [ref=e73] [cursor=pointer]:
+              - img "TOYOTA MARK X Black 2016 image 6" [ref=e74]
+        - generic [ref=e75]:
+          - heading "Vehicle Specifications" [level=2] [ref=e76]
+          - generic [ref=e78]:
+            - generic [ref=e79]:
+              - generic [ref=e80]: Brand
+              - generic [ref=e81]: Toyota
+            - generic [ref=e82]:
+              - generic [ref=e83]: Model
+              - generic [ref=e84]: Mark X
+            - generic [ref=e85]:
+              - generic [ref=e86]: Year
+              - generic [ref=e87]: "2016"
+            - generic [ref=e88]:
+              - generic [ref=e89]: Mileage
+              - generic [ref=e90]: 132000 km
+            - generic [ref=e91]:
+              - generic [ref=e92]: Fuel
+              - generic [ref=e93]: Petrol
+            - generic [ref=e94]:
+              - generic [ref=e95]: Body Type
+              - generic [ref=e96]: Sedan
+            - generic [ref=e97]:
+              - generic [ref=e98]: Engine
+              - generic [ref=e99]: 2500cc
+            - generic [ref=e100]:
+              - generic [ref=e101]: Color
+              - generic [ref=e102]: Black
+            - generic [ref=e103]:
+              - generic [ref=e104]: Location
+              - generic [ref=e105]: Japan
+            - generic [ref=e106]:
+              - generic [ref=e107]: Stock No
+              - generic [ref=e108]: HND220005-6
+            - generic [ref=e109]:
+              - generic [ref=e110]: Chassis No
+              - generic [ref=e111]: GRX130
+            - generic [ref=e112]:
+              - generic [ref=e113]: Make / Model
+              - generic [ref=e114]: Toyota Mark X
+            - generic [ref=e115]:
+              - generic [ref=e116]: Colour
+              - generic [ref=e117]: Black
+            - generic [ref=e118]:
+              - generic [ref=e119]: Doors
+              - generic [ref=e120]: "04"
+            - generic [ref=e121]:
+              - generic [ref=e122]: Passenger Capacity
+              - generic [ref=e123]: 05 Seats
+            - generic [ref=e124]:
+              - generic [ref=e125]: Chassis
+              - generic [ref=e126]: GRX130
+        - generic [ref=e127]:
+          - heading "Description" [level=2] [ref=e128]
+          - generic [ref=e129]:
+            - heading "Buy 2016 Toyota Mark X 250G Package Black Edition" [level=1] [ref=e130]
+            - paragraph [ref=e131]: The 2016 Toyota Mark X 250G F Package is finished in Black and features a GRX130 chassis with a 2500 cc engine and automatic transmission. The vehicle has a mileage of 132,000 km and comes equipped with AAC. It offers a range of convenient features including power steering, power windows, alloy wheels, keyless entry, and push start. The Mark X is also fitted with DVD, HD navigation, a back camera, rear camera, and sunvisors, providing added convenience and practicality for everyday driving.
+      - complementary [ref=e132]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: FOB Price
+          - strong [ref=e135]: $8,200.00
+          - generic [ref=e136]: Final invoice can include freight, inspection and destination charges.
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - button "Add to Cart" [ref=e140] [cursor=pointer]
+            - button "Wishlist" [ref=e142] [cursor=pointer]
+            - link "Checkout" [ref=e143] [cursor=pointer]:
+              - /url: http://127.0.0.1:8010/checkout
+            - link "Ask About This Vehicle" [ref=e144] [cursor=pointer]:
+              - /url: http://127.0.0.1:8010/contact-us
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]: Brand
+              - generic [ref=e148]: Toyota
+            - generic [ref=e149]:
+              - generic [ref=e150]: Model
+              - generic [ref=e151]: Mark X
+            - generic [ref=e152]:
+              - generic [ref=e153]: Year
+              - generic [ref=e154]: "2016"
+            - generic [ref=e155]:
+              - generic [ref=e156]: Mileage
+              - generic [ref=e157]: 132,000 km
+            - generic [ref=e158]:
+              - generic [ref=e159]: Fuel
+              - generic [ref=e160]: Petrol
+          - generic [ref=e161]: SBK will confirm availability, export documents and shipping route before payment.
+    - generic [ref=e162]:
+      - heading "Related Vehicles" [level=2] [ref=e163]
+      - generic [ref=e164]:
+        - article [ref=e165]:
+          - img "Toyota Aqua 2019 (L- Package)" [ref=e166]
+          - generic [ref=e167]:
+            - heading "Toyota Aqua 2019 (L- Package)" [level=3] [ref=e168]
+            - paragraph [ref=e169]: $3,740.00
+            - link "View Details" [ref=e170] [cursor=pointer]:
+              - /url: http://127.0.0.1:8010/product/toyota-aqua-2019-l-package
+        - article [ref=e171]:
+          - img "Toyota Aqua 2018 (S- Package)" [ref=e172]
+          - generic [ref=e173]:
+            - heading "Toyota Aqua 2018 (S- Package)" [level=3] [ref=e174]
+            - paragraph [ref=e175]: $4,770.00
+            - link "View Details" [ref=e176] [cursor=pointer]:
+              - /url: http://127.0.0.1:8010/product/toyota-aqua-2018-s-package
+        - article [ref=e177]:
+          - img "Toyota Aqua 2018 (S Style Black)" [ref=e178]
+          - generic [ref=e179]:
+            - heading "Toyota Aqua 2018 (S Style Black)" [level=3] [ref=e180]
+            - paragraph [ref=e181]: $4,680.00
+            - link "View Details" [ref=e182] [cursor=pointer]:
+              - /url: http://127.0.0.1:8010/product/toyota-aqua-2018-s-style-black
+  - contentinfo [ref=e183]:
+    - generic [ref=e184]:
+      - paragraph [ref=e186]:
+        - img "SBK" [ref=e187]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=e188]:
+        - heading "Quick link" [level=3] [ref=e189]
+        - generic [ref=e190]: "* Home"
+        - generic [ref=e191]: "* Shop"
+        - generic [ref=e192]: "* About us"
+        - generic [ref=e193]: "* Contact us"
+        - generic [ref=e194]: "* Bank Details"
+      - generic [ref=e195]:
+        - heading "By Types" [level=3] [ref=e196]
+        - generic [ref=e197]: "* SUV"
+        - generic [ref=e198]: "* Coupe"
+        - generic [ref=e199]: "* Hatchback"
+        - generic [ref=e200]: "* Sedan"
+        - generic [ref=e201]: "* Wagon"
+        - generic [ref=e202]: "* Van"
+        - generic [ref=e203]: "* Roadster"
+      - generic [ref=e204]:
+        - heading "By Brands" [level=3] [ref=e205]
+        - generic [ref=e206]: "* Honda"
+        - generic [ref=e207]: "* Toyota"
+        - generic [ref=e208]: "* Mazda"
+        - generic [ref=e209]: "* Mitsubushi"
+        - generic [ref=e210]: "* Subaru"
+        - generic [ref=e211]: "* BMW"
+        - generic [ref=e212]: "* Suzuki"
+        - generic [ref=e213]: "* Daihatsu"
+        - generic [ref=e214]: "* Lexus"
+        - generic [ref=e215]: "* Hino"
+        - generic [ref=e216]: "* Mercedes-Benz"
+        - generic [ref=e217]: "* Volkswagen"
+        - generic [ref=e218]: "* Audi"
+        - generic [ref=e219]: "* Volvo"
+        - generic [ref=e220]: "* Ford"
+        - generic [ref=e221]: "* Jeep"
+        - generic [ref=e222]: "* Land Rover"
+        - generic [ref=e223]: "* Hyundai"
+      - generic [ref=e224]:
+        - generic [ref=e225]:
+          - strong [ref=e226]: Headquarter UAE
+          - paragraph [ref=e227]: ☎ +971 55 417 7311
+          - paragraph [ref=e228]: • Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=e229]:
+          - strong [ref=e230]: USA Office
+          - paragraph [ref=e231]: ☎ +1 (321) 357-857
+          - paragraph [ref=e232]: "• Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=e233]:
+          - strong [ref=e234]: Japan Office
+          - paragraph [ref=e235]: ☎ +81 70-9427-5106
+          - paragraph [ref=e236]: • Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=e237]:
+          - strong [ref=e238]: Showroom Mombasa
+          - paragraph [ref=e239]: ☎ +254 705719918
+          - paragraph [ref=e240]: • Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=e241]:
+          - strong [ref=e242]: Jamaica Office
+          - paragraph [ref=e243]: ☎ +1 876 8036277
+          - paragraph [ref=e244]: • 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=e245]:
+          - strong [ref=e246]: Pakistan Office
+          - paragraph [ref=e247]: ☎ +92 213 339-3946
+          - paragraph [ref=e248]: • SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+    - paragraph [ref=e249]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main

@@ -1,0 +1,578 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link [ref=e9] [cursor=pointer]:
+              - /url: "#stack"
+              - button [ref=e10]
+          - listitem [ref=e14]:
+            - link [ref=e15] [cursor=pointer]:
+              - /url: "#context"
+              - button [ref=e16]
+          - listitem [ref=e20]:
+            - link [ref=e21] [cursor=pointer]:
+              - /url: https://flareapp.io/?utm_campaign=ignition&utm_source=ignition
+              - button [ref=e22]
+        - list [ref=e29]:
+          - listitem [ref=e30]:
+            - link [ref=e31] [cursor=pointer]:
+              - /url: "#share"
+              - button [ref=e32]
+            - generic:
+              - generic:
+                - generic:
+                  - heading "Share with Flare" [level=4]
+                  - link "Docs":
+                    - /url: https://flareapp.io/docs/ignition/introducing-ignition/sharing-errors?utm_campaign=ignition&utm_source=ignition
+                - list:
+                  - listitem:
+                    - generic:
+                      - checkbox "Stack" [checked]
+                      - generic: Stack
+                  - listitem:
+                    - generic:
+                      - checkbox "Context" [checked]
+                      - generic: Context
+                  - listitem:
+                    - generic:
+                      - checkbox "Debug" [checked]
+                      - generic: Debug
+                - generic:
+                  - button "Create Share"
+          - listitem [ref=e36]:
+            - link [ref=e37] [cursor=pointer]:
+              - /url: https://laravel.com/docs/
+              - button [ref=e38]
+          - listitem [ref=e42]:
+            - link [ref=e43] [cursor=pointer]:
+              - /url: "#settings"
+              - button [ref=e44]
+            - generic:
+              - generic:
+                - generic:
+                  - heading "Ignition Settings" [level=4]
+                  - link "Docs":
+                    - /url: https://flareapp.io/ignition?utm_campaign=ignition&utm_source=ignition
+                - generic:
+                  - text: Editor
+                  - generic:
+                    - combobox "Editor":
+                      - option "Clipboard"
+                      - option "Sublime"
+                      - option "TextMate"
+                      - option "Emacs"
+                      - option "MacVim"
+                      - option "PhpStorm" [selected]
+                      - option "PHPStorm Remote"
+                      - option "Idea"
+                      - option "VS Code"
+                      - option "VS Code Insiders"
+                      - option "VS Code Remote"
+                      - option "VS Code Insiders Remote"
+                      - option "VS Codium"
+                      - option "Atom"
+                      - option "Nova"
+                      - option "NetBeans"
+                      - option "Xdebug"
+                - generic:
+                  - text: Theme
+                  - button "auto"
+                - generic:
+                  - button "Save settings"
+                - paragraph:
+                  - text: Settings will be saved locally in
+                  - code: ~/.ignition.json
+                  - text: .
+      - link "View [front.index] not found." [ref=e50] [cursor=pointer]:
+        - /url: "#top"
+  - main [ref=e52]:
+    - generic [ref=e55]:
+      - main [ref=e56]:
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e60]: InvalidArgumentException
+            - generic [ref=e63]:
+              - generic [ref=e64]: PHP 8.1.31
+              - generic [ref=e65]: 10.48.7
+          - generic [ref=e68]: View [front.index] not found.
+      - complementary [ref=e70]:
+        - generic [ref=e71]:
+          - button [ref=e72] [cursor=pointer]
+          - generic [ref=e76]:
+            - heading "front.index was not found." [level=2] [ref=e78]
+            - generic [ref=e80]:
+              - paragraph [ref=e81]:
+                - text: Are you sure the view exists and is a
+                - code [ref=e82]: .blade.php
+                - text: file?
+              - list
+    - generic [ref=e85]:
+      - complementary [ref=e86]:
+        - generic [ref=e87]:
+          - button [ref=e89] [cursor=pointer]
+          - list [ref=e96]:
+            - listitem [ref=e97] [cursor=pointer]: 4 vendor frames
+            - listitem [ref=e100]:
+              - generic [ref=e102]:
+                - generic [ref=e103]: App
+                - generic [ref=e104]: \
+                - generic [ref=e105]: Http
+                - generic [ref=e106]: \
+                - generic [ref=e107]: Controllers
+                - generic [ref=e108]: \
+                - generic [ref=e109]: Front
+                - generic [ref=e110]: \
+                - generic [ref=e111]: SiteController
+                - generic [ref=e112]: ": 15"
+              - generic [ref=e113]: index
+            - listitem [ref=e114]
+            - listitem [ref=e115] [cursor=pointer]: 43 vendor frames
+            - listitem [ref=e118] [cursor=pointer]:
+              - generic [ref=e120]:
+                - generic [ref=e121]: C:\laragon\www\sbk\public\index
+                - generic [ref=e122]: .php
+                - generic [ref=e123]: ": 52"
+              - generic [ref=e124]: require_once
+            - listitem [ref=e125] [cursor=pointer]: 1 vendor frame
+      - generic [ref=e128]:
+        - 'link "C:\\laragon\\www\\sbk\\app\\Http\\Controllers\\Front\\SiteController .php : 15" [ref=e130] [cursor=pointer]':
+          - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=15
+          - generic [ref=e131]:
+            - generic [ref=e132]: C:\laragon\www\sbk\app\Http\Controllers\Front\SiteController
+            - generic [ref=e133]: .php
+            - generic [ref=e134]: ": 15"
+        - main [ref=e135]:
+          - navigation [ref=e136]:
+            - generic [ref=e137]:
+              - paragraph [ref=e138]: "1"
+              - paragraph [ref=e139]: "2"
+              - paragraph [ref=e140]: "3"
+              - paragraph [ref=e141]: "4"
+              - paragraph [ref=e142]: "5"
+              - paragraph [ref=e143]: "6"
+              - paragraph [ref=e144]: "7"
+              - paragraph [ref=e145]: "8"
+              - paragraph [ref=e146]: "9"
+              - paragraph [ref=e147]: "10"
+              - paragraph [ref=e148]: "11"
+              - paragraph [ref=e149]: "12"
+              - paragraph [ref=e150]: "13"
+              - paragraph [ref=e151]: "14"
+              - paragraph [ref=e152]: "15"
+              - paragraph [ref=e153]: "16"
+              - paragraph [ref=e154]: "17"
+              - paragraph [ref=e155]: "18"
+              - paragraph [ref=e156]: "19"
+              - paragraph [ref=e157]: "20"
+              - paragraph [ref=e158]: "21"
+              - paragraph [ref=e159]: "22"
+              - paragraph [ref=e160]: "23"
+              - paragraph [ref=e161]: "24"
+              - paragraph [ref=e162]: "25"
+              - paragraph [ref=e163]: "26"
+              - paragraph [ref=e164]: "27"
+              - paragraph [ref=e165]: "28"
+              - paragraph [ref=e166]: "29"
+              - paragraph [ref=e167]: "30"
+          - code [ref=e170]:
+            - generic [ref=e171]:
+              - link [ref=e172] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=1
+                - button [ref=e173]
+              - generic [ref=e176]: <?php
+            - link [ref=e179] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=2
+              - button [ref=e180]
+            - generic [ref=e184]:
+              - link [ref=e185] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=3
+                - button [ref=e186]
+              - generic [ref=e189]: namespace App\Http\Controllers\Front;
+            - link [ref=e192] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=4
+              - button [ref=e193]
+            - generic [ref=e197]:
+              - link [ref=e198] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=5
+                - button [ref=e199]
+              - generic [ref=e202]: use App\Http\Controllers\Controller;
+            - generic [ref=e204]:
+              - link [ref=e205] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=6
+                - button [ref=e206]
+              - generic [ref=e209]: use App\Models\ContactUs;
+            - generic [ref=e211]:
+              - link [ref=e212] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=7
+                - button [ref=e213]
+              - generic [ref=e216]: use App\Models\NewsLetter;
+            - generic [ref=e218]:
+              - link [ref=e219] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=8
+                - button [ref=e220]
+              - generic [ref=e223]: use Illuminate\Http\Request;
+            - generic [ref=e225]:
+              - link [ref=e226] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=9
+                - button [ref=e227]
+              - generic [ref=e230]: use Illuminate\Support\Str;
+            - link [ref=e233] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=10
+              - button [ref=e234]
+            - generic [ref=e238]:
+              - link [ref=e239] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=11
+                - button [ref=e240]
+              - generic [ref=e243]: class SiteController extends Controller
+            - generic [ref=e245]:
+              - link [ref=e246] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=12
+                - button [ref=e247]
+              - generic [ref=e250]: "{"
+            - generic [ref=e252]:
+              - link [ref=e253] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=13
+                - button [ref=e254]
+              - generic [ref=e257]: public function index()
+            - generic [ref=e259]:
+              - link [ref=e260] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=14
+                - button [ref=e261]
+              - generic [ref=e264]: "{"
+            - generic [ref=e266]:
+              - link [ref=e267] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=15
+                - button [ref=e268]
+              - generic [ref=e271]: return view ('front.index');
+            - generic [ref=e273]:
+              - link [ref=e274] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=16
+                - button [ref=e275]
+              - generic [ref=e278]: "}"
+            - link [ref=e280] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=17
+              - button [ref=e281]
+            - generic [ref=e285]:
+              - link [ref=e286] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=18
+                - button [ref=e287]
+              - generic [ref=e290]: public function aboutUs()
+            - generic [ref=e292]:
+              - link [ref=e293] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=19
+                - button [ref=e294]
+              - generic [ref=e297]: "{"
+            - generic [ref=e299]:
+              - link [ref=e300] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=20
+                - button [ref=e301]
+              - generic [ref=e304]: return view ('front.about-us.about-us');
+            - generic [ref=e306]:
+              - link [ref=e307] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=21
+                - button [ref=e308]
+              - generic [ref=e311]: "}"
+            - link [ref=e313] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=22
+              - button [ref=e314]
+            - generic [ref=e318]:
+              - link [ref=e319] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=23
+                - button [ref=e320]
+              - generic [ref=e323]: public function contactUs()
+            - generic [ref=e325]:
+              - link [ref=e326] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=24
+                - button [ref=e327]
+              - generic [ref=e330]: "{"
+            - generic [ref=e332]:
+              - link [ref=e333] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=25
+                - button [ref=e334]
+              - generic [ref=e337]: return view ('front.contact-us.contact-us');
+            - generic [ref=e339]:
+              - link [ref=e340] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=26
+                - button [ref=e341]
+              - generic [ref=e344]: "}"
+            - link [ref=e346] [cursor=pointer]:
+              - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=27
+              - button [ref=e347]
+            - generic [ref=e351]:
+              - link [ref=e352] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=28
+                - button [ref=e353]
+              - generic [ref=e356]: public function submitContact(Request $request)
+            - generic [ref=e358]:
+              - link [ref=e359] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=29
+                - button [ref=e360]
+              - generic [ref=e363]: "{"
+            - generic [ref=e365]:
+              - link [ref=e366] [cursor=pointer]:
+                - /url: phpstorm://open?file=C%3A%5Claragon%5Cwww%5Csbk%5Capp%5CHttp%5CControllers%5CFront%5CSiteController.php&line=30
+                - button [ref=e367]
+              - generic [ref=e370]: $validated = $request->validate([
+      - generic [ref=e372]:
+        - generic [ref=e373]: arguments
+        - generic [ref=e374]:
+          - generic [ref=e375]:
+            - term [ref=e376]:
+              - generic [ref=e377]:
+                - generic [ref=e378]:
+                  - generic "by reference"
+                  - text: $view
+                - generic [ref=e379]: :string
+            - definition [ref=e380]:
+              - generic [ref=e381]:
+                - code [ref=e384]:
+                  - code [ref=e386]: "\"front.index\""
+                - button "Copy to clipboard" [ref=e388] [cursor=pointer]
+          - generic [ref=e391]:
+            - term [ref=e392]:
+              - generic [ref=e393]:
+                - generic [ref=e394]:
+                  - generic "by reference"
+                  - text: $data
+                - generic [ref=e395]: :array
+            - definition [ref=e396]:
+              - generic [ref=e397]:
+                - code [ref=e400]:
+                  - code [ref=e402]: "[]"
+                - button "Copy to clipboard" [ref=e404] [cursor=pointer]
+          - generic [ref=e407]:
+            - term [ref=e408]:
+              - generic [ref=e409]:
+                - generic [ref=e410]:
+                  - generic "by reference"
+                  - text: $mergeData
+                - generic [ref=e411]: :array
+            - definition [ref=e412]:
+              - generic [ref=e413]:
+                - code [ref=e416]:
+                  - code [ref=e418]: "[]"
+                - button "Copy to clipboard" [ref=e420] [cursor=pointer]
+    - generic [ref=e424]:
+      - navigation [ref=e425]:
+        - list [ref=e427]:
+          - listitem [ref=e428]:
+            - link "App" [ref=e429] [cursor=pointer]:
+              - /url: "#context-app"
+            - list [ref=e430]:
+              - listitem [ref=e431]:
+                - link "Routing" [ref=e432] [cursor=pointer]:
+                  - /url: "#context-app-routing"
+          - listitem [ref=e437]:
+            - link "Request" [ref=e438] [cursor=pointer]:
+              - /url: "#context-request"
+            - list [ref=e439]:
+              - listitem [ref=e440]:
+                - link "Browser" [ref=e441] [cursor=pointer]:
+                  - /url: "#context-request-browser"
+              - listitem [ref=e446]:
+                - link "Headers" [ref=e447] [cursor=pointer]:
+                  - /url: "#context-request-headers"
+              - listitem [ref=e452]:
+                - link "Body" [ref=e453] [cursor=pointer]:
+                  - /url: "#context-request-body"
+          - listitem [ref=e458]:
+            - link "Context" [ref=e459] [cursor=pointer]:
+              - /url: "#context-context"
+            - list [ref=e460]:
+              - listitem [ref=e461]:
+                - link "Versions" [ref=e462] [cursor=pointer]:
+                  - /url: "#context-context-versions"
+      - generic [ref=e467]:
+        - generic [ref=e468]:
+          - heading "App" [level=2] [ref=e469]
+          - generic [ref=e471]:
+            - heading [level=1] [ref=e472]
+            - generic [ref=e476]:
+              - generic [ref=e477]:
+                - term [ref=e478]: Controller
+                - definition [ref=e479]:
+                  - generic [ref=e480]:
+                    - code [ref=e483]: App\Http\Controllers\Front\SiteController@index
+                    - button "Copy to clipboard" [ref=e485] [cursor=pointer]
+              - generic [ref=e488]:
+                - term [ref=e489]: Route name
+                - definition [ref=e490]:
+                  - generic [ref=e491]:
+                    - code [ref=e494]: index
+                    - button "Copy to clipboard" [ref=e496] [cursor=pointer]
+              - generic [ref=e499]:
+                - term [ref=e500]: Middleware
+                - definition [ref=e501]:
+                  - list [ref=e502]:
+                    - listitem [ref=e503]:
+                      - generic [ref=e504]:
+                        - code [ref=e507]: web
+                        - button "Copy to clipboard" [ref=e509] [cursor=pointer]
+        - generic [ref=e512]:
+          - heading "Request" [level=2] [ref=e513]
+          - generic [ref=e514]:
+            - generic [ref=e515]:
+              - generic [ref=e516]:
+                - generic [ref=e517]: http://127.0.0.1:8000/
+                - generic [ref=e518]: GET
+              - generic [ref=e520] [cursor=pointer]:
+                - code [ref=e523]:
+                  - code [ref=e525]: "curl \"http://127.0.0.1:8000/\" \\ -X GET \\ -H 'host: 127.0.0.1:8000' \\ -H 'connection: keep-alive' \\ -H 'sec-ch-ua: \"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"' \\ -H 'sec-ch-ua-mobile: ?0' \\ -H 'sec-ch-ua-platform: \"Windows\"' \\ -H 'upgrade-insecure-requests: 1' \\ -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36' \\ -H 'accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7' \\ -H 'sec-fetch-site: none' \\ -H 'sec-fetch-mode: navigate' \\ -H 'sec-fetch-user: ?1' \\ -H 'sec-fetch-dest: document' \\ -H 'accept-encoding: gzip, deflate, br, zstd' \\ -H 'accept-language: en-US,en;q=0.9';"
+                - button "Copy to clipboard" [ref=e527]
+                - button [ref=e530]
+            - generic [ref=e533]:
+              - heading [level=1] [ref=e534]
+              - generic [ref=e538]:
+                - code [ref=e541]: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+                - button "Copy to clipboard" [ref=e543] [cursor=pointer]
+            - generic [ref=e546]:
+              - heading [level=1] [ref=e547]
+              - generic [ref=e551]:
+                - generic [ref=e552]:
+                  - term [ref=e553]: host
+                  - definition [ref=e554]:
+                    - generic [ref=e555]:
+                      - code [ref=e558]: 127.0.0.1:8000
+                      - button "Copy to clipboard" [ref=e560] [cursor=pointer]
+                - generic [ref=e563]:
+                  - term [ref=e564]: connection
+                  - definition [ref=e565]:
+                    - generic [ref=e566]:
+                      - code [ref=e569]: keep-alive
+                      - button "Copy to clipboard" [ref=e571] [cursor=pointer]
+                - generic [ref=e574]:
+                  - term [ref=e575]: sec-ch-ua
+                  - definition [ref=e576]:
+                    - generic [ref=e577]:
+                      - code [ref=e580]: "\"Google Chrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\""
+                      - button "Copy to clipboard" [ref=e582] [cursor=pointer]
+                - generic [ref=e585]:
+                  - term [ref=e586]: sec-ch-ua-mobile
+                  - definition [ref=e587]:
+                    - generic [ref=e588]:
+                      - code [ref=e591]: "?0"
+                      - button "Copy to clipboard" [ref=e593] [cursor=pointer]
+                - generic [ref=e596]:
+                  - term [ref=e597]: sec-ch-ua-platform
+                  - definition [ref=e598]:
+                    - generic [ref=e599]:
+                      - code [ref=e602]: "\"Windows\""
+                      - button "Copy to clipboard" [ref=e604] [cursor=pointer]
+                - generic [ref=e607]:
+                  - term [ref=e608]: upgrade-insecure-requests
+                  - definition [ref=e609]:
+                    - generic [ref=e610]:
+                      - code [ref=e613]: "1"
+                      - button "Copy to clipboard" [ref=e615] [cursor=pointer]
+                - generic [ref=e618]:
+                  - term [ref=e619]: user-agent
+                  - definition [ref=e620]:
+                    - generic [ref=e621]:
+                      - code [ref=e624]: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+                      - button "Copy to clipboard" [ref=e626] [cursor=pointer]
+                - generic [ref=e629]:
+                  - term [ref=e630]: accept
+                  - definition [ref=e631]:
+                    - generic [ref=e632]:
+                      - code [ref=e635]: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+                      - button "Copy to clipboard" [ref=e637] [cursor=pointer]
+                - generic [ref=e640]:
+                  - term [ref=e641]: sec-fetch-site
+                  - definition [ref=e642]:
+                    - generic [ref=e643]:
+                      - code [ref=e646]: none
+                      - button "Copy to clipboard" [ref=e648] [cursor=pointer]
+                - generic [ref=e651]:
+                  - term [ref=e652]: sec-fetch-mode
+                  - definition [ref=e653]:
+                    - generic [ref=e654]:
+                      - code [ref=e657]: navigate
+                      - button "Copy to clipboard" [ref=e659] [cursor=pointer]
+                - generic [ref=e662]:
+                  - term [ref=e663]: sec-fetch-user
+                  - definition [ref=e664]:
+                    - generic [ref=e665]:
+                      - code [ref=e668]: "?1"
+                      - button "Copy to clipboard" [ref=e670] [cursor=pointer]
+                - generic [ref=e673]:
+                  - term [ref=e674]: sec-fetch-dest
+                  - definition [ref=e675]:
+                    - generic [ref=e676]:
+                      - code [ref=e679]: document
+                      - button "Copy to clipboard" [ref=e681] [cursor=pointer]
+                - generic [ref=e684]:
+                  - term [ref=e685]: accept-encoding
+                  - definition [ref=e686]:
+                    - generic [ref=e687]:
+                      - code [ref=e690]: gzip, deflate, br, zstd
+                      - button "Copy to clipboard" [ref=e692] [cursor=pointer]
+                - generic [ref=e695]:
+                  - term [ref=e696]: accept-language
+                  - definition [ref=e697]:
+                    - generic [ref=e698]:
+                      - code [ref=e701]: en-US,en;q=0.9
+                      - button "Copy to clipboard" [ref=e703] [cursor=pointer]
+            - generic [ref=e706]:
+              - heading [level=1] [ref=e707]
+              - generic [ref=e711]:
+                - code [ref=e714]: "[]"
+                - button "Copy to clipboard" [ref=e716] [cursor=pointer]
+        - generic [ref=e719]:
+          - heading "Context" [level=2] [ref=e720]
+          - generic [ref=e722]:
+            - heading [level=1] [ref=e723]
+            - generic [ref=e727]:
+              - generic [ref=e728]:
+                - term [ref=e729]: Php Version
+                - definition [ref=e730]:
+                  - generic [ref=e731]:
+                    - code [ref=e734]: 8.1.31
+                    - button "Copy to clipboard" [ref=e736] [cursor=pointer]
+              - generic [ref=e739]:
+                - term [ref=e740]: Laravel Version
+                - definition [ref=e741]:
+                  - generic [ref=e742]:
+                    - code [ref=e745]: 10.48.7
+                    - button "Copy to clipboard" [ref=e747] [cursor=pointer]
+              - generic [ref=e750]:
+                - term [ref=e751]: Laravel Locale
+                - definition [ref=e752]:
+                  - generic [ref=e753]:
+                    - code [ref=e756]: en
+                    - button "Copy to clipboard" [ref=e758] [cursor=pointer]
+              - generic [ref=e761]:
+                - term [ref=e762]: Laravel Config Cached
+                - definition [ref=e763]:
+                  - generic [ref=e764]: "false"
+              - generic [ref=e768]:
+                - term [ref=e769]: App Debug
+                - definition [ref=e770]:
+                  - generic [ref=e771]: "true"
+              - generic [ref=e775]:
+                - term [ref=e776]: App Env
+                - definition [ref=e777]:
+                  - generic [ref=e778]:
+                    - code [ref=e781]: local
+                    - button "Copy to clipboard" [ref=e783] [cursor=pointer]
+    - generic [ref=e787]:
+      - list [ref=e788]:
+        - listitem [ref=e789]
+        - listitem [ref=e798]: ·
+        - listitem [ref=e799]:
+          - link "Source" [ref=e800] [cursor=pointer]:
+            - /url: https://github.com/spatie/laravel-ignition
+        - listitem [ref=e801]: ·
+        - listitem [ref=e802]:
+          - link "Docs" [ref=e803] [cursor=pointer]:
+            - /url: https://flareapp.io/docs/ignition/introducing-ignition/overview
+        - listitem [ref=e804]: ·
+        - listitem [ref=e805]:
+          - link "Laravel" [ref=e806] [cursor=pointer]:
+            - /url: https://laravel.com
+      - paragraph [ref=e808]:
+        - text: Ignition is built by
+        - link "Flare" [ref=e809] [cursor=pointer]:
+          - /url: https://flareapp.io/?utm_campaign=ignition&utm_source=ignition
+        - text: ", the Laravel error reporting service."

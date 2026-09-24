@@ -1,0 +1,123 @@
+- generic [active] [ref=e1] [box=0,-1600,1034,4004]:
+  - banner [ref=e6] [box=0,-1600,1034,42]:
+    - generic [ref=e7] [box=16,-1600,1002,42]:
+      - generic [ref=e8] [box=16,-1591,464,24]:
+        - generic [ref=e9] [box=16,-1591,124,24]: +81 70-9427-5106
+        - generic [ref=e10] [box=150,-1591,168,24]: info@sbkautotrading.com
+        - generic [ref=e11] [box=328,-1591,152,24]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=e12] [box=832,-1600,186,30]:
+        - generic [box=832,-1588,186,30]: USA (MN) 10:12:31 AM
+        - generic [ref=e214] [box=832,-1600,186,30]: JAMAICA 10:12:31 AM
+        - generic [box=832,-1588,186,30]: KENYA 06:12:31 PM
+        - generic [box=832,-1588,186,30]: UAE 07:12:31 PM
+        - generic [box=832,-1588,186,30]: JAPAN 12:12:31 AM
+  - navigation [ref=e14] [box=0,-1558,1034,83]:
+    - generic [ref=e15] [box=12,-1558,1010,82]:
+      - link [ref=e16] [cursor=pointer] [box=12,-1537,112,39]:
+        - /url: "#"
+        - img "SBK Global Auto Trading" [ref=e17] [box=12,-1537,112,39]
+      - generic [ref=e18] [box=138,-1532,553,31]:
+        - link "Home" [ref=e19] [cursor=pointer] [box=153,-1533,48,31]:
+          - /url: http://127.0.0.1:8017
+        - link "Shop" [ref=e20] [cursor=pointer] [box=205,-1532,43,31]:
+          - /url: http://127.0.0.1:8017/shop
+        - link "Services" [ref=e21] [cursor=pointer] [box=252,-1532,60,31]:
+          - /url: "#"
+        - link "Brand" [ref=e23] [cursor=pointer] [box=316,-1533,67,31]:
+          - /url: "#"
+        - link "Blogs" [ref=e26] [cursor=pointer] [box=387,-1532,46,31]:
+          - /url: http://127.0.0.1:8017/blog
+        - link "About Us" [ref=e27] [cursor=pointer] [box=437,-1532,66,31]:
+          - /url: http://127.0.0.1:8017/about-us
+        - link "Our Locations" [ref=e28] [cursor=pointer] [box=507,-1532,91,31]:
+          - /url: "#"
+        - link "Contact Us" [ref=e29] [cursor=pointer] [box=602,-1532,74,31]:
+          - /url: "#"
+      - generic [ref=e30] [box=705,-1536,317,38]:
+        - searchbox "Search here..." [ref=e31] [box=705,-1536,134,38]
+        - link "Sign In" [ref=e32] [cursor=pointer] [box=847,-1524,37,15]:
+          - /url: "#"
+        - link "0" [ref=e33] [cursor=pointer] [box=891,-1533,32,32]:
+          - /url: "#"
+        - button "Buy Now" [ref=e34] [box=930,-1536,92,38]
+  - generic [ref=e35] [box=0,-1475,1034,2891]:
+    - generic [ref=e37] [box=18,-1475,998,732]:
+      - generic [ref=e38] [box=18,-1405,998,344]:
+        - generic [ref=e39] [box=18,-1399,253,16]: SBK Auto Trading Blog
+        - heading "Sharper car buying guides for import decisions." [level=1] [ref=e40] [box=18,-1365,780,182]
+        - paragraph [ref=e41] [box=18,-1161,655,56]: Fresh SBK articles on reliability, Japanese imports, kei trucks, car verification, and exterior care, collected in a cleaner editorial experience for serious buyers.
+        - generic [ref=e42] [box=18,-1077,998,16]
+      - generic [ref=e46] [box=18,-1015,520,179]:
+        - generic [ref=e47] [box=43,-990,470,15]: Featured Topic
+        - strong [ref=e48] [box=43,-965,470,28]: Reliability, cost, and performance
+        - paragraph [ref=e49] [box=43,-925,470,64]: It is not always easy to choose the American or Japanese cars. Both are powerful options, but they are constructed with different priorities. Some focus on power and size, while others focus on reliability and efficiency.
+    - generic [ref=e51] [box=18,-743,998,94]:
+      - generic [ref=e52] [box=19,-742,249,92]:
+        - generic [ref=e53] [box=43,-720,200,24]: "04"
+        - generic [ref=e54] [box=43,-688,200,16]: Fresh articles
+      - generic [ref=e55] [box=268,-742,249,92]:
+        - generic [ref=e56] [box=292,-720,200,24]: "02"
+        - generic [ref=e57] [box=292,-688,200,16]: Categories
+      - generic [ref=e58] [box=517,-742,249,92]:
+        - generic [ref=e59] [box=541,-720,200,24]: "2026"
+        - generic [ref=e60] [box=541,-688,200,16]: June archive
+      - generic [ref=e61] [box=766,-742,249,92]:
+        - generic [ref=e62] [box=790,-720,201,24]: SBK
+        - generic [ref=e63] [box=790,-688,201,16]: Buyer insight
+    - generic [ref=e64] [box=18,-649,998,2066]:
+      - generic [ref=e65] [box=18,-579,998,76]:
+        - generic [ref=e66] [box=18,-579,485,76]
+        - paragraph [ref=e69] [box=561,-549,455,46]: Compare ownership costs, verify imports with more confidence, and learn which details matter before choosing your next vehicle.
+      - generic [ref=e70] [box=18,-475,998,1800]:
+        - main [ref=e71] [box=18,-475,998,1138]
+        - complementary [ref=e121] [box=18,696,998,628]
+  - contentinfo [ref=e147] [box=0,1416,1034,987]:
+    - generic [ref=e148] [box=20,1466,994,812]:
+      - paragraph [ref=e150] [box=45,1491,321,247]:
+        - img "SBK" [ref=e151] [box=45,1491,240,84]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=e152] [box=421,1466,135,293]:
+        - heading "Quick link" [level=3] [ref=e153] [box=446,1491,85,24]
+        - generic [ref=e154] [box=446,1542,85,18]: "* Home"
+        - generic [ref=e155] [box=446,1573,85,18]: "* Shop"
+        - generic [ref=e156] [box=446,1605,85,18]: "* About us"
+        - generic [ref=e157] [box=446,1636,85,35]: "* Contact us"
+        - generic [ref=e158] [box=446,1685,85,35]: "* Bank Details"
+      - generic [ref=e159] [box=585,1466,137,321]:
+        - heading "By Types" [level=3] [ref=e160] [box=610,1491,87,24]
+        - generic [ref=e161] [box=610,1542,87,18]: "* SUV"
+        - generic [ref=e162] [box=610,1573,87,18]: "* Coupe"
+        - generic [ref=e163] [box=610,1605,87,18]: "* Hatchback"
+        - generic [ref=e164] [box=610,1636,87,18]: "* Sedan"
+        - generic [ref=e165] [box=610,1668,87,18]: "* Wagon"
+        - generic [ref=e166] [box=610,1699,87,18]: "* Van"
+        - generic [ref=e167] [box=610,1731,87,18]: "* Roadster"
+      - generic [ref=e168] [box=753,1466,261,419]:
+        - heading "By Brands" [level=3] [ref=e169] [box=778,1491,212,24]
+        - generic [ref=e170] [box=778,1542,91,18]: "* Honda"
+        - generic [ref=e171] [box=894,1542,96,18]: "* Toyota"
+        - generic [ref=e172] [box=778,1573,91,18]: "* Mazda"
+        - generic [ref=e173] [box=894,1573,96,18]: "* Mitsubushi"
+        - generic [ref=e174] [box=778,1605,91,18]: "* Subaru"
+        - generic [ref=e175] [box=894,1605,96,18]: "* BMW"
+        - generic [ref=e176] [box=778,1636,91,18]: "* Suzuki"
+        - generic [ref=e177] [box=894,1636,96,18]: "* Daihatsu"
+        - generic [ref=e178] [box=778,1668,91,18]: "* Lexus"
+        - generic [ref=e179] [box=894,1668,96,18]: "* Hino"
+        - generic [ref=e180] [box=778,1699,91,35]: "* Mercedes-Benz"
+        - generic [ref=e181] [box=894,1699,96,35]: "* Volkswagen"
+        - generic [ref=e182] [box=778,1748,91,18]: "* Audi"
+        - generic [ref=e183] [box=894,1748,96,18]: "* Volvo"
+        - generic [ref=e184] [box=778,1780,91,18]: "* Ford"
+        - generic [ref=e185] [box=894,1780,96,18]: "* Jeep"
+        - generic [ref=e186] [box=778,1811,91,35]: "* Land Rover"
+        - generic [ref=e187] [box=894,1811,96,35]: "* Hyundai"
+      - generic [ref=e188] [box=20,1933,994,345]:
+        - generic [ref=e189] [box=45,1968,157,285]
+        - generic [ref=e193] [box=202,1968,157,285]
+        - generic [ref=e197] [box=360,1968,157,285]
+        - generic [ref=e201] [box=517,1968,157,285]
+        - generic [ref=e205] [box=674,1968,157,285]
+        - generic [ref=e209] [box=832,1968,157,285]
+    - paragraph [ref=e213] [box=0,2337,1034,67]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main [box=0,2404,1034,0]

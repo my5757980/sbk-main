@@ -1,0 +1,317 @@
+- generic [active] [ref=f14e1]:
+  - banner [ref=f14e2]:
+    - generic [ref=f14e6]:
+      - generic [ref=f14e8]:
+        - list [ref=f14e12]:
+          - listitem [ref=f14e13]:
+            - link "+81 70-9427-5106" [ref=f14e14] [cursor=pointer]:
+              - /url: tel:+81%2070-9427-5106
+          - listitem [ref=f14e19]:
+            - generic [ref=f14e23]: info@sbkautotrading.com
+        - generic [ref=f14e27]:
+          - generic [ref=f14e29]:
+            - generic [ref=f14e30]: USA (MN)
+            - generic [ref=f14e31]: "--:--:-- --"
+          - generic [ref=f14e34]:
+            - generic [ref=f14e35]: JAMAICA
+            - generic [ref=f14e36]: "--:--:-- --"
+          - generic [ref=f14e39]:
+            - generic [ref=f14e40]: KENYA
+            - generic [ref=f14e41]: "--:--:-- --"
+          - generic [ref=f14e44]:
+            - generic [ref=f14e45]: UAE
+            - generic [ref=f14e46]: "--:--:-- --"
+          - generic [ref=f14e49]:
+            - generic [ref=f14e50]: JAPAN
+            - generic [ref=f14e51]: "--:--:-- --"
+        - search [ref=f14e56]:
+          - generic [ref=f14e57]:
+            - generic [ref=f14e58]: "Search for:"
+            - searchbox "Search for:" [ref=f14e59]
+        - generic [ref=f14e63]:
+          - link "Live chat" [ref=f14e64] [cursor=pointer]:
+            - /url: https://sbkautotrading.com/?sbk_chat_go=1
+          - link "Sign In" [ref=f14e68] [cursor=pointer]:
+            - /url: https://sbkautotrading.com/my-account/
+      - generic [ref=f14e70]:
+        - link [ref=f14e74] [cursor=pointer]:
+          - /url: https://sbkautotrading.com
+        - generic [ref=f14e76]:
+          - navigation [ref=f14e79]:
+            - list [ref=f14e81]:
+              - listitem [ref=f14e82]:
+                - link "Home" [ref=f14e83] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/
+              - listitem [ref=f14e84]:
+                - link "Shop" [ref=f14e85] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/shop/
+              - listitem [ref=f14e86]:
+                - link "Services" [ref=f14e87] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/services/
+              - listitem [ref=f14e88]:
+                - generic [ref=f14e89]:
+                  - text: Brand
+                  - generic [aria-hidden] [ref=f14e90] [cursor=pointer]: 
+              - listitem [ref=f14e91]:
+                - link "Blogs" [ref=f14e92] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/blog/
+              - listitem [ref=f14e93]:
+                - link "About Us" [ref=f14e94] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/about/
+                  - text: About Us
+                  - generic [aria-hidden] [ref=f14e95]: 
+              - listitem [ref=f14e96]:
+                - link "Our Locations" [ref=f14e97] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/our-locations/
+              - listitem [ref=f14e98]:
+                - link "Contact Us" [ref=f14e99] [cursor=pointer]:
+                  - /url: https://sbkautotrading.com/contact/
+          - text:    
+        - generic [ref=f14e101]:
+          - link "0 Cart" [ref=f14e106] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=f14e107]:
+              - generic [ref=f14e108]: "0"
+              - generic [ref=f14e111]: Cart
+          - link "Buy Now" [ref=f14e113] [cursor=pointer]:
+            - /url: https://sbkautotrading.com/shop/
+  - generic [ref=f14e116]:
+    - heading "SBK Services" [level=2] [ref=f14e127]
+    - generic [ref=f14e135]:
+      - heading "Our Services - End-to-End Vehicle Export Management" [level=2] [ref=f14e137]
+      - paragraph [ref=f14e141]: Structured sourcing. Disciplined bidding. Managed logistics. Complete documentation support. Our services bring the entire Japanese vehicle export process under one coordinated system. Each step is handled with clarity, from vehicle selection to final shipment. We work with car dealers, resellers, fleet and rental operators, import-export businesses, bulk buyers, construction companies, taxi services, and individual buyers seeking reliable access to Japan’s vehicle market. When the process demands accuracy and oversight, our services provide the control needed to move forward with confidence.
+    - generic [ref=f14e153]:
+      - heading "Japanese Vehicle Sourcing" [level=2] [ref=f14e155]
+      - heading "Japanese Vehicle Sourcing" [level=2] [ref=f14e157]
+      - paragraph [ref=f14e161]: We source vehicles directly from Japanese auctions and trusted dealer networks. You get access to verified listings, clear specifications, and real market value. We shortlist options based on your budget and destination requirements, so you review serious choices, not random inventory.
+      - link "View Stock" [ref=f14e163] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+    - generic [ref=f14e174]:
+      - heading "Auction Bidding and Consultation" [level=2] [ref=f14e176]
+      - heading "Auction Bidding and Consultation" [level=2] [ref=f14e178]
+      - paragraph [ref=f14e182]: Japanese auctions can be complex. We simplify them. Our team explains auction grades, reviews condition reports, and recommends practical bid ranges. You stay informed at every step and make decisions with clarity, not pressure.
+      - link "Start Consultation" [ref=f14e184] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+    - generic [ref=f14e201]:
+      - heading "Vehicle Inspection and Condition Verification" [level=2] [ref=f14e203]
+      - heading "Vehicle Inspection and Condition Verification" [level=2] [ref=f14e205]
+      - paragraph [ref=f14e209]: Before any commitment, we carefully review the vehicle’s condition. That includes auction sheet translation, mileage verification, and accident history checks. You receive a clear understanding of what you’re buying before it moves forward.
+      - link "Verify Vehicle" [ref=f14e211] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+    - generic [ref=f14e222]:
+      - heading "Shipping and Logistics Management" [level=2] [ref=f14e224]
+      - heading "Shipping and Logistics Management" [level=2] [ref=f14e226]
+      - paragraph [ref=f14e230]: We manage shipping from Japan to your destination port with structured coordination. Freight booking, export clearance, and shipment tracking are handled professionally. You receive timely updates while your vehicle moves through each stage.
+      - link "Track Shipment" [ref=f14e232] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+    - generic [ref=f14e249]:
+      - heading "Documentation and Import Assistance" [level=2] [ref=f14e251]
+      - heading "Documentation and Import Assistance" [level=2] [ref=f14e253]
+      - paragraph [ref=f14e257]: Before any commitment, we carefully review the vehicle’s condition. That includes auction sheet translation, mileage verification, and accident history checks. You receive a clear understanding of what you’re buying before it moves forward.
+      - link "Get Support" [ref=f14e259] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+    - generic [ref=f14e269]:
+      - generic [ref=f14e273]:
+        - generic:
+          - link:
+            - /url: ""
+        - generic [ref=f14e274]:
+          - heading [level=2] [ref=f14e275]:
+            - link "Let’s Structure Your Next Shipment" [ref=f14e276] [cursor=pointer]:
+              - /url: ""
+          - paragraph [ref=f14e277]: Japanese vehicle sourcing requires clarity, timing, and the right execution partner. If you’re planning your next purchase or bulk order, let’s structure it properly from the start.
+      - link "Start Consultation" [ref=f14e279] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+      - link "Contact Our Team" [ref=f14e283] [cursor=pointer]:
+        - /url: https://www.sbkautotrading.com/contact/
+  - contentinfo [ref=f14e287]:
+    - generic [ref=f14e291]:
+      - generic [ref=f14e293]:
+        - generic [ref=f14e295]:
+          - link [ref=f14e297] [cursor=pointer]:
+            - /url: https://sbkautotrading.com
+          - generic [ref=f14e298]: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service.Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+        - generic [ref=f14e302]:
+          - list [ref=f14e304]:
+            - listitem [ref=f14e305]:
+              - generic [ref=f14e306]: Quick link
+          - list [ref=f14e308]:
+            - listitem [ref=f14e309]:
+              - link "Home" [ref=f14e310] [cursor=pointer]:
+                - /url: https://www.sbkautotrading.com/
+            - listitem [ref=f14e315]:
+              - link "Shop" [ref=f14e316] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/shop/
+            - listitem [ref=f14e321]:
+              - link "About us" [ref=f14e322] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/about/
+            - listitem [ref=f14e327]:
+              - link "Contact us" [ref=f14e328] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/contact/
+          - list [ref=f14e334]:
+            - listitem [ref=f14e335]:
+              - link "Bank Details" [ref=f14e336] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/bank/
+        - generic [ref=f14e342]:
+          - list [ref=f14e344]:
+            - listitem [ref=f14e345]:
+              - generic [ref=f14e346]: By Types
+          - list [ref=f14e348]:
+            - listitem [ref=f14e349]:
+              - generic [ref=f14e353]: SUV
+            - listitem [ref=f14e354]:
+              - generic [ref=f14e358]: Coupe
+            - listitem [ref=f14e359]:
+              - generic [ref=f14e363]: Hatchback
+            - listitem [ref=f14e364]:
+              - generic [ref=f14e368]: Sedan
+            - listitem [ref=f14e369]:
+              - generic [ref=f14e373]: Wagon
+            - listitem [ref=f14e374]:
+              - generic [ref=f14e378]: Van
+            - listitem [ref=f14e379]:
+              - generic [ref=f14e383]: Roadster
+        - generic [ref=f14e385]:
+          - list [ref=f14e387]:
+            - listitem [ref=f14e388]:
+              - generic [ref=f14e389]: By Brands
+          - list [ref=f14e391]:
+            - listitem [ref=f14e392]:
+              - link "Honda" [ref=f14e393] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/honda-for-sale/
+            - listitem [ref=f14e398]:
+              - link "Toyota" [ref=f14e399] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/toyota-for-sale/
+            - listitem [ref=f14e404]:
+              - link "Mazda" [ref=f14e405] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/mazda-for-sale/
+            - listitem [ref=f14e410]:
+              - link "Mitsubushi" [ref=f14e411] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/mitsubishi-for-sale/
+            - listitem [ref=f14e416]:
+              - link "Subaru" [ref=f14e417] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/subaru-for-sale/
+            - listitem [ref=f14e422]:
+              - link "BMW" [ref=f14e423] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/bmw-for-sale/
+            - listitem [ref=f14e428]:
+              - link "Suzuki" [ref=f14e429] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/suzuki-for-sale/
+            - listitem [ref=f14e434]:
+              - link "Daihatsu" [ref=f14e435] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/daihatsu-for-sale/
+            - listitem [ref=f14e440]:
+              - link "Lexus" [ref=f14e441] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/lexus-for-sale/
+          - list [ref=f14e447]:
+            - listitem [ref=f14e448]:
+              - link "Hino" [ref=f14e449] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/hino-for-sale/
+            - listitem [ref=f14e454]:
+              - link "Mercedes-Benz" [ref=f14e455] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/mercedes-benz-for-sale/
+            - listitem [ref=f14e460]:
+              - link "Volkswagen" [ref=f14e461] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/car_model/volkswagen/
+            - listitem [ref=f14e466]:
+              - link "Audi" [ref=f14e467] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/audi-for-sale/
+            - listitem [ref=f14e472]:
+              - link "Volvo" [ref=f14e473] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/volvo-for-sale/
+            - listitem [ref=f14e478]:
+              - link "Ford" [ref=f14e479] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/ford-for-sale/
+            - listitem [ref=f14e484]:
+              - link "Jeep" [ref=f14e485] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/jeep-for-sale/
+            - listitem [ref=f14e490]:
+              - link "Land Rover" [ref=f14e491] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/land-rover-for-sale/
+            - listitem [ref=f14e496]:
+              - link "Hyundai" [ref=f14e497] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/brand/hyundai-for-sale/
+      - generic [ref=f14e503]:
+        - generic [ref=f14e505]:
+          - list [ref=f14e507]:
+            - listitem [ref=f14e508]:
+              - generic [ref=f14e509]: "Headquarter UAE:"
+          - list [ref=f14e511]:
+            - listitem [ref=f14e512]:
+              - link "+971 55 417 7311" [ref=f14e513] [cursor=pointer]:
+                - /url: tel:+971%2055%20417%207311
+            - listitem [ref=f14e518]:
+              - generic [ref=f14e522]: Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, PO. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=f14e524]:
+          - list [ref=f14e526]:
+            - listitem [ref=f14e527]:
+              - generic [ref=f14e528]: "USA Office:"
+          - list [ref=f14e530]:
+            - listitem [ref=f14e531]:
+              - generic [ref=f14e535]: +1 (321) 357-857
+            - listitem [ref=f14e536]:
+              - generic [ref=f14e540]: "Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=f14e542]:
+          - list [ref=f14e544]:
+            - listitem [ref=f14e545]:
+              - generic [ref=f14e546]: "Japan Office:"
+          - list [ref=f14e548]:
+            - listitem [ref=f14e549]:
+              - link "+81 70-9427-5106" [ref=f14e550] [cursor=pointer]:
+                - /url: tel:+81%203%205050-0251
+            - listitem [ref=f14e555]:
+              - generic [ref=f14e559]: Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=f14e561]:
+          - list [ref=f14e563]:
+            - listitem [ref=f14e564]:
+              - generic [ref=f14e565]: "Showroom Mombasa:"
+          - list [ref=f14e567]:
+            - listitem [ref=f14e568]:
+              - link "+254 705719918" [ref=f14e569] [cursor=pointer]:
+                - /url: tel:+254%20705719918
+            - listitem [ref=f14e574]:
+              - generic [ref=f14e578]: Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=f14e580]:
+          - list [ref=f14e582]:
+            - listitem [ref=f14e583]:
+              - generic [ref=f14e584]: "Jamaica Office:"
+          - list [ref=f14e586]:
+            - listitem [ref=f14e587]:
+              - link "+1 876 8036277" [ref=f14e588] [cursor=pointer]:
+                - /url: tel:+1%20876%208036277
+            - listitem [ref=f14e593]:
+              - link "+1 876 8772811" [ref=f14e594] [cursor=pointer]:
+                - /url: tel:+1%20876%208772811
+            - listitem [ref=f14e599]:
+              - generic [ref=f14e603]: 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=f14e605]:
+          - list [ref=f14e607]:
+            - listitem [ref=f14e608]:
+              - generic [ref=f14e609]: "Pakistan Office:"
+          - list [ref=f14e611]:
+            - listitem [ref=f14e612]:
+              - link "+92 213 339-3946" [ref=f14e613] [cursor=pointer]:
+                - /url: tel:+92%20213%20339-3946
+            - listitem [ref=f14e618]:
+              - link "+92 3708536560" [ref=f14e619] [cursor=pointer]:
+                - /url: tel:+92%203708536560%20
+            - listitem [ref=f14e624]:
+              - generic [ref=f14e628]: SB-36, Gulshan-e-Iqbal 13-A, Karachi, Pakistan
+      - list [ref=f14e630]:
+        - listitem [ref=f14e631]:
+          - link "Facebook" [ref=f14e632] [cursor=pointer]:
+            - /url: https://www.facebook.com/sbkautotrading.official
+        - listitem [ref=f14e636]:
+          - link "Instagram" [ref=f14e637] [cursor=pointer]:
+            - /url: https://www.instagram.com/sbkautotrading/
+        - listitem [ref=f14e641]:
+          - link "Linkedin" [ref=f14e642] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/sbkglobalautotrading/
+      - generic [ref=f14e646]: Terms & Condition
+      - paragraph [ref=f14e651]:
+        - generic [ref=f14e652]:
+          - text: Copyright 2026.
+          - link "Sbkautotrading.com" [ref=f14e653] [cursor=pointer]:
+            - /url: https://sbkautotrading.com/
+          - text: All Rights Reserved
+  - button "Chat with a person online" [ref=f14e654] [cursor=pointer]

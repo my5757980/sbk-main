@@ -1,0 +1,269 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e5]: Loading Premium Stock
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: +81 70-9427-5106
+        - generic [ref=e10]: info@sbkautotrading.com
+        - generic [ref=e11]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=e12]:
+        - generic [ref=e13]: USA (MN) 10:19:14 AM
+        - generic: JAMAICA 10:19:14 AM
+        - generic: KENYA 06:19:14 PM
+        - generic: UAE 07:19:14 PM
+        - generic: JAPAN 12:19:14 AM
+  - navigation [ref=e14]:
+    - generic [ref=e15]:
+      - link [ref=e16] [cursor=pointer]:
+        - /url: "#"
+        - img "SBK Global Auto Trading" [ref=e17]
+      - generic [ref=e18]:
+        - link "Home" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:8018
+        - link "Shop" [ref=e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8018/shop
+        - link "Services" [ref=e21] [cursor=pointer]:
+          - /url: "#"
+        - link "Brand" [ref=e23] [cursor=pointer]:
+          - /url: "#"
+        - link "Blogs" [ref=e26] [cursor=pointer]:
+          - /url: http://127.0.0.1:8018/blog
+        - link "About Us" [ref=e27] [cursor=pointer]:
+          - /url: http://127.0.0.1:8018/about-us
+        - link "Our Locations" [ref=e28] [cursor=pointer]:
+          - /url: "#"
+        - link "Contact Us" [ref=e29] [cursor=pointer]:
+          - /url: http://127.0.0.1:8018/contact-us
+      - generic [ref=e30]:
+        - searchbox "Search here..." [ref=e31]
+        - link "Live chat" [ref=e32] [cursor=pointer]:
+          - /url: "#"
+        - link "Sign In" [ref=e33] [cursor=pointer]:
+          - /url: "#"
+        - link "0" [ref=e34] [cursor=pointer]:
+          - /url: "#"
+        - button "Buy Now" [ref=e35]
+  - generic [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]: Contact SBK Auto Trading
+          - heading "Talk to a real export specialist before you buy." [level=1] [ref=e41]
+          - paragraph [ref=e42]: Send your vehicle request, shipment question, or inspection concern to SBK. Our team can guide you through selection, verification, documentation, and export support.
+          - generic [ref=e43]:
+            - generic [ref=e44]: Home
+            - generic [ref=e45]: /
+            - generic [ref=e46]: Contact Us
+        - generic [ref=e47]:
+          - strong [ref=e48]: Need a faster answer?
+          - paragraph [ref=e49]: For urgent vehicle sourcing and shipment questions, message SBK on WhatsApp and include the car name, destination country, and budget range.
+          - link "WhatsApp SBK" [ref=e50] [cursor=pointer]:
+            - /url: https://wa.me/817094275106
+      - text: CONTACT
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]: "01"
+        - generic [ref=e55]:
+          - generic [ref=e56]: Vehicle Sourcing
+          - generic [ref=e57]: Tell us model, year, mileage, and target budget.
+      - generic [ref=e58]:
+        - generic [ref=e59]: "02"
+        - generic [ref=e60]:
+          - generic [ref=e61]: Import Guidance
+          - generic [ref=e62]: Ask about inspection, documents, and shipment steps.
+      - generic [ref=e63]:
+        - generic [ref=e64]: "03"
+        - generic [ref=e65]:
+          - generic [ref=e66]: Global Offices
+          - generic [ref=e67]: Reach SBK teams across UAE, Japan, USA, Kenya, Jamaica, and Pakistan.
+    - generic [ref=e69]:
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - generic [ref=e72]: Send Your Request
+          - heading "We will get back to you with clear next steps." [level=2] [ref=e73]
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - generic [ref=e76]: Full Name
+            - textbox "Full Name" [ref=e77]:
+              - /placeholder: Your name
+          - generic [ref=e78]:
+            - generic [ref=e79]: Email Address
+            - textbox "Email Address" [ref=e80]:
+              - /placeholder: you@example.com
+          - generic [ref=e81]:
+            - generic [ref=e82]: Phone Number
+            - textbox "Phone Number" [ref=e83]:
+              - /placeholder: +1 000 000 0000
+          - generic [ref=e84]:
+            - generic [ref=e85]: Subject
+            - textbox "Subject" [ref=e86]:
+              - /placeholder: Vehicle inquiry
+          - generic [ref=e87]:
+            - generic [ref=e88]: Message
+            - textbox "Message" [ref=e89]:
+              - /placeholder: Tell us what you want to import, your destination country, and any specific questions.
+          - button "Submit Message" [ref=e91] [cursor=pointer]
+      - complementary [ref=e92]:
+        - generic [ref=e93]:
+          - heading "Direct Contact" [level=3] [ref=e94]
+          - generic [ref=e95]:
+            - link "P Phone +81 70-9427-5106" [ref=e96] [cursor=pointer]:
+              - /url: tel:+817094275106
+              - generic [ref=e97]: P
+              - generic [ref=e98]:
+                - generic [ref=e99]: Phone
+                - generic [ref=e100]: +81 70-9427-5106
+            - link "E Email info@sbkautotrading.com" [ref=e101] [cursor=pointer]:
+              - /url: mailto:info@sbkautotrading.com
+              - generic [ref=e102]: E
+              - generic [ref=e103]:
+                - generic [ref=e104]: Email
+                - generic [ref=e105]: info@sbkautotrading.com
+            - generic [ref=e106]:
+              - generic [ref=e107]: H
+              - generic [ref=e108]:
+                - generic [ref=e109]: Working Hours
+                - generic [ref=e110]: "Mon - Fri: 10:00 - 18:00"
+        - generic [ref=e111]:
+          - heading "Best To Include" [level=3] [ref=e112]
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]: "1"
+              - generic [ref=e116]:
+                - generic [ref=e117]: Vehicle Details
+                - generic [ref=e118]: Make, model, year, mileage, and preferred condition.
+            - generic [ref=e119]:
+              - generic [ref=e120]: "2"
+              - generic [ref=e121]:
+                - generic [ref=e122]: Destination
+                - generic [ref=e123]: Country and port, so the team can guide shipment steps.
+            - generic [ref=e124]:
+              - generic [ref=e125]: "3"
+              - generic [ref=e126]:
+                - generic [ref=e127]: Budget Range
+                - generic [ref=e128]: Purchase budget plus import and delivery expectations.
+        - generic [ref=e129]:
+          - heading "Live Vehicle Help" [level=3] [ref=e130]
+          - paragraph [ref=e131]: For quick availability checks, send screenshots or stock links directly to SBK on WhatsApp.
+          - link "Open WhatsApp" [ref=e132] [cursor=pointer]:
+            - /url: https://wa.me/817094275106
+    - generic [ref=e134]:
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]: Global Reach
+          - heading "Find the nearest SBK office." [level=2] [ref=e138]
+        - paragraph [ref=e139]: SBK supports international buyers through multiple offices and showroom locations, making vehicle export more transparent from inquiry to shipment.
+      - generic [ref=e140]:
+        - article [ref=e141]:
+          - text: Asia/Dubai
+          - heading "Headquarter UAE" [level=3] [ref=e142]
+          - paragraph [ref=e143]:
+            - link "+971 55 417 7311" [ref=e144] [cursor=pointer]:
+              - /url: tel:+971554177311
+          - paragraph [ref=e145]: Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - article [ref=e146]:
+          - text: America/Chicago
+          - heading "USA Office" [level=3] [ref=e147]
+          - paragraph [ref=e148]:
+            - link "+1 (321) 357-857" [ref=e149] [cursor=pointer]:
+              - /url: tel:+1321357857
+          - paragraph [ref=e150]: Prior Lake, MN 55372, USA
+        - article [ref=e151]:
+          - text: Asia/Tokyo
+          - heading "Japan Office" [level=3] [ref=e152]
+          - paragraph [ref=e153]:
+            - link "+81 70-9427-5106" [ref=e154] [cursor=pointer]:
+              - /url: tel:+817094275106
+          - paragraph [ref=e155]: Yokohama-Shi, Kanagawa-Ken, Japan
+        - article [ref=e156]:
+          - text: Africa/Nairobi
+          - heading "Showroom Mombasa" [level=3] [ref=e157]
+          - paragraph [ref=e158]:
+            - link "+254 705719918" [ref=e159] [cursor=pointer]:
+              - /url: tel:+254705719918
+          - paragraph [ref=e160]: Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - article [ref=e161]:
+          - text: America/Jamaica
+          - heading "Jamaica Office" [level=3] [ref=e162]
+          - paragraph [ref=e163]:
+            - link "+1 876 8036277" [ref=e164] [cursor=pointer]:
+              - /url: tel:+18768036277
+          - paragraph [ref=e165]: 3 South Avenue Kingston 5, Jamaica
+        - article [ref=e166]:
+          - text: Asia/Karachi
+          - heading "Pakistan Office" [level=3] [ref=e167]
+          - paragraph [ref=e168]:
+            - link "+92 213 339-3946" [ref=e169] [cursor=pointer]:
+              - /url: tel:+922133393946
+          - paragraph [ref=e170]: SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+      - generic [ref=e172]:
+        - heading "Premium vehicles, shipped worldwide." [level=3] [ref=e173]
+        - paragraph [ref=e174]: Whether you are buying from Japan, arranging export documents, or checking a car before it reaches your country, SBK is ready to help.
+  - contentinfo [ref=e175]:
+    - generic [ref=e176]:
+      - paragraph [ref=e178]:
+        - img "SBK" [ref=e179]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=e180]:
+        - heading "Quick link" [level=3] [ref=e181]
+        - generic [ref=e182]: "* Home"
+        - generic [ref=e183]: "* Shop"
+        - generic [ref=e184]: "* About us"
+        - generic [ref=e185]: "* Contact us"
+        - generic [ref=e186]: "* Bank Details"
+      - generic [ref=e187]:
+        - heading "By Types" [level=3] [ref=e188]
+        - generic [ref=e189]: "* SUV"
+        - generic [ref=e190]: "* Coupe"
+        - generic [ref=e191]: "* Hatchback"
+        - generic [ref=e192]: "* Sedan"
+        - generic [ref=e193]: "* Wagon"
+        - generic [ref=e194]: "* Van"
+        - generic [ref=e195]: "* Roadster"
+      - generic [ref=e196]:
+        - heading "By Brands" [level=3] [ref=e197]
+        - generic [ref=e198]: "* Honda"
+        - generic [ref=e199]: "* Toyota"
+        - generic [ref=e200]: "* Mazda"
+        - generic [ref=e201]: "* Mitsubushi"
+        - generic [ref=e202]: "* Subaru"
+        - generic [ref=e203]: "* BMW"
+        - generic [ref=e204]: "* Suzuki"
+        - generic [ref=e205]: "* Daihatsu"
+        - generic [ref=e206]: "* Lexus"
+        - generic [ref=e207]: "* Hino"
+        - generic [ref=e208]: "* Mercedes-Benz"
+        - generic [ref=e209]: "* Volkswagen"
+        - generic [ref=e210]: "* Audi"
+        - generic [ref=e211]: "* Volvo"
+        - generic [ref=e212]: "* Ford"
+        - generic [ref=e213]: "* Jeep"
+        - generic [ref=e214]: "* Land Rover"
+        - generic [ref=e215]: "* Hyundai"
+      - generic [ref=e216]:
+        - generic [ref=e217]:
+          - strong [ref=e218]: Headquarter UAE
+          - paragraph [ref=e219]: ☎ +971 55 417 7311
+          - paragraph [ref=e220]: • Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=e221]:
+          - strong [ref=e222]: USA Office
+          - paragraph [ref=e223]: ☎ +1 (321) 357-857
+          - paragraph [ref=e224]: "• Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=e225]:
+          - strong [ref=e226]: Japan Office
+          - paragraph [ref=e227]: ☎ +81 70-9427-5106
+          - paragraph [ref=e228]: • Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=e229]:
+          - strong [ref=e230]: Showroom Mombasa
+          - paragraph [ref=e231]: ☎ +254 705719918
+          - paragraph [ref=e232]: • Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=e233]:
+          - strong [ref=e234]: Jamaica Office
+          - paragraph [ref=e235]: ☎ +1 876 8036277
+          - paragraph [ref=e236]: • 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=e237]:
+          - strong [ref=e238]: Pakistan Office
+          - paragraph [ref=e239]: ☎ +92 213 339-3946
+          - paragraph [ref=e240]: • SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+    - paragraph [ref=e241]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main

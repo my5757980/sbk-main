@@ -1,0 +1,1085 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e5]: Loading Premium Stock
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: +81 70-9427-5106
+        - generic [ref=e10]: info@sbkautotrading.com
+        - generic [ref=e11]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=e12]:
+        - generic [ref=e13]: USA (MN) 03:51:05 PM
+        - generic: JAMAICA 03:51:05 PM
+        - generic: KENYA 11:51:05 PM
+        - generic: UAE 12:51:05 AM
+        - generic: JAPAN 05:51:05 AM
+  - navigation [ref=e14]:
+    - generic [ref=e15]:
+      - link [ref=e16] [cursor=pointer]:
+        - /url: http://127.0.0.1:8010
+        - img "SBK Global Auto Trading" [ref=e17]
+      - generic [ref=e18]:
+        - link "Home" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010
+        - link "About Us" [ref=e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/about-us
+        - link "Shop" [ref=e21] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/shop
+        - link "Services" [ref=e22] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/services
+        - link "Brand" [ref=e24] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/shop
+        - link "Blogs" [ref=e27] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/blog
+        - link "Our Locations" [ref=e28] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/our-locations
+        - link "Contact Us" [ref=e29] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/contact-us
+      - generic [ref=e30]:
+        - searchbox "Search products" [ref=e32]
+        - link "Wishlist" [ref=e33] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/wishlist
+          - generic [ref=e34]: ♡
+        - link "Cart" [ref=e35] [cursor=pointer]:
+          - /url: http://127.0.0.1:8010/cart
+          - generic [ref=e36]: 🛒
+        - button "Buy Now" [ref=e37]
+  - generic [ref=e38]:
+    - article [ref=e39]:
+      - generic [ref=e41]:
+        - generic [ref=e42]: Featured
+        - paragraph [ref=e43]: 2024 HYBRID
+        - heading "TOYOTA PRIUS PRIME" [level=1] [ref=e44]
+        - heading "Eco-Friendly Technology with Exceptional Efficiency" [level=2] [ref=e45]
+        - generic [ref=e46]:
+          - generic [ref=e47]: CVT
+          - generic [ref=e48]: Hybrid
+          - generic [ref=e49]: 8,500 Km
+        - generic [ref=e50]:
+          - link "Buy Now" [ref=e51] [cursor=pointer]:
+            - /url: "#"
+          - link "View Details" [ref=e52] [cursor=pointer]:
+            - /url: "#"
+    - article [ref=e53]:
+      - generic [ref=e55]:
+        - generic [ref=e56]: Featured
+        - paragraph [ref=e57]: 2026 NEW ARRIVAL
+        - heading "TOYOTA HILUX TRAVO" [level=1] [ref=e58]
+        - heading "Overland Plus Edition - Premium Off-Road Performance" [level=2] [ref=e59]
+        - generic [ref=e60]:
+          - generic [ref=e61]: Automatic
+          - generic [ref=e62]: Diesel 4WD
+          - generic [ref=e63]: 0 Km
+        - generic [ref=e64]:
+          - link "Buy Now" [ref=e65] [cursor=pointer]:
+            - /url: "#"
+          - link "View Details" [ref=e66] [cursor=pointer]:
+            - /url: "#"
+    - article [ref=e67]:
+      - generic [ref=e69]:
+        - generic [ref=e70]: Featured
+        - paragraph [ref=e71]: 2025 PREMIUM
+        - heading "HYUNDAI SANTA FE" [level=1] [ref=e72]
+        - heading "Luxury SUV with Advanced Safety Features" [level=2] [ref=e73]
+        - generic [ref=e74]:
+          - generic [ref=e75]: Automatic
+          - generic [ref=e76]: Gasoline
+          - generic [ref=e77]: 0 Km
+        - generic [ref=e78]:
+          - link "Buy Now" [ref=e79] [cursor=pointer]:
+            - /url: "#"
+          - link "View Details" [ref=e80] [cursor=pointer]:
+            - /url: "#"
+    - generic "SBK Global Auto Trading Ready To Ship" [ref=e81]:
+      - img [aria-hidden] [ref=e82]:
+        - generic [ref=e83]: SBK GLOBAL AUTO TRADING * SBK GLOBAL AUTO TRADING *
+      - generic [ref=e84]:
+        - strong [ref=e89]: READY
+        - generic [ref=e90]: TO SHIP
+    - button "Previous slide" [ref=e91]: ‹
+    - button "Next slide" [ref=e92]: ›
+    - generic [ref=e93]:
+      - button "TOYOTA PRIUS PRIME" [ref=e94]
+      - button "TOYOTA HILUX TRAVO" [ref=e95]
+      - button "HYUNDAI SANTA FE" [ref=e96]
+  - generic [ref=e98]:
+    - heading "Shop by World Known Brand" [level=2] [ref=e99]
+    - paragraph [ref=e100]: SBK offers a wide range of leading automotive brands, combining reliability, innovation, and style for every driver.
+  - generic "World known vehicle brands" [ref=e102]:
+    - generic [ref=e103]:
+      - img "Toyota" [ref=e105]
+      - img "BMW" [ref=e107]
+      - img "Mercedes-Benz" [ref=e109]
+      - img "Hino" [ref=e111]
+      - img "Mazda" [ref=e113]
+      - img "Volkswagen" [ref=e115]
+  - generic [ref=e123]:
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - strong [ref=e126]: "15"
+        - generic [ref=e127]: Years inBusiness
+      - generic [ref=e128]:
+        - strong [ref=e129]: 1070+
+        - generic [ref=e130]: Unit Sold
+      - generic [ref=e131]:
+        - strong [ref=e132]: 3,000+
+        - generic [ref=e133]: International Clientele
+      - generic [ref=e134]:
+        - strong [ref=e135]: 30+
+        - generic [ref=e136]: Countries Covered
+    - heading "Global Reach With Proven Expertise" [level=3] [ref=e137]
+    - paragraph [ref=e138]: SBK Auto Trading has gained the trust of happy clients by building a reputation for dependability, honesty, and quality.
+    - link "Read More" [ref=e139] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e141]:
+    - heading "This Week's Best Seller" [level=2] [ref=e142]
+    - paragraph [ref=e143]: View the most popular vehicles buyers are choosing this week.
+    - generic [ref=e144]:
+      - button "Previous best seller" [ref=e145]: ‹
+      - generic [ref=e146]:
+        - article [ref=e147] [cursor=pointer]:
+          - generic [ref=e148]:
+            - img "MERCEDES-BENZ GLS Black 2016" [ref=e149]
+            - generic [ref=e150]: 5% OFF
+            - button "♡" [ref=e151]
+          - generic [ref=e152]:
+            - text: Mercedes-Benz
+            - heading [level=3] [ref=e153]:
+              - link "MERCEDES-BENZ GLS Black 2016" [ref=e154]:
+                - /url: http://127.0.0.1:8010/product/mercedes-benz-gls-black-2016
+            - generic [ref=e155]:
+              - generic [ref=e156]: "2016"
+              - generic [ref=e157]: 131,000 km
+              - generic [ref=e158]: N/A
+            - generic [ref=e159]:
+              - generic [ref=e160]:
+                - generic [ref=e161]: FOB Price
+                - strong [ref=e162]: $21,880.00
+              - button "Add Cart" [ref=e165]
+        - article [ref=e166] [cursor=pointer]:
+          - generic [ref=e167]:
+            - img "Toyota Crown 2.5 Z Silver" [ref=e168]
+            - button "♡" [ref=e169]
+          - generic [ref=e170]:
+            - text: Toyota
+            - heading [level=3] [ref=e171]:
+              - link "Toyota Crown 2.5 Z Silver" [ref=e172]:
+                - /url: http://127.0.0.1:8010/product/toyota-crown-2-5-z-silver
+            - generic [ref=e173]:
+              - generic [ref=e174]: "2024"
+              - generic [ref=e175]: 7,000 km
+              - generic [ref=e176]: N/A
+            - generic [ref=e177]:
+              - generic [ref=e178]:
+                - generic [ref=e179]: FOB Price
+                - strong [ref=e180]: $45,716.00
+              - button "Add Cart" [ref=e183]
+        - article [ref=e184] [cursor=pointer]:
+          - generic [ref=e185]:
+            - img "Porsche 911 Carrera 4S Yellow &#8211; 2020" [ref=e186]
+            - button "♡" [ref=e187]
+          - generic [ref=e188]:
+            - text: Porsche
+            - heading [level=3] [ref=e189]:
+              - link "Porsche 911 Carrera 4S Yellow &#8211; 2020" [ref=e190]:
+                - /url: http://127.0.0.1:8010/product/porsche-911-carrera-4s-yellow
+            - generic [ref=e191]:
+              - generic [ref=e192]: "2020"
+              - generic [ref=e193]: 6,000 km
+              - generic [ref=e194]: Gas
+            - generic [ref=e195]:
+              - generic [ref=e196]:
+                - generic [ref=e197]: FOB Price
+                - strong [ref=e198]: $119,400.00
+              - button "Add Cart" [ref=e201]
+        - article [ref=e202] [cursor=pointer]:
+          - generic [ref=e203]:
+            - img "Porsche 718 Boxster GTS 4.0 Gray &#8211; 2024" [ref=e204]
+            - button "♡" [ref=e205]
+          - generic [ref=e206]:
+            - text: Porsche
+            - heading [level=3] [ref=e207]:
+              - link "Porsche 718 Boxster GTS 4.0 Gray &#8211; 2024" [ref=e208]:
+                - /url: http://127.0.0.1:8010/product/porsche-718-boxster-gts-4-0-gray
+            - generic [ref=e209]:
+              - generic [ref=e210]: "2024"
+              - generic [ref=e211]: 30,000 km
+              - generic [ref=e212]: Gas
+            - generic [ref=e213]:
+              - generic [ref=e214]:
+                - generic [ref=e215]: FOB Price
+                - strong [ref=e216]: $84,800.00
+              - button "Add Cart" [ref=e219]
+        - article [ref=e220] [cursor=pointer]:
+          - generic [ref=e221]:
+            - img "BMW B5 Touring Allrad Gray &#8211; 2024" [ref=e222]
+            - button "♡" [ref=e223]
+          - generic [ref=e224]:
+            - text: BMW
+            - heading [level=3] [ref=e225]:
+              - link "BMW B5 Touring Allrad Gray &#8211; 2024" [ref=e226]:
+                - /url: http://127.0.0.1:8010/product/bmw-b5-touring-allrad-gray
+            - generic [ref=e227]:
+              - generic [ref=e228]: "2023"
+              - generic [ref=e229]: 9,000 km
+              - generic [ref=e230]: Gas
+            - generic [ref=e231]:
+              - generic [ref=e232]:
+                - generic [ref=e233]: FOB Price
+                - strong [ref=e234]: $157,826.00
+              - button "Add Cart" [ref=e237]
+        - article [ref=e238] [cursor=pointer]:
+          - generic [ref=e239]:
+            - img "Optio et accusantiu" [ref=e240]
+            - generic [ref=e241]: Sunt nostrum in enim
+            - button "♡" [ref=e242]
+          - generic [ref=e243]:
+            - text: Mercedes
+            - heading [level=3] [ref=e244]:
+              - link "Optio et accusantiu" [ref=e245]:
+                - /url: http://127.0.0.1:8010/product/optio-et-accusantiu
+            - generic [ref=e246]:
+              - generic [ref=e247]: "2004"
+              - generic [ref=e248]: 96 km
+              - generic [ref=e249]: Autem occaecat nostr
+            - generic [ref=e250]:
+              - generic [ref=e251]:
+                - generic [ref=e252]: FOB Price
+                - strong [ref=e253]: $360.00
+              - button "Add Cart" [ref=e256]
+        - article [ref=e257] [cursor=pointer]:
+          - generic [ref=e258]:
+            - img "ISUZU JUSTON 1998" [ref=e259]
+            - button "♡" [ref=e260]
+          - generic [ref=e261]:
+            - text: Isuzu
+            - heading [level=3] [ref=e262]:
+              - link "ISUZU JUSTON 1998" [ref=e263]:
+                - /url: http://127.0.0.1:8010/product/isuzu-juston-1998
+            - generic [ref=e264]:
+              - generic [ref=e265]: "1998"
+              - generic [ref=e266]: 55,000 km
+              - generic [ref=e267]: Diesel
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - generic [ref=e270]: FOB Price
+                - strong [ref=e271]: $26,550.00
+              - button "Add Cart" [ref=e274]
+        - article [ref=e275] [cursor=pointer]:
+          - generic [ref=e276]:
+            - img "MERCEDES BENZ GLC COUPE 2021" [ref=e277]
+            - button "♡" [ref=e278]
+          - generic [ref=e279]:
+            - text: Mercedes-Benz
+            - heading [level=3] [ref=e280]:
+              - link "MERCEDES BENZ GLC COUPE 2021" [ref=e281]:
+                - /url: http://127.0.0.1:8010/product/mercedes-benz-glc-coupe-2021
+            - generic [ref=e282]:
+              - generic [ref=e283]: "2021"
+              - generic [ref=e284]: 25,000 km
+              - generic [ref=e285]: N/A
+            - generic [ref=e286]:
+              - generic [ref=e287]:
+                - generic [ref=e288]: FOB Price
+                - strong [ref=e289]: $58,900.00
+              - button "Add Cart" [ref=e292]
+        - article [ref=e293] [cursor=pointer]:
+          - generic [ref=e294]:
+            - img "Toyota Coaster White &#8211; 2025" [ref=e295]
+            - button "♡" [ref=e296]
+          - generic [ref=e297]:
+            - text: Toyota
+            - heading [level=3] [ref=e298]:
+              - link "Toyota Coaster White &#8211; 2025" [ref=e299]:
+                - /url: http://127.0.0.1:8010/product/toyota-coaster-white-2025
+            - generic [ref=e300]:
+              - generic [ref=e301]: "2025"
+              - generic [ref=e302]: 14,000 km
+              - generic [ref=e303]: N/A
+            - generic [ref=e304]:
+              - generic [ref=e305]:
+                - generic [ref=e306]: FOB Price
+                - strong [ref=e307]: $75,000.00
+              - button "Add Cart" [ref=e310]
+        - article [ref=e311] [cursor=pointer]:
+          - generic [ref=e312]:
+            - img "Honda Step Wagon Black &#8211; 2018" [ref=e313]
+            - button "♡" [ref=e314]
+          - generic [ref=e315]:
+            - text: Honda
+            - heading [level=3] [ref=e316]:
+              - link "Honda Step Wagon Black &#8211; 2018" [ref=e317]:
+                - /url: http://127.0.0.1:8010/product/honda-step-wagon-black
+            - generic [ref=e318]:
+              - generic [ref=e319]: "2018"
+              - generic [ref=e320]: 118,000 km
+              - generic [ref=e321]: Gas
+            - generic [ref=e322]:
+              - generic [ref=e323]:
+                - generic [ref=e324]: FOB Price
+                - strong [ref=e325]: $10,900.00
+              - button "Add Cart" [ref=e328]
+        - article [ref=e329] [cursor=pointer]:
+          - generic [ref=e330]:
+            - img "Nissan AD Van White &#8211; 2021" [ref=e331]
+            - button "♡" [ref=e332]
+          - generic [ref=e333]:
+            - text: Nissan
+            - heading [level=3] [ref=e334]:
+              - link "Nissan AD Van White &#8211; 2021" [ref=e335]:
+                - /url: http://127.0.0.1:8010/product/nissan-ad-2021
+            - generic [ref=e336]:
+              - generic [ref=e337]: "2021"
+              - generic [ref=e338]: 84,000 km
+              - generic [ref=e339]: N/A
+            - generic [ref=e340]:
+              - generic [ref=e341]:
+                - generic [ref=e342]: FOB Price
+                - strong [ref=e343]: $3,200.00
+              - button "Add Cart" [ref=e346]
+        - article [ref=e347] [cursor=pointer]:
+          - generic [ref=e348]:
+            - img "Honda Clarity PHEV &#8211; 2020" [ref=e349]
+            - button "♡" [ref=e350]
+          - generic [ref=e351]:
+            - text: Honda
+            - heading [level=3] [ref=e352]:
+              - link "Honda Clarity PHEV &#8211; 2020" [ref=e353]:
+                - /url: http://127.0.0.1:8010/product/honda-clarity-phev-black
+            - generic [ref=e354]:
+              - generic [ref=e355]: "2020"
+              - generic [ref=e356]: 137,000 km
+              - generic [ref=e357]: Hybrid
+            - generic [ref=e358]:
+              - generic [ref=e359]:
+                - generic [ref=e360]: FOB Price
+                - strong [ref=e361]: $10,820.00
+              - button "Add Cart" [ref=e364]
+      - button "Next best seller" [ref=e365]: ›
+    - link "View All Recent Seller" [ref=e367] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e369]:
+    - heading "Why Choose SBK Global Auto Trading" [level=2] [ref=e370]
+    - generic [ref=e371]:
+      - article [ref=e372]:
+        - generic [ref=e373]:
+          - generic [ref=e374]:
+            - heading "Trusted Expertise" [level=3] [ref=e379]
+            - button "Explore" [ref=e380] [cursor=pointer]
+          - generic [ref=e381]:
+            - heading "Trusted Expertise" [level=3] [ref=e382]
+            - paragraph [ref=e383]: SBK has 15 years of experience in global automotive trading, sourcing vehicles from verified suppliers to ensure quality, reliability, and professional service.
+            - link "Learn More" [ref=e384] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=e385]:
+        - generic [ref=e386]:
+          - generic [ref=e387]:
+            - heading "Extensive Vehicle Selection" [level=3] [ref=e394]
+            - button "Explore" [ref=e395] [cursor=pointer]
+          - generic [ref=e396]:
+            - heading "Extensive Vehicle Selection" [level=3] [ref=e397]
+            - paragraph [ref=e398]: Access a wide range of Japanese, European, and American vehicles, and trucks, offering choices for every requirement, budget, and industry need.
+            - link "Learn More" [ref=e399] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=e400]:
+        - generic [ref=e401]:
+          - generic [ref=e402]:
+            - heading "Transparent & Reliable" [level=3] [ref=e407]
+            - button "Explore" [ref=e408] [cursor=pointer]
+          - generic [ref=e409]:
+            - heading "Transparent & Reliable" [level=3] [ref=e410]
+            - paragraph [ref=e411]: All vehicles come with authentic auction sheets and detailed condition reports, giving clients full clarity and confidence in every purchase.
+            - link "Learn More" [ref=e412] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=e413]:
+        - generic [ref=e414]:
+          - generic [ref=e415]:
+            - heading "Flexible Purchase Options" [level=3] [ref=e420]
+            - button "Explore" [ref=e421] [cursor=pointer]
+          - generic [ref=e422]:
+            - heading "Flexible Purchase Options" [level=3] [ref=e423]
+            - paragraph [ref=e424]: Buy directly from our ready stock or participate in Japanese auctions, providing freedom, variety, and opportunities to secure the right vehicle.
+            - link "Learn More" [ref=e425] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=e426]:
+        - generic [ref=e427]:
+          - generic [ref=e428]:
+            - heading "Global Reach" [level=3] [ref=e433]
+            - button "Explore" [ref=e434] [cursor=pointer]
+          - generic [ref=e435]:
+            - heading "Global Reach" [level=3] [ref=e436]
+            - paragraph [ref=e437]: Serving clients across 30+ countries with reliable shipping, documentation, and logistics support, ensuring smooth international transactions.
+            - link "Learn More" [ref=e438] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=e439]:
+        - generic [ref=e440]:
+          - generic [ref=e441]:
+            - heading "Customer-Focused Service" [level=3] [ref=e446]
+            - button "Explore" [ref=e447] [cursor=pointer]
+          - generic [ref=e448]:
+            - heading "Customer-Focused Service" [level=3] [ref=e449]
+            - paragraph [ref=e450]: SBK prioritizes clear communication and after-sales assistance, guiding clients through every step for a seamless, worry-free trading experience.
+            - link "Learn More" [ref=e451] [cursor=pointer]:
+              - /url: "#"
+  - generic [ref=e453]:
+    - heading "We are the Member of" [level=2] [ref=e454]
+    - generic [ref=e455]:
+      - article [ref=e456]:
+        - img "Japanese Car Trade" [ref=e457]
+        - generic [ref=e458]: Japanese Car Trade
+      - article [ref=e459]:
+        - img "Auto Trader" [ref=e460]
+        - generic [ref=e461]: Aisha Trading LLC
+      - article [ref=e462]:
+        - img "TCV" [ref=e463]
+        - generic [ref=e464]: TCV Partner Network
+    - heading "Pick Your Payment Method" [level=3] [ref=e465]
+    - generic [ref=e466]:
+      - generic [ref=e467]:
+        - heading "Transparent Payments" [level=4] [ref=e468]
+        - paragraph [ref=e469]: No Surprises Nothing matters more to us than providing a secure and clear payment process. You'll be informed about all costs upfront, including vehicle price, shipping, and fees, so there are no surprises, just a smooth and trusted experience from start to finish.
+      - generic [ref=e470]:
+        - paragraph [ref=e471]: Smooth, Secure Payments for Your Vehicle Purchase
+        - heading "Our Payment Options at SBK Global Auto Trading" [level=4] [ref=e472]
+        - img "Mastercard" [ref=e473]
+        - img "Visa" [ref=e474]
+  - generic [ref=e476]:
+    - heading "The Exclusive Upcoming Collection" [level=2] [ref=e477]
+    - paragraph [ref=e478]: Get an early look at vehicles that will be added soon.
+    - generic [ref=e479]:
+      - button "Previous upcoming car" [ref=e480]: ‹
+      - generic [ref=e481]:
+        - article [ref=e482] [cursor=pointer]:
+          - generic [ref=e483]:
+            - img "TOYOTA MARK X Black 2016" [ref=e484]
+            - button "♡" [ref=e485]
+          - generic [ref=e486]:
+            - text: Toyota
+            - heading [level=3] [ref=e487]:
+              - link "TOYOTA MARK X Black 2016" [ref=e488]:
+                - /url: http://127.0.0.1:8010/product/toyota-mark-x-black-2016
+            - generic [ref=e489]:
+              - generic [ref=e490]: "2016"
+              - generic [ref=e491]: 132,000 km
+              - generic [ref=e492]: Petrol
+            - generic [ref=e493]:
+              - generic [ref=e494]:
+                - generic [ref=e495]: FOB Price
+                - strong [ref=e496]: $8,200.00
+              - button "Add Cart" [ref=e499]
+        - article [ref=e500] [cursor=pointer]:
+          - generic [ref=e501]:
+            - img "TOYOTA MARK X 2015" [ref=e502]
+            - button "♡" [ref=e503]
+          - generic [ref=e504]:
+            - text: Toyota
+            - heading [level=3] [ref=e505]:
+              - link "TOYOTA MARK X 2015" [ref=e506]:
+                - /url: http://127.0.0.1:8010/product/toyota-mark-x-2015
+            - generic [ref=e507]:
+              - generic [ref=e508]: "2015"
+              - generic [ref=e509]: N/A
+              - generic [ref=e510]: Petrol
+            - generic [ref=e511]:
+              - generic [ref=e512]:
+                - generic [ref=e513]: FOB Price
+                - strong [ref=e514]: $6,200.00
+              - button "Add Cart" [ref=e517]
+        - article [ref=e518] [cursor=pointer]:
+          - generic [ref=e519]:
+            - img "Suzuki Ignis White 2019" [ref=e520]
+            - generic [ref=e521]: Reserved
+            - button "♡" [ref=e522]
+          - generic [ref=e523]:
+            - text: Suzuki
+            - heading [level=3] [ref=e524]:
+              - link "Suzuki Ignis White 2019" [ref=e525]:
+                - /url: http://127.0.0.1:8010/product/suzuki-ignis-white-2019
+            - generic [ref=e526]:
+              - generic [ref=e527]: "2019"
+              - generic [ref=e528]: 98,800 km
+              - generic [ref=e529]: Petrol
+            - generic [ref=e530]:
+              - generic [ref=e531]:
+                - generic [ref=e532]: FOB Price
+                - strong [ref=e533]: $6,100.00
+              - button "Add Cart" [ref=e536]
+        - article [ref=e537] [cursor=pointer]:
+          - generic [ref=e538]:
+            - img "Mazda Roadster Black &#8211; 1990" [ref=e539]
+            - button "♡" [ref=e540]
+          - generic [ref=e541]:
+            - text: Mazda
+            - heading [level=3] [ref=e542]:
+              - link "Mazda Roadster Black &#8211; 1990" [ref=e543]:
+                - /url: http://127.0.0.1:8010/product/mazda-roadster-black-1990
+            - generic [ref=e544]:
+              - generic [ref=e545]: "1990"
+              - generic [ref=e546]: 71,000 km
+              - generic [ref=e547]: N/A
+            - generic [ref=e548]:
+              - generic [ref=e549]:
+                - generic [ref=e550]: FOB Price
+                - strong [ref=e551]: $24,553.00
+              - button "Add Cart" [ref=e554]
+        - article [ref=e555] [cursor=pointer]:
+          - generic [ref=e556]:
+            - img "Volkswagen Polo GTI Red &#8211; 2022" [ref=e557]
+            - button "♡" [ref=e558]
+          - generic [ref=e559]:
+            - text: Volkswagen
+            - heading [level=3] [ref=e560]:
+              - link "Volkswagen Polo GTI Red &#8211; 2022" [ref=e561]:
+                - /url: http://127.0.0.1:8010/product/volkswagen-polo-gti-red
+            - generic [ref=e562]:
+              - generic [ref=e563]: "2022"
+              - generic [ref=e564]: 30,000 km
+              - generic [ref=e565]: Gas
+            - generic [ref=e566]:
+              - generic [ref=e567]:
+                - generic [ref=e568]: FOB Price
+                - strong [ref=e569]: $24,553.00
+              - button "Add Cart" [ref=e572]
+        - article [ref=e573] [cursor=pointer]:
+          - generic [ref=e574]:
+            - img "SUBARU IMPREZA 2017" [ref=e575]
+            - generic [ref=e576]: Reserved
+            - button "♡" [ref=e577]
+          - generic [ref=e578]:
+            - text: Subaru
+            - heading [level=3] [ref=e579]:
+              - link "SUBARU IMPREZA 2017" [ref=e580]:
+                - /url: http://127.0.0.1:8010/product/subaru-impreza-2017-white
+            - generic [ref=e581]:
+              - generic [ref=e582]: "2017"
+              - generic [ref=e583]: 78,000 km
+              - generic [ref=e584]: Petrol
+            - generic [ref=e585]:
+              - generic [ref=e586]:
+                - generic [ref=e587]: FOB Price
+                - strong [ref=e588]: $3,262.00
+              - button "Add Cart" [ref=e591]
+        - article [ref=e592] [cursor=pointer]:
+          - generic [ref=e593]:
+            - img "Toyota Voxy 2015 White" [ref=e594]
+            - generic [ref=e595]: Reserved
+            - button "♡" [ref=e596]
+          - generic [ref=e597]:
+            - text: Toyota
+            - heading [level=3] [ref=e598]:
+              - link "Toyota Voxy 2015 White" [ref=e599]:
+                - /url: http://127.0.0.1:8010/product/toyota-voxy-2015-white
+            - generic [ref=e600]:
+              - generic [ref=e601]: "2015"
+              - generic [ref=e602]: 116,000 km
+              - generic [ref=e603]: Petrol
+            - generic [ref=e604]:
+              - generic [ref=e605]:
+                - generic [ref=e606]: FOB Price
+                - strong [ref=e607]: $8,700.00
+              - button "Add Cart" [ref=e610]
+        - article [ref=e611] [cursor=pointer]:
+          - generic [ref=e612]:
+            - img "BMW D4 S Gran Coupe Allrad Green &#8211; 2023" [ref=e613]
+            - button "♡" [ref=e614]
+          - generic [ref=e615]:
+            - text: BMW
+            - heading [level=3] [ref=e616]:
+              - link "BMW D4 S Gran Coupe Allrad Green &#8211; 2023" [ref=e617]:
+                - /url: http://127.0.0.1:8010/product/bmw-d4-s-gran-coupe-allrad-green
+            - generic [ref=e618]:
+              - generic [ref=e619]: "2023"
+              - generic [ref=e620]: 14,000 km
+              - generic [ref=e621]: Diesel
+            - generic [ref=e622]:
+              - generic [ref=e623]:
+                - generic [ref=e624]: FOB Price
+                - strong [ref=e625]: $81,914.00
+              - button "Add Cart" [ref=e628]
+        - article [ref=e629] [cursor=pointer]:
+          - generic [ref=e630]:
+            - img "Mercedes-Benz GLB-180 White 2021" [ref=e631]
+            - generic [ref=e632]: 5% OFF
+            - button "♡" [ref=e633]
+          - generic [ref=e634]:
+            - text: Mercedes-Benz
+            - heading [level=3] [ref=e635]:
+              - link "Mercedes-Benz GLB-180 White 2021" [ref=e636]:
+                - /url: http://127.0.0.1:8010/product/mercedes-benz-glb-180-white
+            - generic [ref=e637]:
+              - generic [ref=e638]: "2021"
+              - generic [ref=e639]: 26,000 km
+              - generic [ref=e640]: Gas
+            - generic [ref=e641]:
+              - generic [ref=e642]:
+                - generic [ref=e643]: FOB Price
+                - strong [ref=e644]: $37,500.00
+              - button "Add Cart" [ref=e647]
+        - article [ref=e648] [cursor=pointer]:
+          - generic [ref=e649]:
+            - img "TOYOTA PROBOX VAN GL 2021 WHITE" [ref=e650]
+            - button "♡" [ref=e651]
+          - generic [ref=e652]:
+            - text: Toyota
+            - heading [level=3] [ref=e653]:
+              - link "TOYOTA PROBOX VAN GL 2021 WHITE" [ref=e654]:
+                - /url: http://127.0.0.1:8010/product/toyota-probox-van-gl-2021-white
+            - generic [ref=e655]:
+              - generic [ref=e656]: "2021"
+              - generic [ref=e657]: 115,000 km
+              - generic [ref=e658]: Petrol
+            - generic [ref=e659]:
+              - generic [ref=e660]:
+                - generic [ref=e661]: FOB Price
+                - strong [ref=e662]: $6,850.00
+              - button "Add Cart" [ref=e665]
+        - article [ref=e666] [cursor=pointer]:
+          - generic [ref=e667]:
+            - img "Honda Fit White – 2014" [ref=e668]
+            - generic [ref=e669]: Reserved
+            - button "♡" [ref=e670]
+          - generic [ref=e671]:
+            - text: Honda
+            - heading [level=3] [ref=e672]:
+              - link "Honda Fit White – 2014" [ref=e673]:
+                - /url: http://127.0.0.1:8010/product/honda-fit-white
+            - generic [ref=e674]:
+              - generic [ref=e675]: "2014"
+              - generic [ref=e676]: 122,000 km
+              - generic [ref=e677]: Petrol
+            - generic [ref=e678]:
+              - generic [ref=e679]:
+                - generic [ref=e680]: FOB Price
+                - strong [ref=e681]: $5,800.00
+              - button "Add Cart" [ref=e684]
+        - article [ref=e685] [cursor=pointer]:
+          - generic [ref=e686]:
+            - img "Nissan Aura Black &#8211; 2022" [ref=e687]
+            - button "♡" [ref=e688]
+          - generic [ref=e689]:
+            - text: Nissan
+            - heading [level=3] [ref=e690]:
+              - link "Nissan Aura Black &#8211; 2022" [ref=e691]:
+                - /url: http://127.0.0.1:8010/product/nissan-aura-black
+            - generic [ref=e692]:
+              - generic [ref=e693]: "2022"
+              - generic [ref=e694]: 104,000 km
+              - generic [ref=e695]: N/A
+            - generic [ref=e696]:
+              - generic [ref=e697]:
+                - generic [ref=e698]: FOB Price
+                - strong [ref=e699]: $9,750.00
+              - button "Add Cart" [ref=e702]
+      - button "Next upcoming car" [ref=e703]: ›
+    - link "View All Upcoming Cars" [ref=e705] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e707]:
+    - heading "New In-Demand Arrivals" [level=2] [ref=e708]
+    - paragraph [ref=e709]: View our latest Japanese vehicle arrivals with clear prices and key details.
+    - generic [ref=e710]:
+      - button "Previous arrival" [ref=e711]: ‹
+      - generic [ref=e712]:
+        - article [ref=e713] [cursor=pointer]:
+          - generic [ref=e714]:
+            - img "TOYOTA MARK X White 2016" [ref=e715]
+            - button "♡" [ref=e716]
+          - generic [ref=e717]:
+            - text: Toyota
+            - heading [level=3] [ref=e718]:
+              - link "TOYOTA MARK X White 2016" [ref=e719]:
+                - /url: http://127.0.0.1:8010/product/toyota-mark-x-white-2016
+            - generic [ref=e720]:
+              - generic [ref=e721]: "2016"
+              - generic [ref=e722]: 125,000 km
+              - generic [ref=e723]: Petrol
+            - generic [ref=e724]:
+              - generic [ref=e725]:
+                - generic [ref=e726]: FOB Price
+                - strong [ref=e727]: $7,800.00
+              - button "Add Cart" [ref=e730]
+        - article [ref=e731] [cursor=pointer]:
+          - generic [ref=e732]:
+            - img "MERCEDES BENZ GLS Black" [ref=e733]
+            - generic [ref=e734]: 5% OFF
+            - button "♡" [ref=e735]
+          - generic [ref=e736]:
+            - text: Mercedes-Benz
+            - heading [level=3] [ref=e737]:
+              - link "MERCEDES BENZ GLS Black" [ref=e738]:
+                - /url: http://127.0.0.1:8010/product/mercedes-benz-gls-black
+            - generic [ref=e739]:
+              - generic [ref=e740]: "2016"
+              - generic [ref=e741]: 83,000 km
+              - generic [ref=e742]: N/A
+            - generic [ref=e743]:
+              - generic [ref=e744]:
+                - generic [ref=e745]: FOB Price
+                - strong [ref=e746]: $21,550.00
+              - button "Add Cart" [ref=e749]
+        - article [ref=e750] [cursor=pointer]:
+          - generic [ref=e751]:
+            - img "Honda Fit White – 2015" [ref=e752]
+            - generic [ref=e753]: Reserved
+            - button "♡" [ref=e754]
+          - generic [ref=e755]:
+            - text: Honda
+            - heading [level=3] [ref=e756]:
+              - link "Honda Fit White – 2015" [ref=e757]:
+                - /url: http://127.0.0.1:8010/product/honda-fit-white-2015
+            - generic [ref=e758]:
+              - generic [ref=e759]: "2015"
+              - generic [ref=e760]: 105,000 km
+              - generic [ref=e761]: Petrol
+            - generic [ref=e762]:
+              - generic [ref=e763]:
+                - generic [ref=e764]: FOB Price
+                - strong [ref=e765]: $4,700.00
+              - button "Add Cart" [ref=e768]
+        - article [ref=e769] [cursor=pointer]:
+          - generic [ref=e770]:
+            - img "TOYOTA HIACE VAN &#8211; 2016" [ref=e771]
+            - button "♡" [ref=e772]
+          - generic [ref=e773]:
+            - text: Toyota
+            - heading [level=3] [ref=e774]:
+              - link "TOYOTA HIACE VAN &#8211; 2016" [ref=e775]:
+                - /url: http://127.0.0.1:8010/product/toyota-hiace-van-2016
+            - generic [ref=e776]:
+              - generic [ref=e777]: "2016"
+              - generic [ref=e778]: 175,000 km
+              - generic [ref=e779]: N/A
+            - generic [ref=e780]:
+              - generic [ref=e781]:
+                - generic [ref=e782]: FOB Price
+                - strong [ref=e783]: $9,000.00
+              - button "Add Cart" [ref=e786]
+        - article [ref=e787] [cursor=pointer]:
+          - generic [ref=e788]:
+            - img "TOYOTA ALLION 2015 Silver (4WD)" [ref=e789]
+            - generic [ref=e790]: 5% OFF
+            - button "♡" [ref=e791]
+          - generic [ref=e792]:
+            - text: Toyota
+            - heading [level=3] [ref=e793]:
+              - link "TOYOTA ALLION 2015 Silver (4WD)" [ref=e794]:
+                - /url: http://127.0.0.1:8010/product/toyota-allion-2015-4wd
+            - generic [ref=e795]:
+              - generic [ref=e796]: "2015"
+              - generic [ref=e797]: 112,000 km
+              - generic [ref=e798]: Petrol
+            - generic [ref=e799]:
+              - generic [ref=e800]:
+                - generic [ref=e801]: FOB Price
+                - strong [ref=e802]: $7,900.00
+              - button "Add Cart" [ref=e805]
+        - article [ref=e806] [cursor=pointer]:
+          - generic [ref=e807]:
+            - img "Toyota Probox DX Comfort &#8211; 2020" [ref=e808]
+            - button "♡" [ref=e809]
+          - generic [ref=e810]:
+            - text: Toyota
+            - heading [level=3] [ref=e811]:
+              - link "Toyota Probox DX Comfort &#8211; 2020" [ref=e812]:
+                - /url: http://127.0.0.1:8010/product/toyota-probox-dx-comfort-2020
+            - generic [ref=e813]:
+              - generic [ref=e814]: "2020"
+              - generic [ref=e815]: 133,000 km
+              - generic [ref=e816]: Petrol
+            - generic [ref=e817]:
+              - generic [ref=e818]:
+                - generic [ref=e819]: FOB Price
+                - strong [ref=e820]: $7,300.00
+              - button "Add Cart" [ref=e823]
+        - article [ref=e824] [cursor=pointer]:
+          - generic [ref=e825]:
+            - img "Toyota Coaster SILVER- 2016" [ref=e826]
+            - generic [ref=e827]: Reserved
+            - button "♡" [ref=e828]
+          - generic [ref=e829]:
+            - text: Toyota
+            - heading [level=3] [ref=e830]:
+              - link "Toyota Coaster SILVER- 2016" [ref=e831]:
+                - /url: http://127.0.0.1:8010/product/toyota-coaster-white-2016
+            - generic [ref=e832]:
+              - generic [ref=e833]: "2016"
+              - generic [ref=e834]: 181,000 km
+              - generic [ref=e835]: N/A
+            - generic [ref=e836]:
+              - generic [ref=e837]:
+                - generic [ref=e838]: FOB Price
+                - strong [ref=e839]: $25,683.00
+              - button "Add Cart" [ref=e842]
+        - article [ref=e843] [cursor=pointer]:
+          - generic [ref=e844]:
+            - img "Toyota Crown Sport Z Black &#8211; 2024" [ref=e845]
+            - button "♡" [ref=e846]
+          - generic [ref=e847]:
+            - text: Toyota
+            - heading [level=3] [ref=e848]:
+              - link "Toyota Crown Sport Z Black &#8211; 2024" [ref=e849]:
+                - /url: http://127.0.0.1:8010/product/toyota-crown-sport-z-black-2024
+            - generic [ref=e850]:
+              - generic [ref=e851]: "2024"
+              - generic [ref=e852]: 10,000 km
+              - generic [ref=e853]: N/A
+            - generic [ref=e854]:
+              - generic [ref=e855]:
+                - generic [ref=e856]: FOB Price
+                - strong [ref=e857]: $41,930.00
+              - button "Add Cart" [ref=e860]
+        - article [ref=e861] [cursor=pointer]:
+          - generic [ref=e862]:
+            - img "Porsche Cayenne Coupe White &#8211; 2021" [ref=e863]
+            - button "♡" [ref=e864]
+          - generic [ref=e865]:
+            - text: Porsche
+            - heading [level=3] [ref=e866]:
+              - link "Porsche Cayenne Coupe White &#8211; 2021" [ref=e867]:
+                - /url: http://127.0.0.1:8010/product/porsche-cayenne-coupe-white
+            - generic [ref=e868]:
+              - generic [ref=e869]: "2021"
+              - generic [ref=e870]: 38,000 km
+              - generic [ref=e871]: Gas
+            - generic [ref=e872]:
+              - generic [ref=e873]:
+                - generic [ref=e874]: FOB Price
+                - strong [ref=e875]: $53,500.00
+              - button "Add Cart" [ref=e878]
+        - article [ref=e879] [cursor=pointer]:
+          - generic [ref=e880]:
+            - img "BMW X4 M Red &#8211; 2023" [ref=e881]
+            - button "♡" [ref=e882]
+          - generic [ref=e883]:
+            - text: BMW
+            - heading [level=3] [ref=e884]:
+              - link "BMW X4 M Red &#8211; 2023" [ref=e885]:
+                - /url: http://127.0.0.1:8010/product/bmw-x4-m-red
+            - generic [ref=e886]:
+              - generic [ref=e887]: "2023"
+              - generic [ref=e888]: 26,000 km
+              - generic [ref=e889]: Gas
+            - generic [ref=e890]:
+              - generic [ref=e891]:
+                - generic [ref=e892]: FOB Price
+                - strong [ref=e893]: $53,450.00
+              - button "Add Cart" [ref=e896]
+        - article [ref=e897] [cursor=pointer]:
+          - generic [ref=e898]:
+            - img "BMW X5 xDrive 40d M Sport White &#8211; 2024" [ref=e899]
+            - button "♡" [ref=e900]
+          - generic [ref=e901]:
+            - text: BMW
+            - heading [level=3] [ref=e902]:
+              - link "BMW X5 xDrive 40d M Sport White &#8211; 2024" [ref=e903]:
+                - /url: http://127.0.0.1:8010/product/bmw-x5-xdrive-40d-m-sport-white
+            - generic [ref=e904]:
+              - generic [ref=e905]: "2024"
+              - generic [ref=e906]: 15,000 km
+              - generic [ref=e907]: Hybrid
+            - generic [ref=e908]:
+              - generic [ref=e909]:
+                - generic [ref=e910]: FOB Price
+                - strong [ref=e911]: $68,664.00
+              - button "Add Cart" [ref=e914]
+        - article [ref=e915] [cursor=pointer]:
+          - generic [ref=e916]:
+            - img "TOYOTA HIACE COMMUTER 2017 WHITE" [ref=e917]
+            - button "♡" [ref=e918]
+          - generic [ref=e919]:
+            - text: Toyota
+            - heading [level=3] [ref=e920]:
+              - link "TOYOTA HIACE COMMUTER 2017 WHITE" [ref=e921]:
+                - /url: http://127.0.0.1:8010/product/toyota-hiace-commuter-2017-white
+            - generic [ref=e922]:
+              - generic [ref=e923]: "2017"
+              - generic [ref=e924]: 81,000 km
+              - generic [ref=e925]: N/A
+            - generic [ref=e926]:
+              - generic [ref=e927]:
+                - generic [ref=e928]: FOB Price
+                - strong [ref=e929]: $26,500.00
+              - button "Add Cart" [ref=e932]
+      - button "Next arrival" [ref=e933]: ›
+    - link "View All New Cars" [ref=e935] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e937]:
+    - paragraph [ref=e938]: How It Works
+    - heading "Buy Your Dream Car in 3 Easy Steps" [level=2] [ref=e939]
+    - generic [ref=e940]:
+      - article [ref=e941]:
+        - heading "Talk to the Agent" [level=3] [ref=e946]
+        - paragraph [ref=e947]: Confirm details, total cost, payment steps, and questions with our team.
+      - article [ref=e948]:
+        - heading "Browse and Select a Vehicle" [level=3] [ref=e954]
+        - paragraph [ref=e955]: Choose from Japanese vehicles and review photos, mileage, model year, and price.
+      - article [ref=e956]:
+        - heading "Confirm Your Shipment" [level=3] [ref=e961]
+        - paragraph [ref=e962]: We arrange export and shipment and keep you updated until departure.
+  - generic [ref=e964]:
+    - generic [ref=e965]:
+      - paragraph [ref=e966]: Auction Buying Support
+      - heading "Tell Us What You Need, We Bid for You" [level=2] [ref=e967]
+      - paragraph [ref=e968]: Share your preferred model, budget, year, mileage, and condition. Our agent searches Japanese auctions and bids on your behalf for the right car at the right price.
+      - link "Request Auction Support" [ref=e969] [cursor=pointer]:
+        - /url: "#"
+    - img "Auction support vehicle" [ref=e970]
+  - generic [ref=e972]:
+    - paragraph [ref=e973]: Pick Your Perfect Match
+    - heading "Search by Body Type" [level=2] [ref=e974]
+    - generic [ref=e975]:
+      - article [ref=e976]:
+        - img "Sedan" [ref=e977]
+        - heading "Sedan" [level=3] [ref=e978]
+      - article [ref=e979]:
+        - img "SUV" [ref=e980]
+        - heading "SUV" [level=3] [ref=e981]
+      - article [ref=e982]:
+        - img "Sports" [ref=e983]
+        - heading "Sports" [level=3] [ref=e984]
+      - article [ref=e985]:
+        - img "Convertible" [ref=e986]
+        - heading "Convertible" [level=3] [ref=e987]
+      - article [ref=e988]:
+        - img "Compact" [ref=e989]
+        - heading "Compact" [level=3] [ref=e990]
+      - article [ref=e991]:
+        - img "Pick Up" [ref=e992]
+        - heading "Pick Up" [level=3] [ref=e993]
+      - article [ref=e994]:
+        - img "Crossover" [ref=e995]
+        - heading "Crossover" [level=3] [ref=e996]
+      - article [ref=e997]:
+        - img "Electric" [ref=e998]
+        - heading "Electric" [level=3] [ref=e999]
+    - link "Check Our Shop" [ref=e1000] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e1002]:
+    - heading "Customer By Client Video" [level=2] [ref=e1003]
+    - generic [ref=e1004]:
+      - button "Previous client video" [ref=e1005]: ‹
+      - button "Next client video" [ref=e1010]: ›
+  - generic [ref=e1012]:
+    - generic [ref=e1013]:
+      - paragraph [ref=e1014]: Testimonials
+      - heading "Trusted By 1000+ Car Lovers" [level=2] [ref=e1015]
+      - paragraph [ref=e1016]: Real buyers trust SBK for clear communication, inspected vehicles, and smooth export support.
+    - article [ref=e1017]:
+      - paragraph [ref=e1021]: I was not sure how to buy a car from Japan, but the SBK team explained each step properly. They shared the vehicle details, price, and shipping updates on time.
+      - generic [ref=e1022]:
+        - generic [ref=e1023]: DM
+        - generic [ref=e1024]:
+          - strong [ref=e1025]: Daniel M.
+          - generic [ref=e1026]: New York, NY
+  - generic [ref=e1028]:
+    - generic [ref=e1029]:
+      - paragraph [ref=e1030]: Ready to Import?
+      - heading "Register with SBK Today for Unbeatable Prices" [level=2] [ref=e1031]
+      - paragraph [ref=e1032]: Tell us what you need, and our team will help you buy a car from Japan through a simple process.
+      - link "Register Now" [ref=e1033] [cursor=pointer]:
+        - /url: "#"
+    - img "Register vehicle" [ref=e1034]
+  - generic [ref=e1036]:
+    - paragraph [ref=e1037]: Find out Now
+    - heading "Latest Guides for Car Buyers" [level=2] [ref=e1038]
+    - generic [ref=e1039]:
+      - article [ref=e1040]:
+        - 'img "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [ref=e1041]'
+        - generic [ref=e1042]: Car Reviews
+        - 'heading "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [level=3] [ref=e1043]'
+      - article [ref=e1044]:
+        - img "How to Verify a Japanese Import Car Before It Reaches You" [ref=e1045]
+        - generic [ref=e1046]: Car Reviews
+        - heading "How to Verify a Japanese Import Car Before It Reaches You" [level=3] [ref=e1047]
+      - article [ref=e1048]:
+        - 'img "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [ref=e1049]'
+        - generic [ref=e1050]: Car Reviews
+        - 'heading "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [level=3] [ref=e1051]'
+    - link "View More" [ref=e1053] [cursor=pointer]:
+      - /url: "#"
+  - generic [ref=e1055]:
+    - generic [ref=e1056]:
+      - heading "Frequently Asked Questions" [level=2] [ref=e1057]
+      - group [ref=e1058]:
+        - generic "Where is your showroom located?" [ref=e1059] [cursor=pointer]
+      - group [ref=e1060]:
+        - generic "How can I know if I can import a vehicle into my country?" [ref=e1061] [cursor=pointer]
+      - group [ref=e1062]:
+        - generic "Where do you source your vehicles from?" [ref=e1063] [cursor=pointer]
+      - group [ref=e1064]:
+        - generic "How do I purchase a vehicle through SBK?" [ref=e1065] [cursor=pointer]
+      - group [ref=e1066]:
+        - generic "What deposit is required to start the search?" [ref=e1067] [cursor=pointer]
+      - group [ref=e1068]:
+        - generic "Who handles export and shipping?" [ref=e1069] [cursor=pointer]
+      - group [ref=e1070]:
+        - generic "How long does shipping take?" [ref=e1071] [cursor=pointer]
+      - group [ref=e1072]:
+        - generic "What is the payment structure?" [ref=e1073] [cursor=pointer]
+    - img "FAQ vehicle" [ref=e1074]
+  - contentinfo [ref=e1075]:
+    - generic [ref=e1076]:
+      - paragraph [ref=e1078]:
+        - img "SBK" [ref=e1079]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=e1080]:
+        - heading "Quick link" [level=3] [ref=e1081]
+        - generic [ref=e1082]: "* Home"
+        - generic [ref=e1083]: "* Shop"
+        - generic [ref=e1084]: "* About us"
+        - generic [ref=e1085]: "* Contact us"
+        - generic [ref=e1086]: "* Bank Details"
+      - generic [ref=e1087]:
+        - heading "By Types" [level=3] [ref=e1088]
+        - generic [ref=e1089]: "* SUV"
+        - generic [ref=e1090]: "* Coupe"
+        - generic [ref=e1091]: "* Hatchback"
+        - generic [ref=e1092]: "* Sedan"
+        - generic [ref=e1093]: "* Wagon"
+        - generic [ref=e1094]: "* Van"
+        - generic [ref=e1095]: "* Roadster"
+      - generic [ref=e1096]:
+        - heading "By Brands" [level=3] [ref=e1097]
+        - generic [ref=e1098]: "* Honda"
+        - generic [ref=e1099]: "* Toyota"
+        - generic [ref=e1100]: "* Mazda"
+        - generic [ref=e1101]: "* Mitsubushi"
+        - generic [ref=e1102]: "* Subaru"
+        - generic [ref=e1103]: "* BMW"
+        - generic [ref=e1104]: "* Suzuki"
+        - generic [ref=e1105]: "* Daihatsu"
+        - generic [ref=e1106]: "* Lexus"
+        - generic [ref=e1107]: "* Hino"
+        - generic [ref=e1108]: "* Mercedes-Benz"
+        - generic [ref=e1109]: "* Volkswagen"
+        - generic [ref=e1110]: "* Audi"
+        - generic [ref=e1111]: "* Volvo"
+        - generic [ref=e1112]: "* Ford"
+        - generic [ref=e1113]: "* Jeep"
+        - generic [ref=e1114]: "* Land Rover"
+        - generic [ref=e1115]: "* Hyundai"
+      - generic [ref=e1116]:
+        - generic [ref=e1117]:
+          - strong [ref=e1118]: Headquarter UAE
+          - paragraph [ref=e1119]: ☎ +971 55 417 7311
+          - paragraph [ref=e1120]: • Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=e1121]:
+          - strong [ref=e1122]: USA Office
+          - paragraph [ref=e1123]: ☎ +1 (321) 357-857
+          - paragraph [ref=e1124]: "• Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=e1125]:
+          - strong [ref=e1126]: Japan Office
+          - paragraph [ref=e1127]: ☎ +81 70-9427-5106
+          - paragraph [ref=e1128]: • Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=e1129]:
+          - strong [ref=e1130]: Showroom Mombasa
+          - paragraph [ref=e1131]: ☎ +254 705719918
+          - paragraph [ref=e1132]: • Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=e1133]:
+          - strong [ref=e1134]: Jamaica Office
+          - paragraph [ref=e1135]: ☎ +1 876 8036277
+          - paragraph [ref=e1136]: • 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=e1137]:
+          - strong [ref=e1138]: Pakistan Office
+          - paragraph [ref=e1139]: ☎ +92 213 339-3946
+          - paragraph [ref=e1140]: • SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+    - paragraph [ref=e1141]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main

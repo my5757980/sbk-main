@@ -1,0 +1,61 @@
+@extends('front.layouts.app')
+
+@php $assetBase = asset('assets/front'); @endphp
+
+@section('title', 'Register | SBK Global Auto Trading')
+@section('content')
+<style>
+.sbk-auth{background:#fff;color:#111}.sbk-auth .container{width:min(1120px,calc(100% - 36px));margin:auto}.sbk-auth-hero{padding:72px 0;background:#08090b;color:#fff}.sbk-auth-hero h1{margin:0;color:#fff;font-size:clamp(38px,5vw,62px);line-height:1}.sbk-auth-hero p{max-width:620px;margin:14px 0 0;color:rgba(255,255,255,.75);line-height:1.7}.sbk-auth-body{padding:56px 0 90px}.sbk-auth-card{max-width:760px;border:1px solid #e7e8eb;border-radius:10px;background:#fff;box-shadow:0 20px 55px rgba(17,18,20,.09);overflow:hidden}.sbk-auth-head{padding:26px 30px;background:#111216;color:#fff}.sbk-auth-head span{color:#ff4a52;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase}.sbk-auth-head h2{margin:8px 0 0;color:#fff;font-size:30px}.sbk-auth-form{display:grid;grid-template-columns:1fr 1fr;gap:17px;padding:30px}.sbk-field{display:grid;gap:8px}.sbk-field--full{grid-column:1/-1}.sbk-field label{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.7px}.sbk-field input{height:48px;width:100%;border:1px solid #dcdde1;border-radius:5px;padding:0 13px;font:inherit}.sbk-field input:focus{border-color:#d71920;outline:none;box-shadow:0 0 0 3px rgba(215,25,32,.09)}.sbk-auth-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.sbk-auth-submit{min-height:50px;border:0;border-radius:6px;background:#d71920;color:#fff;padding:0 28px;font-size:12px;font-weight:900;text-transform:uppercase;box-shadow:0 14px 26px rgba(215,25,32,.22);cursor:pointer}.sbk-auth-link{color:#d71920;font-weight:800;text-decoration:none}.sbk-auth-alert{margin-bottom:18px;padding:14px 16px;border-radius:7px;background:#fff1f1;color:#9a1111;border:1px solid #ffcaca}@media(max-width:620px){.sbk-auth .container{width:calc(100% - 28px)}.sbk-auth-body{padding:34px 0 66px}.sbk-auth-form{grid-template-columns:1fr;padding:24px}.sbk-auth-head h2{font-size:25px}.sbk-auth-submit{width:100%}}
+</style>
+
+<section class="sbk-auth">
+    <div class="sbk-auth-hero">
+        <div class="container">
+            <h1>Create Account</h1>
+            <p>Register once and SBK will keep your profile and vehicle order history in one place.</p>
+        </div>
+    </div>
+    <div class="container sbk-auth-body">
+        @if($errors->any())
+            <div class="sbk-auth-alert">Please check the highlighted registration fields.</div>
+        @endif
+        <div class="sbk-auth-card">
+            <div class="sbk-auth-head">
+                <span>New Customer</span>
+                <h2>Register your details</h2>
+            </div>
+            <form class="sbk-auth-form" method="POST" action="{{ route('register.submit') }}">
+                @csrf
+                <div class="sbk-field sbk-field--full">
+                    <label for="name">Name</label>
+                    <input id="name" type="text" name="name" value="{{ old('name') }}" required>
+                </div>
+                <div class="sbk-field">
+                    <label for="email">Email Address</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+                </div>
+                <div class="sbk-field">
+                    <label for="phone">Phone Number</label>
+                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}" required>
+                </div>
+                <div class="sbk-field sbk-field--full">
+                    <label for="country">Country</label>
+                    <input id="country" type="text" name="country" value="{{ old('country') }}" required>
+                </div>
+                <div class="sbk-field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" name="password" required>
+                </div>
+                <div class="sbk-field">
+                    <label for="password_confirmation">Confirm Password</label>
+                    <input id="password_confirmation" type="password" name="password_confirmation" required>
+                </div>
+                <div class="sbk-auth-row sbk-field--full">
+                    <button class="sbk-auth-submit" type="submit">Create Account</button>
+                    <a class="sbk-auth-link" href="{{ route('login') }}">Already registered?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@endsection

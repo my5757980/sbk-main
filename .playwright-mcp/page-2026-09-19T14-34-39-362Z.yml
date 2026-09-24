@@ -1,0 +1,428 @@
+- generic [active] [ref=f8e1]:
+  - banner [ref=f8e2]:
+    - generic [ref=f8e3]:
+      - generic [ref=f8e4]:
+        - generic [ref=f8e5]: +81 70-9427-5106
+        - generic [ref=f8e6]: info@sbkautotrading.com
+        - generic [ref=f8e7]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=f8e8]:
+        - generic [ref=f8e9]: USA (MN) --:--:--
+        - generic [ref=f8e10]: JAMAICA --:--:--
+        - generic [ref=f8e11]: KENYA --:--:--
+        - generic [ref=f8e12]: UAE --:--:--
+        - generic [ref=f8e13]: JAPAN --:--:--
+  - navigation [ref=f8e14]:
+    - generic [ref=f8e15]:
+      - link [ref=f8e16] [cursor=pointer]:
+        - /url: "#"
+        - img "SBK Global Auto Trading" [ref=f8e17]
+      - generic [ref=f8e18]:
+        - link "Home" [ref=f8e19] [cursor=pointer]:
+          - /url: "#"
+        - link "Shop" [ref=f8e20] [cursor=pointer]:
+          - /url: "#"
+        - link "About" [ref=f8e21] [cursor=pointer]:
+          - /url: "#"
+        - link "Blog" [ref=f8e22] [cursor=pointer]:
+          - /url: "#"
+        - link "Contact" [ref=f8e23] [cursor=pointer]:
+          - /url: "#"
+        - link "Auction" [ref=f8e24] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=f8e25]:
+        - searchbox "Search here..." [ref=f8e26]
+        - link "Sign In" [ref=f8e27] [cursor=pointer]:
+          - /url: "#"
+        - link "$0.00 0 Cart" [ref=f8e28] [cursor=pointer]:
+          - /url: "#"
+        - button "Buy Now" [ref=f8e29]
+  - main [ref=f8e30]:
+    - generic [ref=f8e31]:
+      - article [ref=f8e32]:
+        - generic [ref=f8e34]:
+          - generic [ref=f8e35]: Featured
+          - paragraph [ref=f8e36]: 2024 HYBRID
+          - heading "TOYOTA PRIUS PRIME" [level=1] [ref=f8e37]
+          - heading "Eco-Friendly Technology with Exceptional Efficiency" [level=2] [ref=f8e38]
+          - generic [ref=f8e39]:
+            - generic [ref=f8e40]: CVT
+            - generic [ref=f8e41]: Hybrid
+            - generic [ref=f8e42]: 8,500 Km
+          - generic [ref=f8e43]:
+            - link "Buy Now" [ref=f8e44] [cursor=pointer]:
+              - /url: "#"
+            - link "View Details" [ref=f8e45] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=f8e46]:
+        - generic [ref=f8e48]:
+          - generic [ref=f8e49]: Featured
+          - paragraph [ref=f8e50]: 2026 NEW ARRIVAL
+          - heading "TOYOTA HILUX TRAVO" [level=1] [ref=f8e51]
+          - heading "Overland Plus Edition - Premium Off-Road Performance" [level=2] [ref=f8e52]
+          - generic [ref=f8e53]:
+            - generic [ref=f8e54]: Automatic
+            - generic [ref=f8e55]: Diesel 4WD
+            - generic [ref=f8e56]: 0 Km
+          - generic [ref=f8e57]:
+            - link "Buy Now" [ref=f8e58] [cursor=pointer]:
+              - /url: "#"
+            - link "View Details" [ref=f8e59] [cursor=pointer]:
+              - /url: "#"
+      - article [ref=f8e60]:
+        - generic [ref=f8e62]:
+          - generic [ref=f8e63]: Featured
+          - paragraph [ref=f8e64]: 2025 PREMIUM
+          - heading "HYUNDAI SANTA FE" [level=1] [ref=f8e65]
+          - heading "Luxury SUV with Advanced Safety Features" [level=2] [ref=f8e66]
+          - generic [ref=f8e67]:
+            - generic [ref=f8e68]: Automatic
+            - generic [ref=f8e69]: Gasoline
+            - generic [ref=f8e70]: 0 Km
+          - generic [ref=f8e71]:
+            - link "Buy Now" [ref=f8e72] [cursor=pointer]:
+              - /url: "#"
+            - link "View Details" [ref=f8e73] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=f8e74]: READYTO SHIP
+      - button "Previous slide" [ref=f8e75]: ‹
+      - button "Next slide" [ref=f8e76]: ›
+      - generic [ref=f8e77]:
+        - button "TOYOTA PRIUS PRIME" [ref=f8e78]
+        - button "TOYOTA HILUX TRAVO" [ref=f8e79]
+        - button "HYUNDAI SANTA FE" [ref=f8e80]
+    - generic [ref=f8e82]:
+      - heading "Shop by World Known Brand" [level=2] [ref=f8e83]
+      - paragraph [ref=f8e84]: SBK offers a wide range of leading automotive brands, combining reliability, innovation, and style for every driver.
+    - generic "World known vehicle brands" [ref=f8e86]:
+      - generic [ref=f8e87]:
+        - img "Toyota" [ref=f8e89]
+        - img "BMW" [ref=f8e91]
+        - img "Mercedes-Benz" [ref=f8e93]
+        - img "Hino" [ref=f8e95]
+        - img "Mazda" [ref=f8e97]
+        - img "Volkswagen" [ref=f8e99]
+    - generic [ref=f8e107]:
+      - generic [ref=f8e108]:
+        - generic [ref=f8e109]:
+          - strong [ref=f8e110]: "15"
+          - generic [ref=f8e111]: Years inBusiness
+        - generic [ref=f8e112]:
+          - strong [ref=f8e113]: 1070+
+          - generic [ref=f8e114]: Unit Sold
+        - generic [ref=f8e115]:
+          - strong [ref=f8e116]: 3,000+
+          - generic [ref=f8e117]: International Clientele
+        - generic [ref=f8e118]:
+          - strong [ref=f8e119]: 30+
+          - generic [ref=f8e120]: Countries Covered
+      - heading "Global Reach With Proven Expertise" [level=3] [ref=f8e121]
+      - paragraph [ref=f8e122]: SBK Auto Trading has gained the trust of happy clients by building a reputation for dependability, honesty, and quality.
+      - link "Read More" [ref=f8e123] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e125]:
+      - heading "This Week's Best Seller" [level=2] [ref=f8e126]
+      - paragraph [ref=f8e127]: View the most popular vehicles buyers are choosing this week.
+      - generic [ref=f8e128]:
+        - button "Previous best seller" [ref=f8e129]: ‹
+        - generic [ref=f8e130]:
+          - article [ref=f8e131]:
+            - img "TOYOTA MARK X Black 2016" [ref=f8e132]
+            - generic [ref=f8e133]:
+              - heading "TOYOTA MARK X Black 2016" [level=3] [ref=f8e134]
+              - paragraph [ref=f8e135]: 2016 Toyota Mark X 250G F Package in Black with GRX130 chassis and automatic transmission.
+              - strong [ref=f8e136]: $8,200.00
+          - article [ref=f8e137]:
+            - img "TOYOTA MARK X White 2016" [ref=f8e138]
+            - generic [ref=f8e139]:
+              - heading "TOYOTA MARK X White 2016" [level=3] [ref=f8e140]
+              - paragraph [ref=f8e141]: 2016 Toyota Mark X 250G Package in White with 2500 cc engine and FAT transmission.
+              - strong [ref=f8e142]: $7,800.00
+          - article [ref=f8e143]:
+            - generic [ref=f8e144]: 5% OFF
+            - img "MERCEDES BENZ GLS Black" [ref=f8e145]
+            - generic [ref=f8e146]:
+              - heading "MERCEDES BENZ GLS Black" [level=3] [ref=f8e147]
+              - paragraph [ref=f8e148]: Luxury SUV with leather seats, panoramic sunroof, navigation, 360 camera, and roof rails.
+              - strong [ref=f8e149]: $21,550.00
+          - article [ref=f8e150]:
+            - generic [ref=f8e151]: 5% OFF
+            - img "MERCEDES-BENZ GLS Black 2016" [ref=f8e152]
+            - generic [ref=f8e153]:
+              - heading "MERCEDES-BENZ GLS Black 2016" [level=3] [ref=f8e154]
+              - paragraph [ref=f8e155]: Premium black Mercedes-Benz GLS with comfort features and powerful SUV styling.
+              - strong [ref=f8e156]: $21,880.00
+          - article [ref=f8e157]:
+            - generic [ref=f8e158]: Reserved
+            - img "Honda Fit White - 2015" [ref=f8e159]
+            - generic [ref=f8e160]:
+              - heading "Honda Fit White - 2015" [level=3] [ref=f8e161]
+              - paragraph [ref=f8e162]: Honda Fit 2015 with practical hatchback appeal, economy, and everyday comfort.
+              - strong [ref=f8e163]: $4,700.00
+          - article [ref=f8e164]:
+            - img "TOYOTA MARK X 2015" [ref=f8e165]
+            - generic [ref=f8e166]:
+              - heading "TOYOTA MARK X 2015" [level=3] [ref=f8e167]
+              - paragraph [ref=f8e168]: Pearl white Toyota Mark X with navigation, alloy wheels, cameras, and parking sensors.
+              - strong [ref=f8e169]: $6,200.00
+          - article [ref=f8e170]:
+            - img "TOYOTA HIACE VAN - 2016" [ref=f8e171]
+            - generic [ref=f8e172]:
+              - heading "TOYOTA HIACE VAN - 2016" [level=3] [ref=f8e173]
+              - paragraph [ref=f8e174]: Reliable white Toyota Hiace DX with automatic gearbox and 2.0L gasoline engine.
+              - strong [ref=f8e175]: $9,000.00
+          - article [ref=f8e176]:
+            - generic [ref=f8e177]: 5% OFF
+            - img "TOYOTA ALLION 2015 Silver" [ref=f8e178]
+            - generic [ref=f8e179]:
+              - heading "TOYOTA ALLION 2015 Silver" [level=3] [ref=f8e180]
+              - paragraph [ref=f8e181]: Dependable 4WD automatic sedan with ABS, airbags, fog lights, and clean finish.
+              - strong [ref=f8e182]: $7,900.00
+        - button "Next best seller" [ref=f8e183]: ›
+      - link "View All Recent Seller" [ref=f8e185] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e187]:
+      - heading "Why Choose SBK Global Auto Trading" [level=2] [ref=f8e188]
+      - generic [ref=f8e189]:
+        - generic [ref=f8e190]:
+          - generic [ref=f8e191]: ◆
+          - heading "Trusted Expertise" [level=3] [ref=f8e192]
+        - generic [ref=f8e193]:
+          - generic [ref=f8e194]: ◆
+          - heading "Extensive Vehicle Selection" [level=3] [ref=f8e195]
+        - generic [ref=f8e196]:
+          - generic [ref=f8e197]: ◆
+          - heading "Transparent & Reliable" [level=3] [ref=f8e198]
+        - generic [ref=f8e199]:
+          - generic [ref=f8e200]: ◆
+          - heading "Flexible Purchase Options" [level=3] [ref=f8e201]
+        - generic [ref=f8e202]:
+          - generic [ref=f8e203]: ◆
+          - heading "Global Reach" [level=3] [ref=f8e204]
+        - generic [ref=f8e205]:
+          - generic [ref=f8e206]: ◆
+          - heading "Customer-Focused Service" [level=3] [ref=f8e207]
+    - generic [ref=f8e209]:
+      - heading "We are the Member of" [level=2] [ref=f8e210]
+      - generic [ref=f8e211]:
+        - img "Japanese Car Trade" [ref=f8e212]
+        - img "Auto Trader" [ref=f8e213]
+        - img "TCV" [ref=f8e214]
+      - heading "Pick Your Payment Method" [level=3] [ref=f8e215]
+      - generic [ref=f8e216]:
+        - generic [ref=f8e217]:
+          - heading "Transparent Payments" [level=4] [ref=f8e218]
+          - paragraph [ref=f8e219]: No surprises. You are informed about costs upfront, including vehicle price, shipping, and fees.
+        - generic [ref=f8e220]:
+          - paragraph [ref=f8e221]: Smooth, secure payments for your vehicle purchase.
+          - heading "Our Payment Options at SBK Global Auto Trading" [level=4] [ref=f8e222]
+          - img "Mastercard" [ref=f8e223]
+          - img "Visa" [ref=f8e224]
+    - generic [ref=f8e226]:
+      - heading "The Exclusive Upcoming Collection" [level=2] [ref=f8e227]
+      - paragraph [ref=f8e228]: Get an early look at vehicles that will be added soon.
+      - generic [ref=f8e229]:
+        - button "Previous upcoming car" [ref=f8e230]: ‹
+        - generic [ref=f8e231]:
+          - article [ref=f8e232]:
+            - img "Honda Fit White - 2015" [ref=f8e233]
+            - heading "Honda Fit White - 2015" [level=3] [ref=f8e234]
+            - strong [ref=f8e235]: $4,700.00
+          - article [ref=f8e236]:
+            - img "TOYOTA HIACE VAN - 2016" [ref=f8e237]
+            - heading "TOYOTA HIACE VAN - 2016" [level=3] [ref=f8e238]
+            - strong [ref=f8e239]: $9,000.00
+          - article [ref=f8e240]:
+            - img "Toyota Crown 2.5 Z Silver" [ref=f8e241]
+            - heading "Toyota Crown 2.5 Z Silver" [level=3] [ref=f8e242]
+            - strong [ref=f8e243]: $45,716.00
+          - article [ref=f8e244]:
+            - img "Toyota Crown Sport Z Black" [ref=f8e245]
+            - heading "Toyota Crown Sport Z Black" [level=3] [ref=f8e246]
+            - strong [ref=f8e247]: $41,930.00
+        - button "Next upcoming car" [ref=f8e248]: ›
+      - link "View All Upcoming Cars" [ref=f8e250] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e252]:
+      - heading "New In-Demand Arrivals" [level=2] [ref=f8e253]
+      - paragraph [ref=f8e254]: View our latest Japanese vehicle arrivals with clear prices and key details.
+      - generic [ref=f8e255]:
+        - button "Previous arrival" [ref=f8e256]: ‹
+        - generic [ref=f8e257]:
+          - article [ref=f8e258]:
+            - img "Honda Fit White - 2015" [ref=f8e259]
+            - generic [ref=f8e260]:
+              - heading "Honda Fit White - 2015" [level=3] [ref=f8e261]
+              - paragraph [ref=f8e262]: Honda Fit 2015 with practical hatchback appeal, economy, and everyday comfort.
+              - strong [ref=f8e263]: $4,700.00
+          - article [ref=f8e264]:
+            - img "TOYOTA MARK X 2015" [ref=f8e265]
+            - generic [ref=f8e266]:
+              - heading "TOYOTA MARK X 2015" [level=3] [ref=f8e267]
+              - paragraph [ref=f8e268]: Pearl white Toyota Mark X with navigation, alloy wheels, cameras, and parking sensors.
+              - strong [ref=f8e269]: $6,200.00
+          - article [ref=f8e270]:
+            - img "TOYOTA HIACE VAN - 2016" [ref=f8e271]
+            - generic [ref=f8e272]:
+              - heading "TOYOTA HIACE VAN - 2016" [level=3] [ref=f8e273]
+              - paragraph [ref=f8e274]: Reliable white Toyota Hiace DX with automatic gearbox and 2.0L gasoline engine.
+              - strong [ref=f8e275]: $9,000.00
+          - article [ref=f8e276]:
+            - img "TOYOTA ALLION 2015 Silver" [ref=f8e277]
+            - generic [ref=f8e278]:
+              - heading "TOYOTA ALLION 2015 Silver" [level=3] [ref=f8e279]
+              - paragraph [ref=f8e280]: Dependable 4WD automatic sedan with ABS, airbags, fog lights, and clean finish.
+              - strong [ref=f8e281]: $7,900.00
+        - button "Next arrival" [ref=f8e282]: ›
+      - link "View All New Cars" [ref=f8e284] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e286]:
+      - paragraph [ref=f8e287]: How It Works
+      - heading "Buy Your Dream Car in 3 Easy Steps" [level=2] [ref=f8e288]
+      - generic [ref=f8e289]:
+        - article [ref=f8e290]:
+          - heading "Talk to the Agent" [level=3] [ref=f8e291]
+          - paragraph [ref=f8e292]: Confirm details, total cost, payment steps, and questions with our team.
+        - article [ref=f8e293]:
+          - heading "Browse and Select a Vehicle" [level=3] [ref=f8e294]
+          - paragraph [ref=f8e295]: Choose from Japanese vehicles and review photos, mileage, model year, and price.
+        - article [ref=f8e296]:
+          - heading "Confirm Your Shipment" [level=3] [ref=f8e297]
+          - paragraph [ref=f8e298]: We arrange export and shipment and keep you updated until departure.
+    - generic [ref=f8e300]:
+      - generic [ref=f8e301]:
+        - paragraph [ref=f8e302]: Auction Buying Support
+        - heading "Tell Us What You Need, We Bid for You" [level=2] [ref=f8e303]
+        - paragraph [ref=f8e304]: Share your preferred model, budget, year, mileage, and condition. Our agent searches Japanese auctions and bids on your behalf for the right car at the right price.
+        - link "Request Auction Support" [ref=f8e305] [cursor=pointer]:
+          - /url: "#"
+      - img "Auction support vehicle" [ref=f8e306]
+    - generic [ref=f8e308]:
+      - paragraph [ref=f8e309]: Pick Your Perfect Match
+      - heading "Search by Body Type" [level=2] [ref=f8e310]
+      - generic [ref=f8e311]:
+        - article [ref=f8e312]:
+          - img "Sedan" [ref=f8e313]
+          - heading "Sedan" [level=3] [ref=f8e314]
+        - article [ref=f8e315]:
+          - img "SUV" [ref=f8e316]
+          - heading "SUV" [level=3] [ref=f8e317]
+        - article [ref=f8e318]:
+          - img "Sports" [ref=f8e319]
+          - heading "Sports" [level=3] [ref=f8e320]
+        - article [ref=f8e321]:
+          - img "Convertible" [ref=f8e322]
+          - heading "Convertible" [level=3] [ref=f8e323]
+        - article [ref=f8e324]:
+          - img "Compact" [ref=f8e325]
+          - heading "Compact" [level=3] [ref=f8e326]
+        - article [ref=f8e327]:
+          - img "Pick Up" [ref=f8e328]
+          - heading "Pick Up" [level=3] [ref=f8e329]
+        - article [ref=f8e330]:
+          - img "Crossover" [ref=f8e331]
+          - heading "Crossover" [level=3] [ref=f8e332]
+        - article [ref=f8e333]:
+          - img "Electric" [ref=f8e334]
+          - heading "Electric" [level=3] [ref=f8e335]
+      - link "Check Our Shop" [ref=f8e336] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e338]:
+      - heading "Customer By Client Video" [level=2] [ref=f8e339]
+      - generic [ref=f8e340]:
+        - button "Previous client video" [ref=f8e341]: ‹
+        - button "Next client video" [ref=f8e346]: ›
+    - generic [ref=f8e348]:
+      - generic [ref=f8e349]:
+        - paragraph [ref=f8e350]: Testimonials
+        - heading "Trusted By 1000+ Car Lovers" [level=2] [ref=f8e351]
+      - article [ref=f8e352]:
+        - paragraph [ref=f8e353]: I was not sure how to buy a car from Japan, but the SBK team explained each step properly. They shared the vehicle details, price, and shipping updates on time.
+        - strong [ref=f8e354]: Daniel M.
+        - generic [ref=f8e355]: New York, NY
+    - generic [ref=f8e357]:
+      - generic [ref=f8e358]:
+        - paragraph [ref=f8e359]: Ready to Import?
+        - heading "Register with SBK Today for Unbeatable Prices" [level=2] [ref=f8e360]
+        - paragraph [ref=f8e361]: Tell us what you need, and our team will help you buy a car from Japan through a simple process.
+        - link "Register Now" [ref=f8e362] [cursor=pointer]:
+          - /url: "#"
+      - img "Register vehicle" [ref=f8e363]
+    - generic [ref=f8e365]:
+      - paragraph [ref=f8e366]: Find out Now
+      - heading "Latest Guides for Car Buyers" [level=2] [ref=f8e367]
+      - generic [ref=f8e368]:
+        - article [ref=f8e369]:
+          - 'img "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [ref=f8e370]'
+          - generic [ref=f8e371]: Car Reviews
+          - 'heading "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [level=3] [ref=f8e372]'
+        - article [ref=f8e373]:
+          - img "How to Verify a Japanese Import Car Before It Reaches You" [ref=f8e374]
+          - generic [ref=f8e375]: Car Reviews
+          - heading "How to Verify a Japanese Import Car Before It Reaches You" [level=3] [ref=f8e376]
+        - article [ref=f8e377]:
+          - 'img "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [ref=f8e378]'
+          - generic [ref=f8e379]: Car Reviews
+          - 'heading "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [level=3] [ref=f8e380]'
+      - link "View More" [ref=f8e382] [cursor=pointer]:
+        - /url: "#"
+    - generic [ref=f8e384]:
+      - generic [ref=f8e385]:
+        - heading "Frequently Asked Questions" [level=2] [ref=f8e386]
+        - group [ref=f8e387]:
+          - generic "Where is your showroom located?" [ref=f8e388] [cursor=pointer]
+        - group [ref=f8e389]:
+          - generic "How can I know if I can import a vehicle into my country?" [ref=f8e390] [cursor=pointer]
+        - group [ref=f8e391]:
+          - generic "Where do you source your vehicles from?" [ref=f8e392] [cursor=pointer]
+        - group [ref=f8e393]:
+          - generic "How do I purchase a vehicle through SBK?" [ref=f8e394] [cursor=pointer]
+        - group [ref=f8e395]:
+          - generic "What deposit is required to start the search?" [ref=f8e396] [cursor=pointer]
+        - group [ref=f8e397]:
+          - generic "Who handles export and shipping?" [ref=f8e398] [cursor=pointer]
+        - group [ref=f8e399]:
+          - generic "How long does shipping take?" [ref=f8e400] [cursor=pointer]
+        - group [ref=f8e401]:
+          - generic "What is the payment structure?" [ref=f8e402] [cursor=pointer]
+      - img "FAQ vehicle" [ref=f8e403]
+  - contentinfo [ref=f8e404]:
+    - generic [ref=f8e405]:
+      - generic [ref=f8e406]:
+        - img "SBK" [ref=f8e407]
+        - paragraph [ref=f8e408]: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service."
+      - generic [ref=f8e409]:
+        - heading "Quick link" [level=3] [ref=f8e410]
+        - generic [ref=f8e411]: Home
+        - generic [ref=f8e412]: Shop
+        - generic [ref=f8e413]: About us
+        - generic [ref=f8e414]: Contact us
+        - generic [ref=f8e415]: Bank Details
+      - generic [ref=f8e416]:
+        - heading "By Types" [level=3] [ref=f8e417]
+        - generic [ref=f8e418]: SUV
+        - generic [ref=f8e419]: Coupe
+        - generic [ref=f8e420]: Hatchback
+        - generic [ref=f8e421]: Sedan
+        - generic [ref=f8e422]: Wagon
+        - generic [ref=f8e423]: Van
+        - generic [ref=f8e424]: Roadster
+      - generic [ref=f8e425]:
+        - heading "By Brands" [level=3] [ref=f8e426]
+        - generic [ref=f8e427]: Honda
+        - generic [ref=f8e428]: Toyota
+        - generic [ref=f8e429]: Mazda
+        - generic [ref=f8e430]: Mitsubushi
+        - generic [ref=f8e431]: Subaru
+        - generic [ref=f8e432]: BMW
+        - generic [ref=f8e433]: Suzuki
+        - generic [ref=f8e434]: Daihatsu
+        - generic [ref=f8e435]: Lexus
+      - generic [ref=f8e436]:
+        - heading "Headquarter UAE:" [level=3] [ref=f8e437]
+        - paragraph [ref=f8e438]: +971 55 417 7311
+        - paragraph [ref=f8e439]: Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, Ajman, United Arab Emirates
+      - generic [ref=f8e440]:
+        - heading "Japan Office:" [level=3] [ref=f8e441]
+        - paragraph [ref=f8e442]: +81 70-9427-5106
+        - paragraph [ref=f8e443]: Yokohama-Shi, Kanagawa-Ken, Japan
+    - paragraph [ref=f8e444]: Copyright 2026 SBKAutotrading All Rights Reserved

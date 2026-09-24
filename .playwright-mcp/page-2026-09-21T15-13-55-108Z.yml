@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - paragraph [ref=e5]: Loading Premium Stock
+  - banner [ref=e6]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - generic [ref=e9]: +81 70-9427-5106
+        - generic [ref=e10]: info@sbkautotrading.com
+        - generic [ref=e11]: "Mon - Fri: 10:00 - 18:00"
+      - generic [ref=e12]:
+        - generic [ref=e13]: USA (MN) 10:13:54 AM
+        - generic: JAMAICA 10:13:54 AM
+        - generic: KENYA 06:13:54 PM
+        - generic: UAE 07:13:54 PM
+        - generic: JAPAN 12:13:54 AM
+  - navigation [ref=e14]:
+    - generic [ref=e15]:
+      - link [ref=e16] [cursor=pointer]:
+        - /url: "#"
+        - img "SBK Global Auto Trading" [ref=e17]
+      - generic [ref=e18]:
+        - link "Home" [ref=e19] [cursor=pointer]:
+          - /url: http://127.0.0.1:8017
+        - link "Shop" [ref=e20] [cursor=pointer]:
+          - /url: http://127.0.0.1:8017/shop
+        - link "Services" [ref=e21] [cursor=pointer]:
+          - /url: "#"
+        - link "Brand" [ref=e23] [cursor=pointer]:
+          - /url: "#"
+        - link "Blogs" [ref=e26] [cursor=pointer]:
+          - /url: http://127.0.0.1:8017/blog
+        - link "About Us" [ref=e27] [cursor=pointer]:
+          - /url: http://127.0.0.1:8017/about-us
+        - link "Our Locations" [ref=e28] [cursor=pointer]:
+          - /url: "#"
+        - link "Contact Us" [ref=e29] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e30]:
+        - searchbox "Search here..." [ref=e31]
+        - link "Live chat" [ref=e32] [cursor=pointer]:
+          - /url: "#"
+        - link "Sign In" [ref=e33] [cursor=pointer]:
+          - /url: "#"
+        - link "0" [ref=e34] [cursor=pointer]:
+          - /url: "#"
+        - button "Buy Now" [ref=e35]
+  - generic [ref=e36]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]: SBK Auto Trading Blog
+        - heading "Sharper car buying guides for import decisions." [level=1] [ref=e41]
+        - paragraph [ref=e42]: Fresh SBK articles on reliability, Japanese imports, kei trucks, car verification, and exterior care, collected in a cleaner editorial experience for serious buyers.
+        - generic [ref=e43]:
+          - generic [ref=e44]: Home
+          - generic [ref=e45]: /
+          - generic [ref=e46]: Blogs
+      - generic [ref=e47]:
+        - generic [ref=e48]: Featured Topic
+        - strong [ref=e49]: Reliability, cost, and performance
+        - paragraph [ref=e50]: It is not always easy to choose the American or Japanese cars. Both are powerful options, but they are constructed with different priorities. Some focus on power and size, while others focus on reliability and efficiency.
+    - generic [ref=e52]:
+      - generic [ref=e53]:
+        - generic [ref=e54]: "04"
+        - generic [ref=e55]: Fresh articles
+      - generic [ref=e56]:
+        - generic [ref=e57]: "02"
+        - generic [ref=e58]: Categories
+      - generic [ref=e59]:
+        - generic [ref=e60]: "2026"
+        - generic [ref=e61]: June archive
+      - generic [ref=e62]:
+        - generic [ref=e63]: SBK
+        - generic [ref=e64]: Buyer insight
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - generic [ref=e68]: Latest Guides
+          - heading "Research before you reserve." [level=2] [ref=e69]
+        - paragraph [ref=e70]: Compare ownership costs, verify imports with more confidence, and learn which details matter before choosing your next vehicle.
+      - generic [ref=e71]:
+        - main [ref=e72]:
+          - article [ref=e73]:
+            - link [ref=e74] [cursor=pointer]:
+              - /url: https://sbkautotrading.com/american-cars-vs-japanese-cars-which-one-is-better-for-reliability-cost-and-performance/
+              - 'img "American Cars vs Japanese Cars: Which One Is Better for Reliability, Cost, and Performance?" [ref=e75]'
+            - generic [ref=e76]:
+              - generic [ref=e77]: Car Reviews
+              - generic [ref=e78]:
+                - generic [ref=e79]: Car Talk
+                - generic [ref=e80]: June 11, 2026
+                - generic [ref=e81]: 8 min read
+              - 'heading "American Cars vs Japanese Cars: Which One Is Better for Reliability, Cost, and Performance?" [level=3] [ref=e82]'
+              - paragraph [ref=e83]: It is not always easy to choose the American or Japanese cars. Both are powerful options, but they are constructed with different priorities. Some focus on power and size, while others focus on reliability and efficiency.
+              - link "Read More" [ref=e84] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/american-cars-vs-japanese-cars-which-one-is-better-for-reliability-cost-and-performance/
+          - article [ref=e85]:
+            - 'link "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical? Kei truck practicality" [ref=e86] [cursor=pointer]':
+              - /url: https://sbkautotrading.com/honda-acty-kei-truck-review-is-it-too-small-or-surprisingly-practical/
+              - 'img "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [ref=e87]'
+              - generic [ref=e88]: Kei truck practicality
+            - generic [ref=e89]:
+              - generic [ref=e90]:
+                - generic [ref=e91]: June 11, 2026
+                - generic [ref=e92]: 6 min read
+              - 'heading "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?" [level=3] [ref=e93]'
+              - paragraph [ref=e94]: The reaction to a Honda Acty is the same when one first looks at it. It is too tiny to be a genuine truck. The size will make sense when you learn how it is built and supposed to be used.
+              - link "Read More" [ref=e95] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/honda-acty-kei-truck-review-is-it-too-small-or-surprisingly-practical/
+          - article [ref=e96]:
+            - link "How to Verify a Japanese Import Car Before It Reaches You Import inspection checklist" [ref=e97] [cursor=pointer]:
+              - /url: https://sbkautotrading.com/how-to-verify-a-japanese-import-car-before-it-reaches-you/
+              - img "How to Verify a Japanese Import Car Before It Reaches You" [ref=e98]
+              - generic [ref=e99]: Import inspection checklist
+            - generic [ref=e100]:
+              - generic [ref=e101]:
+                - generic [ref=e102]: June 11, 2026
+                - generic [ref=e103]: 7 min read
+              - heading "How to Verify a Japanese Import Car Before It Reaches You" [level=3] [ref=e104]
+              - paragraph [ref=e105]: Buying a car from Japan can be a smart decision. You get better conditions, verified records, and more options compared to local markets when the vehicle is checked properly before it arrives.
+              - link "Read More" [ref=e106] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/how-to-verify-a-japanese-import-car-before-it-reaches-you/
+          - article [ref=e107]:
+            - 'link "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage Exterior protection" [ref=e108] [cursor=pointer]':
+              - /url: https://sbkautotrading.com/car-exterior-accessories-guide-protect-your-car-from-scratches-sun-and-damage/
+              - 'img "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [ref=e109]'
+              - generic [ref=e110]: Exterior protection
+            - generic [ref=e111]:
+              - generic [ref=e112]:
+                - generic [ref=e113]: June 11, 2026
+                - generic [ref=e114]: 5 min read
+              - 'heading "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage" [level=3] [ref=e115]'
+              - paragraph [ref=e116]: Your car loses value every day, even if you do not notice it. It gets scratched, exposed to the sun, covered in dust, and affected by minor bumps that slowly reduce its condition.
+              - link "Read More" [ref=e117] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/car-exterior-accessories-guide-protect-your-car-from-scratches-sun-and-damage/
+        - complementary [ref=e118]:
+          - generic [ref=e119]:
+            - heading "Search Blog" [level=3] [ref=e120]
+            - generic [ref=e121]:
+              - searchbox "Search posts" [ref=e122]
+              - button "Search" [ref=e123] [cursor=pointer]: Go
+          - generic [ref=e124]:
+            - heading "Recent Posts" [level=3] [ref=e125]
+            - generic [ref=e126]:
+              - 'link "American Cars vs Japanese Cars: Which One Is Better for Reliability, Cost, and Performance? June 11, 2026" [ref=e127] [cursor=pointer]':
+                - /url: https://sbkautotrading.com/american-cars-vs-japanese-cars-which-one-is-better-for-reliability-cost-and-performance/
+                - text: "American Cars vs Japanese Cars: Which One Is Better for Reliability, Cost, and Performance?"
+                - generic [ref=e128]: June 11, 2026
+              - 'link "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical? June 11, 2026" [ref=e129] [cursor=pointer]':
+                - /url: https://sbkautotrading.com/honda-acty-kei-truck-review-is-it-too-small-or-surprisingly-practical/
+                - text: "Honda Acty Kei Truck Review: Is It Too Small or Surprisingly Practical?"
+                - generic [ref=e130]: June 11, 2026
+              - link "How to Verify a Japanese Import Car Before It Reaches You June 11, 2026" [ref=e131] [cursor=pointer]:
+                - /url: https://sbkautotrading.com/how-to-verify-a-japanese-import-car-before-it-reaches-you/
+                - text: How to Verify a Japanese Import Car Before It Reaches You
+                - generic [ref=e132]: June 11, 2026
+              - 'link "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage June 11, 2026" [ref=e133] [cursor=pointer]':
+                - /url: https://sbkautotrading.com/car-exterior-accessories-guide-protect-your-car-from-scratches-sun-and-damage/
+                - text: "Car Exterior Accessories Guide: Protect your Car from Scratches, Sun, and Damage"
+                - generic [ref=e134]: June 11, 2026
+          - generic [ref=e135]:
+            - heading "Categories" [level=3] [ref=e136]
+            - generic [ref=e137]:
+              - generic [ref=e138]: Car Reviews
+              - generic [ref=e139]: Car Talk
+          - generic [ref=e140]:
+            - heading "Need help importing?" [level=3] [ref=e141]
+            - paragraph [ref=e142]: SBK can help you choose, verify, and ship the right vehicle from Japan with clearer documentation before you commit.
+            - link "Contact SBK" [ref=e143] [cursor=pointer]:
+              - /url: mailto:info@sbkautotrading.com
+  - contentinfo [ref=e144]:
+    - generic [ref=e145]:
+      - paragraph [ref=e147]:
+        - img "SBK" [ref=e148]
+        - text: "SBK Auto Trading: Your trusted partner for premium vehicles worldwide, offering unparalleled selection and transparent service. Discover your dream car with confidence, backed by 15 years of global automotive trading expertise."
+      - generic [ref=e149]:
+        - heading "Quick link" [level=3] [ref=e150]
+        - generic [ref=e151]: "* Home"
+        - generic [ref=e152]: "* Shop"
+        - generic [ref=e153]: "* About us"
+        - generic [ref=e154]: "* Contact us"
+        - generic [ref=e155]: "* Bank Details"
+      - generic [ref=e156]:
+        - heading "By Types" [level=3] [ref=e157]
+        - generic [ref=e158]: "* SUV"
+        - generic [ref=e159]: "* Coupe"
+        - generic [ref=e160]: "* Hatchback"
+        - generic [ref=e161]: "* Sedan"
+        - generic [ref=e162]: "* Wagon"
+        - generic [ref=e163]: "* Van"
+        - generic [ref=e164]: "* Roadster"
+      - generic [ref=e165]:
+        - heading "By Brands" [level=3] [ref=e166]
+        - generic [ref=e167]: "* Honda"
+        - generic [ref=e168]: "* Toyota"
+        - generic [ref=e169]: "* Mazda"
+        - generic [ref=e170]: "* Mitsubushi"
+        - generic [ref=e171]: "* Subaru"
+        - generic [ref=e172]: "* BMW"
+        - generic [ref=e173]: "* Suzuki"
+        - generic [ref=e174]: "* Daihatsu"
+        - generic [ref=e175]: "* Lexus"
+        - generic [ref=e176]: "* Hino"
+        - generic [ref=e177]: "* Mercedes-Benz"
+        - generic [ref=e178]: "* Volkswagen"
+        - generic [ref=e179]: "* Audi"
+        - generic [ref=e180]: "* Volvo"
+        - generic [ref=e181]: "* Ford"
+        - generic [ref=e182]: "* Jeep"
+        - generic [ref=e183]: "* Land Rover"
+        - generic [ref=e184]: "* Hyundai"
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - strong [ref=e187]: Headquarter UAE
+          - paragraph [ref=e188]: ☎ +971 55 417 7311
+          - paragraph [ref=e189]: • Amber Gem Tower, Mezzanine Floor, Sheikh Khalifa Street, P.O. Box 4848, Ajman, United Arab Emirates
+        - generic [ref=e190]:
+          - strong [ref=e191]: USA Office
+          - paragraph [ref=e192]: ☎ +1 (321) 357-857
+          - paragraph [ref=e193]: "• Office Address: Prior Lake, MN 55372, USA"
+        - generic [ref=e194]:
+          - strong [ref=e195]: Japan Office
+          - paragraph [ref=e196]: ☎ +81 70-9427-5106
+          - paragraph [ref=e197]: • Yokohama-Shi, Kanagawa-Ken, Japan
+        - generic [ref=e198]:
+          - strong [ref=e199]: Showroom Mombasa
+          - paragraph [ref=e200]: ☎ +254 705719918
+          - paragraph [ref=e201]: • Nyere Avenue Showroom No 5 Jdm Motors Behind Kra Mombasa
+        - generic [ref=e202]:
+          - strong [ref=e203]: Jamaica Office
+          - paragraph [ref=e204]: ☎ +1 876 8036277
+          - paragraph [ref=e205]: • 3 South Avenue Kingston 5, Jamaica
+        - generic [ref=e206]:
+          - strong [ref=e207]: Pakistan Office
+          - paragraph [ref=e208]: ☎ +92 213 339-3946
+          - paragraph [ref=e209]: • SB-36, Gulshan-e-Iqbal 13-D Karachi, Pakistan
+    - paragraph [ref=e210]: Copyright 2026 SBKAutotrading All Rights Reserved
+  - main

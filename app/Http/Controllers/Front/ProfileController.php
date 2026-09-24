@@ -1,0 +1,80 @@
+<?php
+
+namespace App\Http\Controllers\Front;
+
+use App\Http\Controllers\Controller;
+use App\Models\CheckoutOrder;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+class ProfileController extends Controller
+{
+    public function index(Request $request)
+    {
+        $user = $request->user();
+        $orders = CheckoutOrder::with('items.product.brand', 'items.product.vehicleModel')
+            ->where('user_id', $user->id)
+            ->latest()
+            ->get();
+
+        return view('front.profile.index', compact('user', 'orders'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:192'],
+            'email' => ['required', 'email', 'max:192', 'unique:users,email,' . $user->id],
+            'phone' => ['required', 'string', 'max:50'],
+            'country' => ['required', 'string', 'max:120'],
+            'profile_picture' => ['nullable', 'image', 'max:4096'],
+        ]);
+
+        [$firstName, $lastName] = $this->splitName($validated['name']);
+
+        if ($request->hasFile('profile_picture')) {
+            if ($user->profile_picture && file_exists(uploadsDir('front') . $user->profile_picture)) {
+                unlink(uploadsDir('front') . $user->profile_picture);
+            }
+
+            $file = $request->file('profile_picture');
+            $filename = 'profile-' . time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move(uploadsDir('front'), $filename);
+            $validated['profile_picture'] = $filename;
+        }
+
+        $user->update([
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'country' => $validated['country'],
+            'profile_picture' => $validated['profile_picture'] ?? $user->profile_picture,
+        ]);
+
+        return redirect()->route('profile.index')->with('success', 'Profile has been updated.');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->route('profile.index')->with('success', 'Password has been changed.');
+    }
+
+    private function splitName(string $name): array
+    {
+        $parts = preg_split('/\s+/', trim($name), 2);
+
+        return [$parts[0] ?? $name, $parts[1] ?? ''];
+    }
+}
