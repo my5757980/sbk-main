@@ -8,6 +8,7 @@ use App\Services\Crm\CrmCustomerSync;
 use App\Services\Crm\CrmFileCache;
 use App\Services\Crm\CrmRecord;
 use App\Services\Crm\CrmSigner;
+use App\Services\Crm\CrmStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -38,10 +39,14 @@ class CrmController extends Controller
 
     public function sync(CrmCustomerSync $sync)
     {
+        if (!CrmSigner::configured() || !CrmStatus::migrated()) {
+            return back()->with('error', 'The website is not connected to the CRM yet - see the red note on this page.');
+        }
+
         $stats = $sync->run();
 
         if ($stats === null) {
-            return back()->with('error', 'The CRM could not be reached. Please try again in a minute.');
+            return back()->with('error', 'The CRM could not be reached - see the red note on this page.');
         }
 
         return back()->with('success', sprintf(

@@ -24,6 +24,12 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body card-dashboard">
+                            @if(!empty($crmProblem))
+                                <div class="alert alert-danger" role="alert" style="margin-bottom:16px">
+                                    <b>CRM:</b> {{ $crmProblem }}
+                                    <br><small>A developer can run <code>php artisan crm:check</code> on the server to see exactly what is missing.</small>
+                                </div>
+                            @endif
                             <div class="table-responsive">
                                 <table class="table table-striped" id="datatable">
                                     <thead>

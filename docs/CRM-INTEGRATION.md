@@ -28,7 +28,12 @@ The CRM stays the single source of truth. Records are read live (cached for 60 s
    Without the cron, opening Admin → Users (at most every 5 min) or pressing **Sync from CRM** does the same job.
 4. **Mail** (`MAIL_*` in `.env`). Customers use **Forgot password** to set their own password. Accounts made from the CRM start with a random one. Admins can also press **Send password setup link** on a user page.
 
-Check it: `php artisan crm:sync-customers` prints how many CRM customers were created, linked or updated.
+**Check it:** run `php artisan crm:check`. It tests the key, the database columns and the connection, then syncs, and says exactly what to fix if something is missing. Admin → Users shows the same problem as a red note. `php artisan crm:sync-customers` only runs the sync.
+
+**No CRM data showing?** Almost always one of these:
+- `CRM_PRIVATE_KEY` is not in `.env`. Add it, then run `php artisan config:clear`.
+- The migration has not run.
+- On Windows/XAMPP, PHP lacks the CA certificate bundle (cURL error 60).
 
 ## How accounts are linked (security)
 - If no website account has the customer's email, one is **created**: role customer, random password.

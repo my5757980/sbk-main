@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Services\Crm\CrmClient;
 use App\Services\Crm\CrmCustomerSync;
 use App\Services\Crm\CrmRecord;
+use App\Services\Crm\CrmSigner;
+use App\Services\Crm\CrmStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -33,12 +35,15 @@ class UserController extends Controller
     {
         try {
             // Keeps CRM customers current even where the 5-minute cron is not set up.
-            $crmSync->runIfStale(5);
+            if (CrmSigner::configured() && CrmStatus::migrated()) {
+                $crmSync->runIfStale(5);
+            }
             $crmLastSync = CrmCustomerSync::lastRun();
+            $crmProblem = CrmStatus::problem();
 
             $data = User::orderBy('created_at', 'DESC')->get();
             $roleOptions = $this->roleOptions();
-            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync'));
+            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync', 'crmProblem'));
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
             return redirect()->back();
