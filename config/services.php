@@ -37,4 +37,15 @@ return [
         'secret' => env('PAYPAL_SECRET', env('PAYPAL_SANDBOX_CLIENT_SECRET')),
     ],
 
+    // The SBK CRM. This website signs the "CRM Global" sign-in links and its
+    // reads of the CRM's customer records with an RSA private key; the CRM
+    // only holds the public half. See docs/CRM-INTEGRATION.md.
+    'crm' => [
+        'url' => rtrim(env('CRM_URL', 'https://crmglobal.sbkautotrading.com'), '/'),
+        'private_key' => env('CRM_PRIVATE_KEY'),            // base64 of the PEM (one line), or the PEM
+        'private_key_path' => env('CRM_PRIVATE_KEY_PATH'),  // or a path to the PEM file
+        'timeout' => (int) env('CRM_TIMEOUT', 10),
+        'cache_seconds' => (int) env('CRM_CACHE_SECONDS', 60),
+    ],
+
 ];

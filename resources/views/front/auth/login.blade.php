@@ -37,9 +37,12 @@
                     <label for="password">Password</label>
                     <input id="password" type="password" name="password" required>
                 </div>
-                <label style="display:flex;gap:9px;align-items:center;font-size:13px;color:#555">
-                    <input type="checkbox" name="remember" value="1"> Remember me
-                </label>
+                <div class="sbk-auth-row">
+                    <label style="display:flex;gap:9px;align-items:center;font-size:13px;color:#555">
+                        <input type="checkbox" name="remember" value="1"> Remember me
+                    </label>
+                    <a class="sbk-auth-link" style="font-size:13px" href="{{ route('password.request') }}">Forgot password?</a>
+                </div>
                 <div class="sbk-auth-row">
                     <button class="sbk-auth-submit" type="submit">Login</button>
                     <a class="sbk-auth-link" href="{{ route('register') }}">Create account</a>

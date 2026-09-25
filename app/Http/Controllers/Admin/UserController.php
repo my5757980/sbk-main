@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin;
 use App\Models\AdminRole;
 use App\Models\User;
+use App\Services\Crm\CrmClient;
+use App\Services\Crm\CrmCustomerSync;
+use App\Services\Crm\CrmRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -26,12 +29,16 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, CrmCustomerSync $crmSync)
     {
         try {
+            // Keeps CRM customers current even where the 5-minute cron is not set up.
+            $crmSync->runIfStale(5);
+            $crmLastSync = CrmCustomerSync::lastRun();
+
             $data = User::orderBy('created_at', 'DESC')->get();
             $roleOptions = $this->roleOptions();
-            return view('admin.users.index', compact('data', 'roleOptions'));
+            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync'));
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
             return redirect()->back();
@@ -73,10 +80,24 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User has been created successfully.');
     }
 
-    public function show($id)
+    public function show(Request $request, $id, CrmClient $crmClient)
     {
         $data = User::findOrFail($id);
-        return view('admin.users.show', compact('data'));
+
+        // The customer's complete CRM record (invoices, payments, cars, photos, documents).
+        $crm = null;
+        if ($data->hasCrmRecord()) {
+            $record = $crmClient->customerRecord($data->crm_email, $request->boolean('refresh'));
+            $crm = [
+                'record' => $record ? CrmRecord::forAudience($record, false) : null,
+                'unavailable' => $record === null,
+                'fileUrl' => fn ($file, $download = false) => route('admin.users.show.crm-file', ['user' => $data->id, 'file' => $file['id']] + ($download ? ['download' => 1] : [])),
+                'pdfUrl' => fn ($invoice, $download = false) => route('admin.users.show.crm-pdf', ['user' => $data->id, 'invoice' => $invoice['id']] + ($download ? ['download' => 1] : [])),
+                'audience' => 'admin',
+            ];
+        }
+
+        return view('admin.users.show', compact('data', 'crm'));
     }
 
     public function edit($id)

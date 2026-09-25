@@ -24,8 +24,19 @@
             <div class="sbk-alert sbk-alert--error">Please check the profile fields and try again.</div>
         @endif
 
-        <input class="sbk-tab-radio sbk-tab-edit" type="radio" name="profile_tab" id="profileTabEdit" {{ request('tab') === 'orders' ? '' : 'checked' }}>
-        <input class="sbk-tab-radio sbk-tab-orders" type="radio" name="profile_tab" id="profileTabOrders" {{ request('tab') === 'orders' ? 'checked' : '' }}>
+        @php $profileTab = in_array(request('tab'), ['orders', 'invoices'], true) && (request('tab') !== 'invoices' || $crm) ? request('tab') : 'edit'; @endphp
+        <input class="sbk-tab-radio sbk-tab-edit" type="radio" name="profile_tab" id="profileTabEdit" {{ $profileTab === 'edit' ? 'checked' : '' }}>
+        <input class="sbk-tab-radio sbk-tab-orders" type="radio" name="profile_tab" id="profileTabOrders" {{ $profileTab === 'orders' ? 'checked' : '' }}>
+        @if($crm)
+            <input class="sbk-tab-radio sbk-tab-invoices" type="radio" name="profile_tab" id="profileTabInvoices" {{ $profileTab === 'invoices' ? 'checked' : '' }}>
+            <style>
+                .sbk-tab-invoices:checked~.sbk-profile-tabs .sbk-content-invoices{display:block}
+                .sbk-tab-invoices:checked~.sbk-profile-tabs label[for=profileTabInvoices]{background:#d71920;border-color:#d71920;color:#fff}
+                .sbk-tab-invoices:checked~.sbk-profile-tabs label[for=profileTabInvoices]:after{color:#fff}
+                .sbk-content-invoices .sbk-crm-body{padding:22px}
+                @media(max-width:640px){.sbk-content-invoices .sbk-crm-body{padding:12px}}
+            </style>
+        @endif
 
         <div class="sbk-profile-tabs">
             <aside class="sbk-panel">
@@ -44,6 +55,9 @@
                     <div class="sbk-profile-nav">
                         <label for="profileTabEdit">Edit Profile</label>
                         <label for="profileTabOrders">Orders</label>
+                        @if($crm)
+                            <label for="profileTabInvoices">My Invoices</label>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="sbk-logout" type="submit">Logout</button>
@@ -170,6 +184,18 @@
                         </div>
                     @endif
                 </div>
+
+                @if($crm)
+                    <div class="sbk-content-panel sbk-content-invoices sbk-panel">
+                        <div class="sbk-panel-head">
+                            <span>Your Purchases</span>
+                            <h2>My invoices &amp; vehicles</h2>
+                        </div>
+                        <div class="sbk-crm-body">
+                            @include('partials.crm.record', ['crm' => $crm])
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

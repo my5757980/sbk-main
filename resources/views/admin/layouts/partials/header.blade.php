@@ -48,7 +48,9 @@
                 </div>
                 <ul class="nav navbar-nav float-right">
                     <li class="nav-item d-none d-sm-flex align-items-center mr-1">
-                        <a class="btn btn-sm sbk-crm-global-btn" href="https://crmglobal.sbkautotrading.com/login?callbackUrl=https%3A%2F%2Fcrmglobal.sbkautotrading.com%2F">
+                        {{-- Opens the CRM already signed in when the CRM has a user with this admin's
+                             email (Admin\CrmController@sso); otherwise the CRM login page. --}}
+                        <a class="btn btn-sm sbk-crm-global-btn" href="{{ route('admin.crm-sso') }}">
                             CRM Global
                         </a>
                     </li>

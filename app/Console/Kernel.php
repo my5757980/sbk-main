@@ -13,6 +13,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+
+        // New CRM customers get a website account within five minutes.
+        $schedule->command('crm:sync-customers')->everyFiveMinutes()->withoutOverlapping();
     }
 
     /**

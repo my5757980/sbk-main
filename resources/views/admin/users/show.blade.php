@@ -77,4 +77,53 @@
             </div>
         </div>
     </div>
+
+    {{-- The customer's record in the SBK CRM (read live; see app/Services/Crm). --}}
+    @if($data->hasCrmRecord() || $data->crm_pending_email)
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap" style="gap:10px">
+                        <h4 class="card-title mb-0">CRM Record
+                            @if($data->hasCrmRecord())
+                                <span class="badge badge-danger ml-1">CRM</span>
+                            @endif
+                        </h4>
+                        <div class="d-flex flex-wrap" style="gap:8px">
+                            @if($data->hasCrmRecord())
+                                <a href="{{ route('admin.users.show', ['user' => $data->id, 'refresh' => 1]) }}" class="btn btn-outline-secondary btn-sm">Refresh from CRM</a>
+                            @endif
+                            @adminCan('users.edit')
+                                <form method="POST" action="{{ route('admin.users.edit.send-reset', $data->id) }}" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-primary btn-sm" title="Emails {{ $data->email }} a link to set their own password">Send password setup link</button>
+                                </form>
+                            @endadminCan
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @if(!$data->hasCrmRecord())
+                            <div class="alert alert-warning mb-0">
+                                A CRM customer uses this email (<b>{{ $data->crm_pending_email }}</b>), but this account was not
+                                created from the CRM and its owner has not verified the email yet, so the CRM record is not shown to it.
+                                It links itself when the owner sets a password through "Forgot password".
+                                @adminCan('users.edit')
+                                    <form method="POST" action="{{ route('admin.users.edit.crm-link', $data->id) }}" class="mt-1">
+                                        @csrf
+                                        <button type="submit" class="btn btn-warning btn-sm">I know this customer - link now</button>
+                                    </form>
+                                @endadminCan
+                            </div>
+                        @else
+                            <p class="text-muted" style="margin-bottom:14px">
+                                Linked to the CRM customer <b>{{ $data->crm_email }}</b>{{ $data->crm_source ? ' - account created from the CRM' : '' }}.
+                                @if($data->crm_synced_at) Last synced {{ $data->crm_synced_at->diffForHumans() }}. @endif
+                            </p>
+                            @include('partials.crm.record', ['crm' => $crm])
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection

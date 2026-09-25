@@ -507,6 +507,9 @@
                         </div>
                         <a href="{{ route('profile.index') }}">Edit Profile</a>
                         <a href="{{ route('profile.index', ['tab' => 'orders']) }}">Orders</a>
+                        @if($frontUser->hasCrmRecord())
+                            <a href="{{ route('profile.index', ['tab' => 'invoices']) }}">My Invoices</a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">Logout</button>

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\CheckoutOrder;
+use App\Services\Crm\CrmClient;
+use App\Services\Crm\CrmRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, CrmClient $crmClient)
     {
         $user = $request->user();
         $orders = CheckoutOrder::with('items.product.brand', 'items.product.vehicleModel')
@@ -17,7 +19,20 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        return view('front.profile.index', compact('user', 'orders'));
+        // The customer's purchases recorded in the SBK CRM (My Invoices tab).
+        $crm = null;
+        if ($user->hasCrmRecord()) {
+            $record = $crmClient->customerRecord($user->crm_email);
+            $crm = [
+                'record' => $record ? CrmRecord::forAudience($record, true) : null,
+                'unavailable' => $record === null,
+                'fileUrl' => fn ($file, $download = false) => route('profile.crm.file', ['file' => $file['id']] + ($download ? ['download' => 1] : [])),
+                'pdfUrl' => fn ($invoice, $download = false) => route('profile.crm.pdf', ['invoice' => $invoice['id']] + ($download ? ['download' => 1] : [])),
+                'audience' => 'customer',
+            ];
+        }
+
+        return view('front.profile.index', compact('user', 'orders', 'crm'));
     }
 
     public function update(Request $request)
@@ -45,6 +60,8 @@ class ProfileController extends Controller
             $validated['profile_picture'] = $filename;
         }
 
+        $emailChanged = strtolower($validated['email']) !== strtolower($user->email);
+
         $user->update([
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -53,6 +70,12 @@ class ProfileController extends Controller
             'country' => $validated['country'],
             'profile_picture' => $validated['profile_picture'] ?? $user->profile_picture,
         ]);
+
+        // A new email is unproven until a password-reset link sent to it is used;
+        // until then it cannot pick up another CRM customer's records.
+        if ($emailChanged) {
+            $user->forceFill(['email_verified_at' => null])->save();
+        }
 
         return redirect()->route('profile.index')->with('success', 'Profile has been updated.');
     }

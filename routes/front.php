@@ -27,12 +27,18 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', 'AuthController@login')->name('login.submit');
     Route::get('/register', 'AuthController@showRegister')->name('register');
     Route::post('/register', 'AuthController@register')->name('register.submit');
+    Route::get('/forgot-password', 'PasswordResetController@showForgot')->name('password.request');
+    Route::post('/forgot-password', 'PasswordResetController@sendLink')->middleware('throttle:6,1')->name('password.email');
+    Route::get('/reset-password/{token}', 'PasswordResetController@showReset')->name('password.reset');
+    Route::post('/reset-password', 'PasswordResetController@reset')->middleware('throttle:6,1')->name('password.update');
 });
 Route::middleware('auth')->group(function () {
     Route::post('/logout', 'AuthController@logout')->name('logout');
     Route::get('/profile', 'ProfileController@index')->name('profile.index');
     Route::put('/profile', 'ProfileController@update')->name('profile.update');
     Route::put('/profile/password', 'ProfileController@updatePassword')->name('profile.password');
+    Route::get('/my-account/crm/files/{file}', 'CrmRecordController@file')->name('profile.crm.file');
+    Route::get('/my-account/crm/invoices/{invoice}/pdf', 'CrmRecordController@pdf')->name('profile.crm.pdf');
 });
 Route::get('/cart', 'CartController@index')->name('cart.index');
 Route::post('/cart/{product}', 'CartController@store')->name('cart.store');

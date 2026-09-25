@@ -53,6 +53,15 @@ Route::name('admin.')->middleware('admin.permission')->group(
         Route::get('update-profile', 'AdministratorsController@editProfile')->name('update-profile');
         Route::post('update-status', 'UserController@updateStatus')->name('update-status');
 
+        # CRM (app/Services/Crm). The second name segment is the permission the
+        # admin.permission middleware checks: users.edit / users.show.
+        Route::get('crm-sso', 'CrmController@sso')->name('crm-sso');
+        Route::post('users/crm-sync', 'CrmController@sync')->name('users.edit.crm-sync');
+        Route::post('users/{user}/crm-link', 'CrmController@link')->name('users.edit.crm-link');
+        Route::post('users/{user}/send-reset', 'CrmController@sendReset')->name('users.edit.send-reset');
+        Route::get('users/{user}/crm/files/{file}', 'CrmController@file')->name('users.show.crm-file');
+        Route::get('users/{user}/crm/invoices/{invoice}/pdf', 'CrmController@pdf')->name('users.show.crm-pdf');
+
         Route::resource('administrators', 'AdministratorsController');
         Route::resource('admin-roles', 'AdminRoleController');
         Route::resource('site-settings', 'SiteSettingsController');

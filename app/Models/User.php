@@ -69,7 +69,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'crm_source' => 'boolean',
+        'crm_summary' => 'array',
+        'crm_synced_at' => 'datetime',
     ];
+
+    /** The account shows a CRM customer's record (see app/Services/Crm). */
+    public function hasCrmRecord(): bool
+    {
+        return !empty($this->crm_email);
+    }
 
     public function getAvatorUrlAttribute()
     {
