@@ -194,8 +194,8 @@ class UserController extends Controller
     private function validatedData(Request $request, $userId = null)
     {
         $passwordRules = $userId
-            ? ['nullable', 'string', 'min:8', 'confirmed']
-            : ['required', 'string', 'min:8', 'confirmed'];
+            ? ['nullable']
+            : ['required'];
         $roles = implode(',', array_keys($this->roleOptions()));
 
         return $request->validate([

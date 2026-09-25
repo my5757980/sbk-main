@@ -64,8 +64,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Confirm Password {{ $data->exists ? '' : '*' }}</label>
-                                        <input type="password" name="password_confirmation" class="form-control" {{ $data->exists ? '' : 'required' }}>
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="password_confirmation" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
