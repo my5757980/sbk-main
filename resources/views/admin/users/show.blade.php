@@ -94,6 +94,13 @@
                                 <a href="{{ route('admin.users.show', ['user' => $data->id, 'refresh' => 1]) }}" class="btn btn-outline-secondary btn-sm">Refresh from CRM</a>
                             @endif
                             @adminCan('users.edit')
+                                @if(($data->role ?? 'customer') === 'customer')
+                                    <form method="POST" action="{{ route('admin.users.edit.generate-password', $data->id) }}" class="d-inline"
+                                          onsubmit="return confirm('Generate a new password for this customer? Their current password will stop working.');">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Generate password</button>
+                                    </form>
+                                @endif
                                 <form method="POST" action="{{ route('admin.users.edit.send-reset', $data->id) }}" class="d-inline">
                                     @csrf
                                     <button type="submit" class="btn btn-outline-primary btn-sm" title="Emails {{ $data->email }} a link to set their own password">Send password setup link</button>
@@ -102,6 +109,16 @@
                         </div>
                     </div>
                     <div class="card-body">
+                        @if(session('generated_password'))
+                            <div class="alert alert-success" style="margin-bottom:16px">
+                                <b>New login password for {{ $data->email }}:</b>
+                                <code id="generatedPassword" style="font-size:16px;margin:0 8px">{{ session('generated_password') }}</code>
+                                <button type="button" class="btn btn-sm btn-success" onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('generatedPassword').textContent).then(() => this.textContent = 'Copied')">Copy</button>
+                                <br><small>Shown only once - send it to the customer now. They log in on the website with this email and password.</small>
+                            </div>
+                        @elseif($data->crm_password_generated_at)
+                            <p class="text-muted" style="margin-bottom:10px">Login password generated {{ $data->crm_password_generated_at->diffForHumans() }}.</p>
+                        @endif
                         @if(!$data->hasCrmRecord())
                             <div class="alert alert-warning mb-0">
                                 A CRM customer uses this email (<b>{{ $data->crm_pending_email }}</b>), but this account was not
