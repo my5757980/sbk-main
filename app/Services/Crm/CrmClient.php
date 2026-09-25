@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 class CrmClient
 {
     private const DOWN_KEY = 'crm:down';
+    private const ERROR_KEY = 'crm:last-error';
 
     public function __construct(private CrmSigner $signer)
     {
@@ -103,6 +104,7 @@ class CrmClient
         } catch (\Throwable $e) {
             Log::warning('CRM request failed', ['path' => $path, 'error' => $e->getMessage()]);
             Cache::put(self::DOWN_KEY, true, now()->addSeconds(30));
+            self::rememberError($e->getMessage());
 
             return null;
         }
@@ -110,10 +112,25 @@ class CrmClient
         if ($response->serverError()) {
             Log::warning('CRM request failed', ['path' => $path, 'status' => $response->status()]);
             Cache::put(self::DOWN_KEY, true, now()->addSeconds(30));
+            self::rememberError('the CRM answered HTTP ' . $response->status() . '.');
         } elseif ($response->status() === 401) {
             Log::error('CRM refused the website signature - check CRM_PRIVATE_KEY against the CRM public key.', ['path' => $path]);
+            self::rememberError('the CRM refused this website\'s signature - CRM_PRIVATE_KEY does not match the key the CRM expects.');
+        } elseif ($response->successful()) {
+            Cache::forget(self::ERROR_KEY);
         }
 
         return $response;
+    }
+
+    /** Why the last CRM request failed (shown to admins), or null after a success. */
+    public static function lastError(): ?string
+    {
+        return Cache::get(self::ERROR_KEY);
+    }
+
+    private static function rememberError(string $message): void
+    {
+        Cache::put(self::ERROR_KEY, $message, now()->addDay());
     }
 }
