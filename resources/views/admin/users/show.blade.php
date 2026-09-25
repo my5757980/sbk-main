@@ -111,14 +111,29 @@
                     <div class="card-body">
                         @if(session('generated_password'))
                             <div class="alert alert-success" style="margin-bottom:16px">
-                                <b>New login password for {{ $data->email }}:</b>
+                                <b>Login password saved for {{ $data->email }}:</b>
                                 <code id="generatedPassword" style="font-size:16px;margin:0 8px">{{ session('generated_password') }}</code>
                                 <button type="button" class="btn btn-sm btn-success" onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('generatedPassword').textContent).then(() => this.textContent = 'Copied')">Copy</button>
-                                <br><small>Shown only once - send it to the customer now. They log in on the website with this email and password.</small>
+                                <br><small>Send it to the customer now - the website keeps only a scrambled form, so it cannot show this password again. You can always set a new one below.</small>
                             </div>
-                        @elseif($data->crm_password_generated_at)
-                            <p class="text-muted" style="margin-bottom:10px">Login password generated {{ $data->crm_password_generated_at->diffForHumans() }}.</p>
                         @endif
+                        @adminCan('users.edit')
+                            @if(($data->role ?? 'customer') === 'customer')
+                                {{-- Staff choose the password (so they know it) and can change it here at any time. --}}
+                                <form method="POST" action="{{ route('admin.users.edit.set-password', $data->id) }}" class="d-flex flex-wrap align-items-center"
+                                      style="gap:8px;margin-bottom:16px;padding:12px 14px;border:1px solid #e7e9ee;border-radius:8px;background:#fafbfc">
+                                    @csrf
+                                    <label for="crmSetPassword" class="mb-0" style="font-weight:700">Login password</label>
+                                    <input id="crmSetPassword" type="text" name="password" class="form-control form-control-sm" style="max-width:240px"
+                                           placeholder="Type the password to give" autocomplete="off" minlength="6" maxlength="100" required>
+                                    <button type="submit" class="btn btn-primary btn-sm">Save password</button>
+                                    <small class="text-muted" style="flex-basis:100%">
+                                        {{ $data->crm_password_generated_at ? 'Last set ' . $data->crm_password_generated_at->diffForHumans() . '.' : 'Not handed out yet.' }}
+                                        The customer logs in on the website with {{ $data->email }} and this password.
+                                    </small>
+                                </form>
+                            @endif
+                        @endadminCan
                         @if(!$data->hasCrmRecord())
                             <div class="alert alert-warning mb-0">
                                 A CRM customer uses this email (<b>{{ $data->crm_pending_email }}</b>), but this account was not

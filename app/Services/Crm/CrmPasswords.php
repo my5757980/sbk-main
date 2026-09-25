@@ -31,14 +31,22 @@ class CrmPasswords
     public static function assign(User $user): string
     {
         $password = self::make();
+        self::set($user, $password);
 
+        return $password;
+    }
+
+    /**
+     * Sets the password staff chose or generated. It is marked as handed out,
+     * so "Generate passwords" never replaces it later.
+     */
+    public static function set(User $user, string $password): void
+    {
         $user->forceFill([
             'password' => Hash::make($password),
             'remember_token' => Str::random(60),
             'crm_password_generated_at' => now(),
         ])->save();
-
-        return $password;
     }
 
     /**

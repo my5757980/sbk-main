@@ -60,6 +60,7 @@ Route::name('admin.')->middleware('admin.permission')->group(
         Route::post('users/{user}/crm-link', 'CrmController@link')->name('users.edit.crm-link');
         Route::post('users/{user}/send-reset', 'CrmController@sendReset')->name('users.edit.send-reset');
         Route::post('users/{user}/generate-password', 'CrmController@generatePassword')->name('users.edit.generate-password');
+        Route::post('users/{user}/set-password', 'CrmController@setPassword')->name('users.edit.set-password');
         Route::post('users/crm-passwords', 'CrmController@generatePasswords')->name('users.edit.crm-passwords');
         Route::get('users/crm-passwords', 'CrmController@generatedPasswords')->name('users.edit.crm-passwords-result');
         Route::get('users/{user}/crm/files/{file}', 'CrmController@file')->name('users.show.crm-file');

@@ -113,6 +113,28 @@ class CrmController extends Controller
     }
 
     /**
+     * Staff type the customer's password themselves (so they know it) and can
+     * change it here whenever needed. Only its hash is stored.
+     */
+    public function setPassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        if (($user->role ?? 'customer') !== 'customer') {
+            return back()->with('error', 'Passwords can only be set here for customer accounts.');
+        }
+
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:6', 'max:100'],
+        ]);
+
+        CrmPasswords::set($user, $validated['password']);
+
+        return redirect()->route('admin.users.show', $user->id)
+            ->with('generated_password', $validated['password']);
+    }
+
+    /**
      * A separate random password for every CRM customer who has none yet, listed
      * once for staff to hand out. Customers who already received one, or set
      * their own, are left alone, so pressing it twice changes nothing.

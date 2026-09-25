@@ -148,6 +148,11 @@ class UserController extends Controller
         $user->update($payload);
         $this->syncAdminPanelAccount($user->fresh(), $validated['password'] ?? null, $oldEmail);
 
+        // A password typed here is the one staff handed out, so "Generate passwords" must leave it alone.
+        if (!empty($validated['password']) && Schema::hasColumn('users', 'crm_password_generated_at')) {
+            $user->forceFill(['crm_password_generated_at' => now()])->save();
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'User has been updated successfully.');
     }
 
