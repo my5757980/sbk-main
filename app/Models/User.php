@@ -72,6 +72,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'crm_source' => 'boolean',
         'crm_summary' => 'array',
         'crm_synced_at' => 'datetime',
+        'crm_password_generated_at' => 'datetime',
     ];
 
     /** The account shows a CRM customer's record (see app/Services/Crm). */

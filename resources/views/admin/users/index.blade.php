@@ -16,6 +16,13 @@
                                     @csrf
                                     <button type="submit" class="btn btn-outline-danger btn-sm">Sync from CRM</button>
                                 </form>
+                                @if(($crmAwaitingPasswords ?? 0) > 0)
+                                    <form method="POST" action="{{ route('admin.users.edit.crm-passwords') }}" class="d-inline"
+                                          onsubmit="return confirm('Generate a separate password for {{ $crmAwaitingPasswords }} CRM customer(s)? The list is shown once so you can send each customer their own.');">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Generate passwords ({{ $crmAwaitingPasswords }})</button>
+                                    </form>
+                                @endif
                             @endadminCan
                             @adminCan('users.create')
                                 <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm">Add User</a>

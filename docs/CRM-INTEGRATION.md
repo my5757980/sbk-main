@@ -26,7 +26,11 @@ The CRM stays the single source of truth. Records are read live (cached for 60 s
    * * * * * cd /path/to/site && php artisan schedule:run >> /dev/null 2>&1
    ```
    Without the cron, opening Admin → Users (at most every 5 min) or pressing **Sync from CRM** does the same job.
-4. **Mail** (`MAIL_*` in `.env`). Customers use **Forgot password** to set their own password. Accounts made from the CRM start with a random one. Admins can also press **Send password setup link** on a user page.
+4. **Customer passwords.** Each CRM customer gets a **separate** random password (like `Kp7mQ-x3RtA`) for the website login:
+   - **Admin → Users → Generate passwords (N)** covers every CRM customer who has none yet. It shows the list **once**, with a *Copy all* button, so staff can send each customer their own email and password.
+   - **Generate password** on a customer's page gives one customer a new password, also shown once.
+   - Only the hash is stored. Pressing the button again never touches passwords already handed out or set by the customer.
+   - With **Mail** (`MAIL_*` in `.env`) set up, customers can also use **Forgot password**, or staff can press **Send password setup link**.
 
 **Check it:** run `php artisan crm:check`. It tests the key, the database columns and the connection, then syncs, and says exactly what to fix if something is missing. Admin → Users shows the same problem as a red note. `php artisan crm:sync-customers` only runs the sync.
 
