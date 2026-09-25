@@ -33,6 +33,34 @@
                                     <div class="col-6">
                                         <p><h5>Status: </h5><small><span class="badge badge-{!! $data->status == 1 ? 'success' : 'danger' !!}">{!! $data->status == 1 ? 'Active' : 'Inactive' !!}</span></small></p>
                                     </div>
+                                    {{-- Only a hash of the password is stored, so the current one cannot be shown;
+                                         a new one can be set here (the eye shows what is being typed). --}}
+                                    <div class="col-6">
+                                        <h5>Password: </h5>
+                                        <p class="mb-50"><span style="letter-spacing:3px">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                                            @if($data->crm_password_generated_at)
+                                                <small class="text-muted">&nbsp;changed {{ $data->crm_password_generated_at->diffForHumans() }}</small>
+                                            @endif
+                                        </p>
+                                        @adminCan('users.edit')
+                                            <form method="POST" action="{{ route('admin.users.edit.change-password', $data->id) }}" autocomplete="off" style="max-width:320px">
+                                                @csrf
+                                                <div class="input-group input-group-sm mb-50">
+                                                    <input type="password" name="password" class="form-control" placeholder="New password" minlength="6" maxlength="100" autocomplete="new-password" required>
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-outline-secondary sbk-pw-eye" title="Show / hide"><i class="feather icon-eye"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="input-group input-group-sm mb-50">
+                                                    <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm password" minlength="6" maxlength="100" autocomplete="new-password" required>
+                                                    <div class="input-group-append">
+                                                        <button type="button" class="btn btn-outline-secondary sbk-pw-eye" title="Show / hide"><i class="feather icon-eye"></i></button>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-sm">Change password</button>
+                                            </form>
+                                        @endadminCan
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,47 +121,9 @@
                             @if($data->hasCrmRecord())
                                 <a href="{{ route('admin.users.show', ['user' => $data->id, 'refresh' => 1]) }}" class="btn btn-outline-secondary btn-sm">Refresh from CRM</a>
                             @endif
-                            @adminCan('users.edit')
-                                @if(($data->role ?? 'customer') === 'customer')
-                                    <form method="POST" action="{{ route('admin.users.edit.generate-password', $data->id) }}" class="d-inline"
-                                          onsubmit="return confirm('Generate a new password for this customer? Their current password will stop working.');">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm">Generate password</button>
-                                    </form>
-                                @endif
-                                <form method="POST" action="{{ route('admin.users.edit.send-reset', $data->id) }}" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-outline-primary btn-sm" title="Emails {{ $data->email }} a link to set their own password">Send password setup link</button>
-                                </form>
-                            @endadminCan
                         </div>
                     </div>
                     <div class="card-body">
-                        @if(session('generated_password'))
-                            <div class="alert alert-success" style="margin-bottom:16px">
-                                <b>Login password saved for {{ $data->email }}:</b>
-                                <code id="generatedPassword" style="font-size:16px;margin:0 8px">{{ session('generated_password') }}</code>
-                                <button type="button" class="btn btn-sm btn-success" onclick="navigator.clipboard && navigator.clipboard.writeText(document.getElementById('generatedPassword').textContent).then(() => this.textContent = 'Copied')">Copy</button>
-                                <br><small>Send it to the customer now - the website keeps only a scrambled form, so it cannot show this password again. You can always set a new one below.</small>
-                            </div>
-                        @endif
-                        @adminCan('users.edit')
-                            @if(($data->role ?? 'customer') === 'customer')
-                                {{-- Staff choose the password (so they know it) and can change it here at any time. --}}
-                                <form method="POST" action="{{ route('admin.users.edit.set-password', $data->id) }}" class="d-flex flex-wrap align-items-center"
-                                      style="gap:8px;margin-bottom:16px;padding:12px 14px;border:1px solid #e7e9ee;border-radius:8px;background:#fafbfc">
-                                    @csrf
-                                    <label for="crmSetPassword" class="mb-0" style="font-weight:700">Login password</label>
-                                    <input id="crmSetPassword" type="text" name="password" class="form-control form-control-sm" style="max-width:240px"
-                                           placeholder="Type the password to give" autocomplete="off" minlength="6" maxlength="100" required>
-                                    <button type="submit" class="btn btn-primary btn-sm">Save password</button>
-                                    <small class="text-muted" style="flex-basis:100%">
-                                        {{ $data->crm_password_generated_at ? 'Last set ' . $data->crm_password_generated_at->diffForHumans() . '.' : 'Not handed out yet.' }}
-                                        The customer logs in on the website with {{ $data->email }} and this password.
-                                    </small>
-                                </form>
-                            @endif
-                        @endadminCan
                         @if(!$data->hasCrmRecord())
                             <div class="alert alert-warning mb-0">
                                 A CRM customer uses this email (<b>{{ $data->crm_pending_email }}</b>), but this account was not
@@ -158,4 +148,18 @@
             </div>
         </div>
     @endif
+@endsection
+
+@section('footer-js')
+    <script>
+        // The eye beside each password box shows or hides what is being typed.
+        document.addEventListener('click', function (e) {
+            var btn = e.target.closest && e.target.closest('.sbk-pw-eye');
+            if (!btn) return;
+            var input = btn.closest('.input-group').querySelector('input');
+            var show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.querySelector('i').className = 'feather ' + (show ? 'icon-eye-off' : 'icon-eye');
+        });
+    </script>
 @endsection

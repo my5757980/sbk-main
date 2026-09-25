@@ -58,9 +58,7 @@ Route::name('admin.')->middleware('admin.permission')->group(
         Route::get('crm-sso', 'CrmController@sso')->name('crm-sso');
         Route::post('users/crm-sync', 'CrmController@sync')->name('users.edit.crm-sync');
         Route::post('users/{user}/crm-link', 'CrmController@link')->name('users.edit.crm-link');
-        Route::post('users/{user}/send-reset', 'CrmController@sendReset')->name('users.edit.send-reset');
-        Route::post('users/{user}/generate-password', 'CrmController@generatePassword')->name('users.edit.generate-password');
-        Route::post('users/{user}/set-password', 'CrmController@setPassword')->name('users.edit.set-password');
+        Route::post('users/{user}/change-password', 'UserController@changePassword')->name('users.edit.change-password');
         Route::post('users/crm-passwords', 'CrmController@generatePasswords')->name('users.edit.crm-passwords');
         Route::get('users/crm-passwords', 'CrmController@generatedPasswords')->name('users.edit.crm-passwords-result');
         Route::get('users/{user}/crm/files/{file}', 'CrmController@file')->name('users.show.crm-file');

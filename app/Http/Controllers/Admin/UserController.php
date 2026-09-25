@@ -156,6 +156,29 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'User has been updated successfully.');
     }
 
+    /**
+     * The Password field on the user page: a new password typed twice. Only
+     * its hash is stored, so the current password is never shown.
+     */
+    public function changePassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'password' => ['required', 'string', 'min:6', 'max:100', 'confirmed'],
+        ]);
+
+        $user->update(['password' => Hash::make($validated['password'])]);
+        $this->syncAdminPanelAccount($user->fresh(), $validated['password']);
+
+        // A password set by staff must not be replaced by "Generate passwords".
+        if (Schema::hasColumn('users', 'crm_password_generated_at')) {
+            $user->forceFill(['crm_password_generated_at' => now()])->save();
+        }
+
+        return redirect()->route('admin.users.show', $user->id)->with('success', 'Password has been changed.');
+    }
+
     public function destroy($id)
     {
         try {

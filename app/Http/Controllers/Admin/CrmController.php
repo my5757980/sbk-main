@@ -11,7 +11,6 @@ use App\Services\Crm\CrmRecord;
 use App\Services\Crm\CrmSigner;
 use App\Services\Crm\CrmStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
 
 class CrmController extends Controller
 {
@@ -73,65 +72,6 @@ class CrmController extends Controller
         $sync->run();
 
         return back()->with('success', 'The account is now linked to its CRM record.');
-    }
-
-    /** Emails the customer a link to set their own password. */
-    public function sendReset($id)
-    {
-        $user = User::findOrFail($id);
-
-        try {
-            $status = Password::broker('users')->sendResetLink(['email' => $user->email]);
-        } catch (\Throwable $e) {
-            report($e);
-
-            return back()->with('error', 'The email could not be sent - please check the website mail settings.');
-        }
-
-        // Flash messages are printed into a script by the admin layout, so they carry no user data.
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with('success', 'A password setup link was emailed to the customer.')
-            : back()->with('error', 'The email could not be sent: ' . __($status));
-    }
-
-    /**
-     * A new random login password for one customer, shown once on their page
-     * for staff to send them. The customer's previous password stops working.
-     */
-    public function generatePassword($id)
-    {
-        $user = User::findOrFail($id);
-
-        if (($user->role ?? 'customer') !== 'customer') {
-            return back()->with('error', 'Passwords can only be generated here for customer accounts.');
-        }
-
-        $password = CrmPasswords::assign($user);
-
-        return redirect()->route('admin.users.show', $user->id)
-            ->with('generated_password', $password);
-    }
-
-    /**
-     * Staff type the customer's password themselves (so they know it) and can
-     * change it here whenever needed. Only its hash is stored.
-     */
-    public function setPassword(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        if (($user->role ?? 'customer') !== 'customer') {
-            return back()->with('error', 'Passwords can only be set here for customer accounts.');
-        }
-
-        $validated = $request->validate([
-            'password' => ['required', 'string', 'min:6', 'max:100'],
-        ]);
-
-        CrmPasswords::set($user, $validated['password']);
-
-        return redirect()->route('admin.users.show', $user->id)
-            ->with('generated_password', $validated['password']);
     }
 
     /**
