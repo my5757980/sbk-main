@@ -77,13 +77,19 @@
                         <label for="port">Preferred Port</label>
                         <input id="port" name="port" type="text" value="{{ old('port') }}" placeholder="Mombasa, Kingston, Karachi">
                     </div>
-                    <div class="sbk-field sbk-field--full">
-                        <label for="payment_percentage">Payment Amount *</label>
-                        <select id="payment_percentage" name="payment_percentage" required>
-                            @foreach([10 => '10%', 30 => '30%', 50 => '50%', 100 => '100%'] as $value => $label)
-                                <option value="{{ $value }}" {!! matchSelected($value, old('payment_percentage', $defaultPercentage)) !!}>{{ $label }}</option>
-                            @endforeach
-                        </select>
+                    <div class="sbk-field">
+                        <label for="payment_percentage">Payment Percentage *</label>
+                        <input id="payment_percentage" name="payment_percentage" type="number" min="0.01" max="100" step="0.01" list="paymentPercentageOptions" value="{{ old('payment_percentage', $defaultPercentage) }}" required>
+                        <datalist id="paymentPercentageOptions">
+                            <option value="10">
+                            <option value="30">
+                            <option value="50">
+                            <option value="100">
+                        </datalist>
+                    </div>
+                    <div class="sbk-field">
+                        <label for="payment_amount">Pay Now Amount *</label>
+                        <input id="payment_amount" name="payment_amount" type="number" min="0.01" step="0.01" value="{{ old('payment_amount') }}" required>
                     </div>
                     @guest
                         <div class="sbk-field">
@@ -165,6 +171,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('sbkCheckoutForm');
     const percentage = document.getElementById('payment_percentage');
+    const paymentAmount = document.getElementById('payment_amount');
     const payNow = document.getElementById('payNowAmount');
     const remaining = document.getElementById('remainingAmount');
     const note = document.getElementById('minimumPaymentNote');
@@ -176,20 +183,50 @@ document.addEventListener('DOMContentLoaded', function () {
     const fallbackBox = document.getElementById('paypalFallbackBox');
     const subtotal = Number(@json((float) $subtotal));
     let paypalFallbackRendered = false;
+    let syncingPayment = false;
 
     function money(value) {
         return '$' + Number(value).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
-    function paymentBreakdown() {
-        const selected = Number(percentage.value);
-        const effective = subtotal <= 3000 && selected < 25 ? 25 : selected;
-        const paid = Math.round((subtotal * (effective / 100)) * 100) / 100;
+    function clamp(value, min, max) {
+        return Math.min(Math.max(Number(value) || 0, min), max);
+    }
+
+    function paymentBreakdown(source) {
+        if (syncingPayment) {
+            return;
+        }
+
+        syncingPayment = true;
+
+        let selected = clamp(percentage.value, 0, 100);
+        let paid = 0;
+        let effective = selected;
+        const minimumPercentage = subtotal <= 3000 ? 25 : 0.01;
+
+        if (source === 'amount') {
+            paid = clamp(paymentAmount.value, 0, subtotal);
+            effective = subtotal > 0 ? (paid / subtotal) * 100 : 0;
+            if (minimumPercentage && effective < minimumPercentage) {
+                effective = minimumPercentage;
+                paid = Math.round((subtotal * (effective / 100)) * 100) / 100;
+            }
+            percentage.value = Number(effective.toFixed(2));
+            paymentAmount.value = paid.toFixed(2);
+        } else {
+            effective = minimumPercentage && selected < minimumPercentage ? minimumPercentage : selected;
+            paid = Math.round((subtotal * (effective / 100)) * 100) / 100;
+            paymentAmount.value = paid.toFixed(2);
+        }
+
         const due = Math.max(Math.round((subtotal - paid) * 100) / 100, 0);
 
         payNow.textContent = money(paid);
         remaining.textContent = money(due);
         note.style.display = effective !== selected ? 'block' : 'none';
+
+        syncingPayment = false;
     }
 
     function showError(message) {
@@ -221,7 +258,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             body: JSON.stringify({
-                payment_percentage: percentage.value
+                payment_percentage: percentage.value,
+                payment_amount: paymentAmount.value
             })
         })
             .then(response => response.json().then(data => ({ok: response.ok, data})))
@@ -258,8 +296,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    percentage.addEventListener('change', paymentBreakdown);
-    paymentBreakdown();
+    percentage.addEventListener('input', () => paymentBreakdown('percentage'));
+    paymentAmount.addEventListener('input', () => paymentBreakdown('amount'));
+    paymentBreakdown(paymentAmount.value ? 'amount' : 'percentage');
 
     @if($paypalClientId)
     function renderPaypalFallback() {

@@ -44,7 +44,7 @@ class CheckoutController extends Controller
 
         $validated = $this->validatedCheckout($request, false);
         $subtotal = $this->cartSubtotal($items);
-        $payment = $this->paymentBreakdown($subtotal, (int) $validated['payment_percentage']);
+        $payment = $this->paymentBreakdown($subtotal, (float) $validated['payment_percentage'], isset($validated['payment_amount']) ? (float) $validated['payment_amount'] : null);
         $payment['paid_amount'] = 0;
         $payment['remaining_amount'] = $subtotal;
 
@@ -66,11 +66,12 @@ class CheckoutController extends Controller
         }
 
         $validated = $request->validate([
-            'payment_percentage' => ['required', 'integer', 'in:10,30,50,100'],
+            'payment_percentage' => ['required', 'numeric', 'min:0.01', 'max:100'],
+            'payment_amount' => ['nullable', 'numeric', 'min:0.01'],
         ]);
 
         $subtotal = $this->cartSubtotal($items);
-        $payment = $this->paymentBreakdown($subtotal, (int) $validated['payment_percentage']);
+        $payment = $this->paymentBreakdown($subtotal, (float) $validated['payment_percentage'], isset($validated['payment_amount']) ? (float) $validated['payment_amount'] : null);
         $accessToken = $this->paypalAccessToken();
 
         if (!$accessToken) {
@@ -113,7 +114,7 @@ class CheckoutController extends Controller
 
         $validated = $this->validatedCheckout($request);
         $subtotal = $this->cartSubtotal($items);
-        $payment = $this->paymentBreakdown($subtotal, (int) $validated['payment_percentage']);
+        $payment = $this->paymentBreakdown($subtotal, (float) $validated['payment_percentage'], isset($validated['payment_amount']) ? (float) $validated['payment_amount'] : null);
         $accessToken = $this->paypalAccessToken();
 
         if (!$accessToken) {
@@ -153,7 +154,8 @@ class CheckoutController extends Controller
             'city' => ['nullable', 'string', 'max:120'],
             'port' => ['nullable', 'string', 'max:120'],
             'message' => ['nullable', 'string', 'max:5000'],
-            'payment_percentage' => ['required', 'integer', 'in:10,30,50,100'],
+            'payment_percentage' => ['required', 'numeric', 'min:0.01', 'max:100'],
+            'payment_amount' => ['nullable', 'numeric', 'min:0.01'],
             'paypal_order_id' => [$requiresPaypal ? 'required' : 'nullable', 'string', 'max:255'],
         ];
 
@@ -179,7 +181,7 @@ class CheckoutController extends Controller
                 'city' => $validated['city'] ?? null,
                 'port' => $validated['port'] ?? null,
                 'payment_method' => $paypalPayload['payment_method'] ?? 'PayPal',
-                'payment_percentage' => $payment['effective_percentage'],
+                'payment_percentage' => (int) round($payment['effective_percentage']),
                 'message' => $validated['message'] ?? null,
                 'subtotal' => $subtotal,
                 'paid_amount' => $payment['paid_amount'],
@@ -263,12 +265,27 @@ class CheckoutController extends Controller
         return (float) $items->sum(fn ($item) => $item->product->price * $item->quantity);
     }
 
-    private function paymentBreakdown(float $subtotal, int $selectedPercentage): array
+    private function paymentBreakdown(float $subtotal, float $selectedPercentage, ?float $selectedAmount = null): array
     {
-        $effectivePercentage = $subtotal <= 3000 && $selectedPercentage < 25
-            ? 25
-            : $selectedPercentage;
-        $paidAmount = round($subtotal * ($effectivePercentage / 100), 2);
+        $selectedPercentage = min(max($selectedPercentage, 0.01), 100);
+        $selectedAmount = $selectedAmount === null ? null : min(max($selectedAmount, 0.01), $subtotal);
+        $minimumPercentage = $subtotal <= 3000 ? 25 : 0.01;
+
+        if ($selectedAmount !== null) {
+            $effectivePercentage = $subtotal > 0 ? ($selectedAmount / $subtotal) * 100 : 0;
+
+            if ($minimumPercentage && $effectivePercentage < $minimumPercentage) {
+                $effectivePercentage = $minimumPercentage;
+                $paidAmount = round($subtotal * ($effectivePercentage / 100), 2);
+            } else {
+                $paidAmount = round($selectedAmount, 2);
+            }
+        } else {
+            $effectivePercentage = $minimumPercentage && $selectedPercentage < $minimumPercentage
+                ? $minimumPercentage
+                : $selectedPercentage;
+            $paidAmount = round($subtotal * ($effectivePercentage / 100), 2);
+        }
 
         return [
             'selected_percentage' => $selectedPercentage,

@@ -110,7 +110,11 @@ class AdminRoleController extends Controller
 
     private function groupedPermissions()
     {
-        return AdminPermission::orderBy('module')->orderBy('action')->get()->groupBy('module');
+        return AdminPermission::whereIn('module', array_keys(config('admin_permissions', [])))
+            ->orderBy('module')
+            ->orderBy('action')
+            ->get()
+            ->groupBy('module');
     }
 
     private function uniqueSlug(string $name, ?int $ignoreId = null): string

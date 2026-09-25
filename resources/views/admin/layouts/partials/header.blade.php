@@ -1,15 +1,34 @@
 @php
     $adminUser = auth('admin')->user();
     $canAdmin = fn ($permission) => !$adminUser || $adminUser->hasAdminPermission($permission);
-    $showInventoryMenu = $canAdmin('product.create') || $canAdmin('product.index') || $canAdmin('vehicle-brand.index') || $canAdmin('vehicle-model.index');
-    $showUsersMenu = $canAdmin('users.create') || $canAdmin('users.index') || $canAdmin('orders.create') || $canAdmin('orders.index');
+    $showInventoryMenu = $canAdmin('product.create') || $canAdmin('product.index');
+    $showUsersMenu = $canAdmin('users.create') || $canAdmin('users.index');
+    $showOrdersMenu = $canAdmin('orders.create') || $canAdmin('orders.index');
+    $showVehicleBrandMenu = $canAdmin('vehicle-brand.index');
+    $showVehicleModelMenu = $canAdmin('vehicle-model.index');
     $showBlogMenu = $canAdmin('blog.create') || $canAdmin('blog.index');
     $showContactMenu = $canAdmin('contact-us.index');
     $showFaqMenu = $canAdmin('faq.create') || $canAdmin('faq.index');
     $showPagesMenu = $canAdmin('pages.index');
-    $showModulesMenu = $showInventoryMenu || $showUsersMenu || $showBlogMenu || $showContactMenu || $showFaqMenu || $showPagesMenu;
+    $showModulesMenu = $showInventoryMenu || $showVehicleBrandMenu || $showVehicleModelMenu || $showUsersMenu || $showOrdersMenu || $showBlogMenu || $showContactMenu || $showFaqMenu || $showPagesMenu;
     $showSettingsMenu = $canAdmin('admin-roles.index') || $canAdmin('administrators.index') || $canAdmin('site-settings.index');
 @endphp
+<style>
+    .sbk-crm-global-btn {
+        background: #d71920 !important;
+        border-color: #d71920 !important;
+        color: #fff !important;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(215, 25, 32, .24);
+    }
+
+    .sbk-crm-global-btn:hover,
+    .sbk-crm-global-btn:focus {
+        background: #111216 !important;
+        border-color: #111216 !important;
+        color: #fff !important;
+    }
+</style>
 <!-- BEGIN: Header-->
 <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu floating-nav navbar-light navbar-shadow">
     <div class="navbar-wrapper">
@@ -28,6 +47,11 @@
                     </ul>
                 </div>
                 <ul class="nav navbar-nav float-right">
+                    <li class="nav-item d-none d-sm-flex align-items-center mr-1">
+                        <a class="btn btn-sm sbk-crm-global-btn" href="https://crmglobal.sbkautotrading.com/login?callbackUrl=https%3A%2F%2Fcrmglobal.sbkautotrading.com%2F">
+                            CRM Global
+                        </a>
+                    </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                             href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span
@@ -90,7 +114,7 @@
             </li>
             @endif
             @if($showInventoryMenu)
-            <li class="nav-item {{ in_array(request()->segment(2), ['vehicle-brand', 'vehicle-model', 'product']) ? 'active' : '' }}">
+            <li class="nav-item {{ request()->segment(2) == 'product' ? 'active' : '' }}">
                 <a href="#"><i class="feather icon-truck"></i><span class="menu-title" data-i18n="Inventory">Inventory</span></a>
                 <ul class="menu-content">
                     @if($canAdmin('product.create'))
@@ -103,21 +127,27 @@
                         <a href="{{ route('admin.product.index') }}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Products">Products</span></a>
                     </li>
                     @endif
-                    @if($canAdmin('vehicle-brand.index'))
-                    <li class="{{ request()->segment(2) == 'vehicle-brand' ? 'active' : '' }}">
-                        <a href="{{ route('admin.vehicle-brand.index') }}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Brands">Brands</span></a>
-                    </li>
-                    @endif
-                    @if($canAdmin('vehicle-model.index'))
-                    <li class="{{ request()->segment(2) == 'vehicle-model' ? 'active' : '' }}">
-                        <a href="{{ route('admin.vehicle-model.index') }}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Models">Models</span></a>
-                    </li>
-                    @endif
                 </ul>
             </li>
             @endif
+            @if($showVehicleBrandMenu)
+            <li class="nav-item {{ request()->segment(2) == 'vehicle-brand' ? 'active' : '' }}">
+                <a href="{{ route('admin.vehicle-brand.index') }}">
+                    <i class="feather icon-tag"></i>
+                    <span class="menu-title" data-i18n="Brands">Brands</span>
+                </a>
+            </li>
+            @endif
+            @if($showVehicleModelMenu)
+            <li class="nav-item {{ request()->segment(2) == 'vehicle-model' ? 'active' : '' }}">
+                <a href="{{ route('admin.vehicle-model.index') }}">
+                    <i class="feather icon-grid"></i>
+                    <span class="menu-title" data-i18n="Models">Models</span>
+                </a>
+            </li>
+            @endif
             @if($showUsersMenu)
-            <li class="nav-item {{ in_array(request()->segment(2), ['users', 'orders']) ? 'active' : '' }}"> <a href="#"><i
+            <li class="nav-item {{ request()->segment(2) == 'users' ? 'active' : '' }}"> <a href="#"><i
                         class="feather icon-user"></i><span class="menu-title" data-i18n="User">Users</span></a>
                 <ul class="menu-content">
                     @if($canAdmin('users.create'))
@@ -134,6 +164,13 @@
                                 class="menu-item" data-i18n="View">List</span></a>
                     </li>
                     @endif
+                </ul>
+            </li>
+            @endif
+            @if($showOrdersMenu)
+            <li class="nav-item {{ request()->segment(2) == 'orders' ? 'active' : '' }}"> <a href="#"><i
+                        class="feather icon-shopping-bag"></i><span class="menu-title" data-i18n="Orders">Orders</span></a>
+                <ul class="menu-content">
                     @if($canAdmin('orders.create'))
                     <li
                         class="{{ request()->segment(2) == 'orders' && request()->segment(3) == 'create' ? 'active' : '' }}">

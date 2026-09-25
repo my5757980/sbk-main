@@ -49,61 +49,9 @@ return [
         'label' => 'Site Settings',
         'actions' => ['index' => 'Manage Site Settings', 'edit' => 'Edit Site Settings', 'update' => 'Update Site Settings'],
     ],
-    'media-files' => [
-        'label' => 'Media Files',
-        'actions' => ['index' => 'List Media Files', 'create' => 'Add Media File', 'edit' => 'Edit Media File', 'show' => 'View Media File', 'destroy' => 'Delete Media File'],
-    ],
-    'service' => [
-        'label' => 'Services',
-        'actions' => ['index' => 'List Services', 'create' => 'Add Service', 'edit' => 'Edit Service', 'show' => 'View Service', 'destroy' => 'Delete Service'],
-    ],
     'testimonial' => [
         'label' => 'Testimonials',
         'actions' => ['index' => 'List Testimonials', 'create' => 'Add Testimonial', 'edit' => 'Edit Testimonial', 'show' => 'View Testimonial', 'destroy' => 'Delete Testimonial'],
-    ],
-    'category' => [
-        'label' => 'Categories',
-        'actions' => ['index' => 'List Categories', 'create' => 'Add Category', 'edit' => 'Edit Category', 'show' => 'View Category', 'destroy' => 'Delete Category'],
-    ],
-    'resource' => [
-        'label' => 'Resources',
-        'actions' => ['index' => 'List Resources', 'create' => 'Add Resource', 'edit' => 'Edit Resource', 'show' => 'View Resource', 'destroy' => 'Delete Resource'],
-    ],
-    'activity' => [
-        'label' => 'Activities',
-        'actions' => ['index' => 'List Activities', 'create' => 'Add Activity', 'edit' => 'Edit Activity', 'show' => 'View Activity', 'destroy' => 'Delete Activity'],
-    ],
-    'feeling' => [
-        'label' => 'Thoughts',
-        'actions' => ['index' => 'List Thoughts', 'create' => 'Add Thought', 'edit' => 'Edit Thought', 'show' => 'View Thought', 'destroy' => 'Delete Thought'],
-    ],
-    'mood' => [
-        'label' => 'Moods',
-        'actions' => ['index' => 'List Moods', 'create' => 'Add Mood', 'edit' => 'Edit Mood', 'show' => 'View Mood', 'destroy' => 'Delete Mood'],
-    ],
-    'question' => [
-        'label' => 'Questions',
-        'actions' => ['index' => 'List Questions', 'create' => 'Add Question', 'edit' => 'Edit Question', 'show' => 'View Question', 'destroy' => 'Delete Question'],
-    ],
-    'relation-question' => [
-        'label' => 'Relation Questions',
-        'actions' => ['index' => 'List Relation Questions', 'create' => 'Add Relation Question', 'edit' => 'Edit Relation Question', 'show' => 'View Relation Question', 'destroy' => 'Delete Relation Question'],
-    ],
-    'situation-question' => [
-        'label' => 'Situation Questions',
-        'actions' => ['index' => 'List Situation Questions', 'create' => 'Add Situation Question', 'edit' => 'Edit Situation Question', 'show' => 'View Situation Question', 'destroy' => 'Delete Situation Question'],
-    ],
-    'habit-question' => [
-        'label' => 'Habit Questions',
-        'actions' => ['index' => 'List Habit Questions', 'create' => 'Add Habit Question', 'edit' => 'Edit Habit Question', 'show' => 'View Habit Question', 'destroy' => 'Delete Habit Question'],
-    ],
-    'amazing-feature' => [
-        'label' => 'Amazing Features',
-        'actions' => ['index' => 'List Amazing Features', 'create' => 'Add Amazing Feature', 'edit' => 'Edit Amazing Feature', 'show' => 'View Amazing Feature', 'destroy' => 'Delete Amazing Feature'],
-    ],
-    'landing-content' => [
-        'label' => 'Landing Content',
-        'actions' => ['index' => 'View Landing Content', 'edit' => 'Update Landing Content'],
     ],
     'administrators' => [
         'label' => 'Administrators',
