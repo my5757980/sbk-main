@@ -105,6 +105,23 @@ $assetBase = asset('assets/front');
                         @endforeach
                     </select>
                 </div>
+                <div class="sbk-filter-group">
+                    <div class="sbk-filter-title">Mileage</div>
+                    <select id="sbkMileage" name="max_mileage">
+                        <option value="">Any Mileage</option>
+                        @for($mileage = 50000; $mileage <= 250000; $mileage += 50000)
+                            <option value="{{ $mileage }}" @selected((string) $selectedMileage === (string) $mileage)>Under {{ number_format($mileage) }} km</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="sbk-filter-group">
+                    <div class="sbk-filter-title">Transmission</div>
+                    <select id="sbkTransmission" name="transmission">
+                        <option value="">Any Transmission</option>
+                        <option value="Automatic" @selected($selectedTransmission === 'Automatic')>Automatic Transmission</option>
+                        <option value="Manual" @selected($selectedTransmission === 'Manual')>Manual Transmission</option>
+                    </select>
+                </div>
                 <div class="sbk-filter-actions"><button class="sbk-apply" id="sbkApply" type="submit">Apply Filters</button><a class="sbk-reset" id="sbkReset" href="{{ route('shop') }}" style="display:grid;place-items:center;text-decoration:none">Reset</a></div>
             </form>
 

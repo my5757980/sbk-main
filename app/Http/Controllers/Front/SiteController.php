@@ -84,6 +84,8 @@ class SiteController extends Controller
         $selectedGrades = array_values(array_filter((array) $request->input('grades', [])));
         $selectedModel = $request->input('model');
         $selectedYear = $request->input('year');
+        $selectedMileage = $request->input('max_mileage');
+        $selectedTransmission = $request->input('transmission');
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $sort = $request->input('sort', 'default');
@@ -123,6 +125,8 @@ class SiteController extends Controller
             ->when($selectedYear, fn ($collection) => $collection->where('year', (int) $selectedYear))
             ->when($selectedTypes, fn ($collection) => $collection->filter(fn ($product) => in_array($this->vehicleTypeLabel($product->body_type), $selectedTypes, true)))
             ->when($selectedGrades, fn ($collection) => $collection->filter(fn ($product) => in_array($this->productGrade($product), $selectedGrades, true)))
+            ->when($selectedMileage, fn ($collection) => $collection->filter(fn ($product) => $product->mileage !== null && $product->mileage !== '' && (int) $product->mileage <= (int) $selectedMileage))
+            ->when($selectedTransmission, fn ($collection) => $collection->filter(fn ($product) => Str::contains(Str::lower((string) $product->transmission), Str::lower($selectedTransmission))))
             ->when($minPrice !== null && $minPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price >= (float) $minPrice))
             ->when($maxPrice !== null && $maxPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price <= (float) $maxPrice));
 
@@ -164,6 +168,8 @@ class SiteController extends Controller
             'selectedGrades',
             'selectedModel',
             'selectedYear',
+            'selectedMileage',
+            'selectedTransmission',
             'minPrice',
             'maxPrice',
             'sort',

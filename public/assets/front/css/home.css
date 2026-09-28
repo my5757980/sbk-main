@@ -2284,20 +2284,34 @@ body {
 /* Final polish for the latest requested sections */
 .topbar__right {
     position: relative;
-    flex: 0 0 clamp(150px, 18vw, 210px);
-    width: clamp(150px, 18vw, 210px);
+    flex: 0 0 clamp(310px, 38vw, 430px);
+    width: clamp(310px, 38vw, 430px);
     height: 30px;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
     overflow: hidden;
     margin-left: auto;
+    align-self: center;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
-.topbar__right span {
+.topbar__clocks {
+    position: relative;
+    flex: 0 0 clamp(150px, 18vw, 210px);
+    height: 30px;
+    overflow: hidden;
+}
+
+.topbar__clocks > span {
     position: absolute;
-    inset: 0;
+    inset: 50% 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 30px;
     min-height: 0;
     padding: 5px 10px;
     border: 0;
@@ -2308,23 +2322,82 @@ body {
     font-weight: 900;
     line-height: 1;
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(calc(-50% + 12px));
     transition: opacity .42s ease, transform .42s ease;
     pointer-events: none;
 }
 
-.topbar__right span.is-active {
+.topbar__clocks > span.is-active {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(-50%);
     pointer-events: auto;
+}
+
+.currency-converter {
+    flex: 0 0 clamp(150px, 18vw, 210px);
+    width: clamp(150px, 18vw, 210px);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 5px 8px;
+    border-radius: 999px;
+    background: #f7f7f7;
+    color: #111;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.currency-converter,
+.currency-converter * {
+    color: #000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    text-shadow: .25px 0 0 #000;
+}
+
+.currency-converter label {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    min-width: 0;
+    color: #111;
+    white-space: nowrap;
+}
+
+.currency-converter input {
+    width: 42px;
+    height: 18px;
+    border: 0;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 900;
+    text-align: center;
+    outline: none;
+}
+
+.currency-converter input:focus {
+    box-shadow: 0 0 0 2px rgba(213, 0, 0, .18);
+}
+
+.currency-converter__swap {
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 900;
 }
 
 .brand-stats {
     min-height: 0;
     padding: 66px 0 54px;
     background:
-        radial-gradient(circle at 16% 30%, rgba(207, 17, 17, .09), transparent 28%),
-        linear-gradient(180deg, #fff 0%, #fff8f8 54%, #fff 100%);
+        linear-gradient(180deg, rgba(255, 255, 255, .72) 0%, rgba(255, 248, 248, .58) 54%, rgba(255, 255, 255, .78) 100%),
+        radial-gradient(circle at 16% 30%, rgba(207, 17, 17, .13), transparent 28%),
+        url("../img/world-map-bg-attractive.png") center/cover no-repeat;
 }
 
 .brand-stats::before {
@@ -2334,7 +2407,7 @@ body {
     width: min(1040px, 94vw);
     height: 360px;
     opacity: .2;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 420'%3E%3Cellipse cx='500' cy='210' rx='462' ry='172' fill='none' stroke='%23cfd5dc' stroke-width='2.2'/%3E%3Cellipse cx='500' cy='210' rx='355' ry='132' fill='none' stroke='%23d7dce2' stroke-width='1.6'/%3E%3Cellipse cx='500' cy='210' rx='235' ry='88' fill='none' stroke='%23d7dce2' stroke-width='1.4'/%3E%3Cpath d='M42 210H958M500 38V382' stroke='%23d7dce2' stroke-width='1.5'/%3E%3Cpath d='M190 83c72 58 72 196 0 254M810 83c-72 58-72 196 0 254M332 52c38 76 38 240 0 316M668 52c-38 76-38 240 0 316' fill='none' stroke='%23d7dce2' stroke-width='1.5'/%3E%3Cpath d='M247 165c32-38 83-43 119-28 31 13 41 41 73 39 28-2 52-27 89-18 24 6 36 25 59 25 23 1 38-16 65-9 38 9 59 44 79 73-44 18-86 12-117-5-34-18-56-45-95-34-41 12-42 56-82 68-39 12-65-25-109-17-34 6-50 34-88 27-36-7-65-40-77-76 24-7 55-13 84-45z' fill='%239aa4b2' opacity='.45'/%3E%3Cpath d='M410 266c27-14 62-10 90 5 31 17 54 45 91 44 30-1 48-22 78-17 30 5 51 31 67 55-77 25-166 26-246 3-44-13-76-35-80-90zM286 236c-41 9-73-2-91-29-12-18-12-41-2-58 39 8 58 33 92 44 24 8 48 3 75 10-12 22-36 25-74 33z' fill='%23d71920' opacity='.26'/%3E%3C/svg%3E") center/contain no-repeat;
+    background: url("../img/world-map-bg-attractive.png") center/contain no-repeat;
     transform: translateX(-50%);
 }
 
@@ -2351,11 +2424,11 @@ body {
     position: absolute;
     left: 50%;
     z-index: 0;
-    width: min(1160px, 96vw);
-    height: 410px;
+    width: 100%;
+    height: 360px;
     transform: translateX(-50%);
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 420'%3E%3Cellipse cx='500' cy='210' rx='462' ry='172' fill='none' stroke='%23cfd5dc' stroke-width='2.2'/%3E%3Cellipse cx='500' cy='210' rx='355' ry='132' fill='none' stroke='%23d7dce2' stroke-width='1.6'/%3E%3Cellipse cx='500' cy='210' rx='235' ry='88' fill='none' stroke='%23d7dce2' stroke-width='1.4'/%3E%3Cpath d='M42 210H958M500 38V382' stroke='%23d7dce2' stroke-width='1.5'/%3E%3Cpath d='M190 83c72 58 72 196 0 254M810 83c-72 58-72 196 0 254M332 52c38 76 38 240 0 316M668 52c-38 76-38 240 0 316' fill='none' stroke='%23d7dce2' stroke-width='1.5'/%3E%3Cpath d='M247 165c32-38 83-43 119-28 31 13 41 41 73 39 28-2 52-27 89-18 24 6 36 25 59 25 23 1 38-16 65-9 38 9 59 44 79 73-44 18-86 12-117-5-34-18-56-45-95-34-41 12-42 56-82 68-39 12-65-25-109-17-34 6-50 34-88 27-36-7-65-40-77-76 24-7 55-13 84-45z' fill='%239aa4b2' opacity='.55'/%3E%3Cpath d='M410 266c27-14 62-10 90 5 31 17 54 45 91 44 30-1 48-22 78-17 30 5 51 31 67 55-77 25-166 26-246 3-44-13-76-35-80-90zM286 236c-41 9-73-2-91-29-12-18-12-41-2-58 39 8 58 33 92 44 24 8 48 3 75 10-12 22-36 25-74 33z' fill='%23d71920' opacity='.34'/%3E%3C/svg%3E") center/contain no-repeat;
-    opacity: .52;
+    background: url("../img/world-map-bg-attractive.png") center/cover no-repeat;
+    opacity: .7;
     pointer-events: none;
 }
 
@@ -2367,18 +2440,20 @@ body {
 }
 
 .brand-intro::before {
-    bottom: -245px;
+    bottom: -190px;
 }
 
 .brand-strip::before {
-    top: -154px;
+    top: -130px;
 }
 
 .brand-stats::before {
-    top: -82px;
-    width: min(1160px, 96vw);
-    height: 410px;
-    opacity: .58;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    opacity: .5;
+    background-size: cover;
+    transform: translate(-50%, -50%);
 }
 
 .brand-stats .container {

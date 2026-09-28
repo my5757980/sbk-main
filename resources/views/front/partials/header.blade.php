@@ -19,31 +19,45 @@
         </div>
 
         <div class="topbar__right">
-            <span class="is-active"
-                  data-clock="America/Chicago"
-                  data-label="USA (MN)">
-                USA (MN) --:--:--
-            </span>
+            <div class="topbar__clocks">
+                <span class="is-active"
+                      data-clock="America/Chicago"
+                      data-label="USA (MN)">
+                    USA (MN) --:--:--
+                </span>
 
-            <span data-clock="America/Jamaica"
-                  data-label="JAMAICA">
-                JAMAICA --:--:--
-            </span>
+                <span data-clock="America/Jamaica"
+                      data-label="JAMAICA">
+                    JAMAICA --:--:--
+                </span>
 
-            <span data-clock="Africa/Nairobi"
-                  data-label="KENYA">
-                KENYA --:--:--
-            </span>
+                <span data-clock="Africa/Nairobi"
+                      data-label="KENYA">
+                    KENYA --:--:--
+                </span>
 
-            <span data-clock="Asia/Dubai"
-                  data-label="UAE">
-                UAE --:--:--
-            </span>
+                <span data-clock="Asia/Dubai"
+                      data-label="UAE">
+                    UAE --:--:--
+                </span>
 
-            <span data-clock="Asia/Tokyo"
-                  data-label="JAPAN">
-                JAPAN --:--:--
-            </span>
+                <span data-clock="Asia/Tokyo"
+                      data-label="JAPAN">
+                    JAPAN --:--:--
+                </span>
+            </div>
+
+            <div class="currency-converter" data-currency-converter>
+                <label>
+                    <span>USD</span>
+                    <input type="number" min="0" step="1" value="1" data-usd-input aria-label="US dollars">
+                </label>
+                <span class="currency-converter__swap">=</span>
+                <label>
+                    <span>JPY</span>
+                    <input type="number" min="0" step="1" value="" placeholder="..." data-jpy-input aria-label="Japanese yen">
+                </label>
+            </div>
         </div>
     </div>
 </header>

@@ -45,6 +45,79 @@ document.addEventListener('DOMContentLoaded', () => {
         window.setInterval(() => showClock(activeClock + 1), 2600);
     }
 
+    document.querySelectorAll('[data-currency-converter]').forEach((converter) => {
+        let rate = null;
+        const usdInput = converter.querySelector('[data-usd-input]');
+        const jpyInput = converter.querySelector('[data-jpy-input]');
+
+        if (!usdInput || !jpyInput) {
+            return;
+        }
+
+        const formatValue = (value) => {
+            if (!Number.isFinite(value)) {
+                return '';
+            }
+
+            return value >= 100 ? Math.round(value).toString() : value.toFixed(2).replace(/\.?0+$/, '');
+        };
+
+        const convertFromUsd = () => {
+            if (!rate) {
+                return;
+            }
+
+            jpyInput.value = formatValue(Number(usdInput.value) * rate);
+        };
+
+        const convertFromJpy = () => {
+            if (!rate) {
+                return;
+            }
+
+            usdInput.value = formatValue(Number(jpyInput.value) / rate);
+        };
+
+        usdInput.addEventListener('input', convertFromUsd);
+        jpyInput.addEventListener('input', convertFromJpy);
+
+        const rateSources = [
+            () => fetch('https://open.er-api.com/v6/latest/USD')
+                .then((response) => response.ok ? response.json() : null)
+                .then((data) => Number(data?.rates?.JPY)),
+            () => fetch('https://api.frankfurter.app/latest?from=USD&to=JPY')
+                .then((response) => response.ok ? response.json() : null)
+                .then((data) => Number(data?.rates?.JPY)),
+            () => fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json')
+                .then((response) => response.ok ? response.json() : null)
+                .then((data) => Number(data?.usd?.jpy)),
+        ];
+
+        const loadRate = (sourceIndex = 0) => {
+            const source = rateSources[sourceIndex];
+
+            if (!source) {
+                jpyInput.value = '';
+                return;
+            }
+
+            source()
+                .then((forexRate) => {
+                if (Number.isFinite(forexRate) && forexRate > 0) {
+                    rate = forexRate;
+                    converter.dataset.usdJpyRate = String(forexRate);
+                    convertFromUsd();
+                    return;
+                }
+
+                    loadRate(sourceIndex + 1);
+                })
+                .catch(() => loadRate(sourceIndex + 1));
+        };
+
+        loadRate();
+    });
+
     const navToggle = document.querySelector('.nav-toggle');
     const navGrid = document.querySelector('.navgrid');
     const navLinks = document.querySelector('.navlinks');
