@@ -17,3 +17,12 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# The phone app (mobile-app/): installed, generated and built files
+/mobile-app/node_modules/
+/mobile-app/android/
+/mobile-app/ios/
+/mobile-app/.expo/
+/mobile-app/release/
+/mobile-app/*.log
+*.apk
