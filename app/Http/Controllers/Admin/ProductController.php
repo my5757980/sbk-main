@@ -27,6 +27,7 @@ class ProductController extends Controller
     public function create()
     {
         $data = new Product(['status' => 'published', 'is_featured' => true]);
+        $nextRefNo = $this->generateRefNo();
         $brands = VehicleBrand::orderBy('name')->get();
         $models = VehicleModel::with('brand')->orderBy('name')->get();
         $homeSectionOptions = Product::HOME_SECTION_OPTIONS;
@@ -37,7 +38,7 @@ class ProductController extends Controller
             'cancel_url' => route('admin.product.index'),
         ];
 
-        return view('admin.products.form', compact('data', 'brands', 'models', 'homeSectionOptions', 'form'));
+        return view('admin.products.form', compact('data', 'nextRefNo', 'brands', 'models', 'homeSectionOptions', 'form'));
     }
 
     public function store(Request $request)
@@ -46,6 +47,7 @@ class ProductController extends Controller
         unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values']);
         $this->ensureModelBelongsToBrand($validated['vehicle_model_id'], $validated['vehicle_brand_id']);
         $validated['slug'] = $this->uniqueSlug($validated['title']);
+        $validated['ref_no'] = $this->generateRefNo();
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['images'] = $this->uploadImages($request);
         $validated['vehicle_specifications'] = $this->formatSpecifications($request);
@@ -58,6 +60,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $data = Product::findOrFail($id);
+        $nextRefNo = $data->ref_no ?: $this->generateRefNo();
         $brands = VehicleBrand::orderBy('name')->get();
         $models = VehicleModel::with('brand')->orderBy('name')->get();
         $homeSectionOptions = Product::HOME_SECTION_OPTIONS;
@@ -68,7 +71,7 @@ class ProductController extends Controller
             'cancel_url' => route('admin.product.index'),
         ];
 
-        return view('admin.products.form', compact('data', 'brands', 'models', 'homeSectionOptions', 'form'));
+        return view('admin.products.form', compact('data', 'nextRefNo', 'brands', 'models', 'homeSectionOptions', 'form'));
     }
 
     public function update(Request $request, $id)
@@ -78,6 +81,7 @@ class ProductController extends Controller
         unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values']);
         $this->ensureModelBelongsToBrand($validated['vehicle_model_id'], $validated['vehicle_brand_id']);
         $validated['slug'] = $this->uniqueSlug($validated['title'], $product->slug);
+        $validated['ref_no'] = $product->ref_no ?: $this->generateRefNo();
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['vehicle_specifications'] = $this->formatSpecifications($request);
 
@@ -117,16 +121,19 @@ class ProductController extends Controller
             'vehicle_model_id' => ['required', 'exists:vehicle_models,id'],
             'title' => ['required', 'string', 'max:192'],
             'stock_no' => ['nullable', 'string', 'max:100'],
-            'chassis_no' => ['nullable', 'string', 'max:100'],
-            'year' => ['nullable', 'integer', 'min:1900', 'max:' . ((int) date('Y') + 1)],
+            'chassis_no' => ['required', 'string', 'max:100'],
+            'year' => ['required', 'integer', 'min:1900', 'max:' . ((int) date('Y') + 1)],
             'price' => ['required', 'numeric', 'min:0'],
-            'mileage' => ['nullable', 'integer', 'min:0'],
+            'mileage' => ['required', 'integer', 'min:0'],
             'fuel_type' => ['nullable', 'string', 'max:100'],
             'transmission' => ['nullable', 'string', 'max:100'],
             'body_type' => ['nullable', 'string', 'max:100'],
             'engine' => ['nullable', 'string', 'max:100'],
             'color' => ['nullable', 'string', 'max:100'],
-            'steering' => ['nullable', 'string', 'max:100'],
+            'dimension' => ['required', 'string', 'max:100'],
+            'm3' => ['required', 'string', 'max:100'],
+            'steering' => ['required', 'string', 'max:100'],
+            'driving_type' => ['required', 'string', 'max:100'],
             'location' => ['nullable', 'string', 'max:192'],
             'tag' => ['nullable', 'string', 'max:60'],
             'short_description' => ['nullable', 'string', 'max:1000'],
@@ -211,5 +218,18 @@ class ProductController extends Controller
         }
 
         return $slug . '-' . (Product::where('slug', 'like', $slug . '%')->count() + 1);
+    }
+
+    private function generateRefNo()
+    {
+        $prefix = 'SB ' . now()->format('dmY');
+        $serial = Product::count() + 1;
+
+        do {
+            $refNo = $prefix . $serial;
+            $serial++;
+        } while (Product::where('ref_no', $refNo)->exists());
+
+        return $refNo;
     }
 }

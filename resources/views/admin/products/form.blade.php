@@ -36,21 +36,81 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-2"><div class="form-group"><label>Year</label><input type="number" name="year" class="form-control" min="1900" max="{{ date('Y') + 1 }}" value="{{ old('year', $data->year) }}"></div></div>
-                    <div class="col-md-2"><div class="form-group"><label>Price *</label><input type="number" name="price" class="form-control" min="0" step="0.01" value="{{ old('price', $data->price ?? 0) }}" required></div></div>
-                    <div class="col-md-2"><div class="form-group"><label>Mileage</label><input type="number" name="mileage" class="form-control" min="0" value="{{ old('mileage', $data->mileage) }}"></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Ref. No.</label><input type="text" class="form-control" value="{{ $data->ref_no ?: $nextRefNo }}" readonly></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Stock No</label><input type="text" name="stock_no" class="form-control" value="{{ old('stock_no', $data->stock_no) }}"></div></div>
-                    <div class="col-md-3"><div class="form-group"><label>Chassis No</label><input type="text" name="chassis_no" class="form-control" value="{{ old('chassis_no', $data->chassis_no) }}"></div></div>
                 </div>
 
                 <h5 class="mt-2 mb-1">Specifications</h5>
                 <div class="row">
-                    <div class="col-md-3"><div class="form-group"><label>Fuel Type</label><input type="text" name="fuel_type" class="form-control" value="{{ old('fuel_type', $data->fuel_type) }}" placeholder="Hybrid, Petrol, Diesel"></div></div>
-                    <div class="col-md-3"><div class="form-group"><label>Transmission</label><input type="text" name="transmission" class="form-control" value="{{ old('transmission', $data->transmission) }}" placeholder="Automatic"></div></div>
-                    <div class="col-md-3"><div class="form-group"><label>Body Type</label><input type="text" name="body_type" class="form-control" value="{{ old('body_type', $data->body_type) }}" placeholder="SUV, Sedan"></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Year *</label><input type="number" name="year" class="form-control" min="1900" max="{{ date('Y') + 1 }}" value="{{ old('year', $data->year) }}" required></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Price *</label><input type="number" name="price" class="form-control" min="0" step="0.01" value="{{ old('price', $data->price ?? 0) }}" required></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Mileage *</label><input type="number" name="mileage" class="form-control" min="0" value="{{ old('mileage', $data->mileage) }}" required></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Chassis No *</label><input type="text" name="chassis_no" class="form-control" value="{{ old('chassis_no', $data->chassis_no) }}" required></div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label>Fuel Type</label>
+                        <select name="fuel_type" class="form-control">
+                            <option value="">Select Fuel Type</option>
+                            @foreach(['Petrol', 'Diesel', 'Electric'] as $fuelType)
+                                <option value="{{ $fuelType }}" {!! matchSelected($fuelType, old('fuel_type', $data->fuel_type)) !!}>{{ $fuelType }}</option>
+                            @endforeach
+                        </select>
+                    </div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label>Transmission</label>
+                        <select name="transmission" class="form-control">
+                            <option value="">Select Transmission</option>
+                            @foreach(['Automatic Transmission', 'Manual Transmission'] as $transmission)
+                                <option value="{{ $transmission }}" {!! matchSelected($transmission, old('transmission', $data->transmission)) !!}>{{ $transmission }}</option>
+                            @endforeach
+                        </select>
+                    </div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label>Body Type</label>
+                        <select name="body_type" class="form-control">
+                            <option value="">Select Body Type</option>
+                            @foreach([
+                                'Sedan',
+                                'Hatchback',
+                                'SUV',
+                                'Crossover',
+                                'MPV / Minivan',
+                                'Wagon / Estate',
+                                'Coupe',
+                                'Convertible / Cabriolet',
+                                'Pickup Truck',
+                                'Van',
+                                'Microvan / Kei Van',
+                                'Minibus',
+                                'Roadster',
+                                'Liftback',
+                                'Fastback',
+                            ] as $bodyType)
+                                <option value="{{ $bodyType }}" {!! matchSelected($bodyType, old('body_type', $data->body_type)) !!}>{{ $bodyType }}</option>
+                            @endforeach
+                        </select>
+                    </div></div>
                     <div class="col-md-3"><div class="form-group"><label>Engine</label><input type="text" name="engine" class="form-control" value="{{ old('engine', $data->engine) }}" placeholder="2500cc"></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Color</label><input type="text" name="color" class="form-control" value="{{ old('color', $data->color) }}"></div></div>
-                    <div class="col-md-3"><div class="form-group"><label>Steering</label><input type="text" name="steering" class="form-control" value="{{ old('steering', $data->steering) }}" placeholder="Right Hand"></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Dimension *</label><input type="text" name="dimension" class="form-control" value="{{ old('dimension', $data->dimension) }}" placeholder="L x W x H" required></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>M3 *</label><input type="text" name="m3" class="form-control" value="{{ old('m3', $data->m3) }}" placeholder="12.34" required></div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label>Steering *</label>
+                        <select name="steering" class="form-control" required>
+                            <option value="">Select Steering</option>
+                            @foreach(['Right Hand Drive', 'Left Hand Drive'] as $steering)
+                                <option value="{{ $steering }}" {!! matchSelected($steering, old('steering', $data->steering)) !!}>{{ $steering }}</option>
+                            @endforeach
+                        </select>
+                    </div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label>Driving Type *</label>
+                        <select name="driving_type" class="form-control" required>
+                            <option value="">Select Driving Type</option>
+                            @foreach(['2WD', '4WD'] as $drivingType)
+                                <option value="{{ $drivingType }}" {!! matchSelected($drivingType, old('driving_type', $data->driving_type)) !!}>{{ $drivingType }}</option>
+                            @endforeach
+                        </select>
+                    </div></div>
                     <div class="col-md-3"><div class="form-group"><label>Location</label><input type="text" name="location" class="form-control" value="{{ old('location', $data->location) }}" placeholder="Japan"></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Tag</label><input type="text" name="tag" class="form-control" value="{{ old('tag', $data->tag) }}" placeholder="FEATURED"></div></div>
                 </div>
@@ -186,20 +246,30 @@
     .product-preview-card button{position:absolute;right:6px;top:6px;border-radius:50%;padding:2px 7px}
 </style>
 <script>
+    const allModelOptions = $('#vehicle_model_id option').clone();
+
     function filterModels() {
         const brandId = $('#vehicle_brand_id').val();
         const model = $('#vehicle_model_id');
+        const selectedValue = model.val();
 
-        model.find('option').each(function () {
+        model.empty();
+
+        allModelOptions.each(function () {
             const option = $(this);
             const optionBrand = option.data('brand');
-            option.toggle(!optionBrand || !brandId || String(optionBrand) === String(brandId));
+            if (!optionBrand || !brandId || String(optionBrand) === String(brandId)) {
+                model.append(option.clone());
+            }
         });
 
-        const selected = model.find('option:selected');
-        if (selected.data('brand') && brandId && String(selected.data('brand')) !== String(brandId)) {
-            model.val('').trigger('change');
+        if (model.find('option[value="' + selectedValue + '"]').length) {
+            model.val(selectedValue);
+        } else {
+            model.val('');
         }
+
+        model.trigger('change.select2');
     }
 
     $('#vehicle_brand_id').on('change', filterModels);
