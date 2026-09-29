@@ -524,6 +524,7 @@
                         @if($frontUser->hasCrmRecord())
                             <a href="{{ route('profile.index', ['tab' => 'invoices']) }}">My Invoices</a>
                         @endif
+                        <a href="{{ route('chat.app') }}" data-sbk-chat>Live chat</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit">Logout</button>

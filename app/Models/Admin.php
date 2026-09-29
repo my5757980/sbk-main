@@ -26,6 +26,7 @@ class Admin extends Authenticatable
         'password',
         'is_active',
         'admin_role_id',
+        'chat_visible',     // live chat: null = by role, 'yes' / 'no' (ChatService::personOf)
     ];
 
     /**

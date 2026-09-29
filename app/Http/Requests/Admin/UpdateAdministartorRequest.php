@@ -30,6 +30,7 @@ class UpdateAdministartorRequest extends FormRequest
             'image'                 => 'file|mimes:jpeg,jpg,png|max:5000',
             'password_confirmation' => 'required_if:password,!==,""|same:password',
             'admin_role_id'         => 'nullable|exists:admin_roles,id',
+            'chat_visible'          => 'nullable|in:yes,no',
         ];
     }
 }

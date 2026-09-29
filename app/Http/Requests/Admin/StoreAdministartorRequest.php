@@ -30,7 +30,8 @@ class StoreAdministartorRequest extends FormRequest
             'email'      => 'required|email:strict,filter|unique:admins|max:128',
             'is_active'  => 'required',
             'admin_role_id' => 'required|exists:admin_roles,id',
-            'image' => 'nullable|file|mimes:jpeg,jpg,png|max:5000'
+            'image' => 'nullable|file|mimes:jpeg,jpg,png|max:5000',
+            'chat_visible' => 'nullable|in:yes,no',
         ];
     }
 }

@@ -284,5 +284,7 @@
             }
         }
     </script>
+    {{-- The live chat's desk, for the admin-panel staff who answer customers. --}}
+    @include('chat.widget', ['chatDeskOnly' => true])
 </body>
 </html>

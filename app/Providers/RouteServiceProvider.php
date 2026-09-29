@@ -36,8 +36,20 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->mapAdminRoutes();
+        $this->mapChatRoutes();
         $this->mapFrontRoutes(); // front routes should always be in bottom
         $this->mapApiRoutes();
+    }
+
+    /**
+     * The live chat (routes/chat.php). "web": the session says who is here.
+     *
+     * @return void
+     */
+    protected function mapChatRoutes()
+    {
+        Route::middleware('web')
+            ->group(base_path('routes/chat.php'));
     }
 
     /**

@@ -62,4 +62,9 @@ return [
         'label' => 'Roles & Permissions',
         'actions' => ['index' => 'List Roles', 'create' => 'Add Role', 'edit' => 'Edit Role', 'show' => 'View Role', 'destroy' => 'Delete Role'],
     ],
+    // The live chat (app/Services/Chat). Not routes: checked by ChatService.
+    'chat' => [
+        'label' => 'Live Chat',
+        'actions' => ['desk' => 'Chat desk (answer customers, shown in their list)', 'view_all' => 'See every conversation'],
+    ],
 ];

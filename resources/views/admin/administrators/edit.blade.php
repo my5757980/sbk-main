@@ -72,6 +72,7 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @include('admin.administrators.partials.chat-visible', ['value' => old('chat_visible', $data->chat_visible)])
                                 </div>
                             </fieldset>
                             <fieldset>
