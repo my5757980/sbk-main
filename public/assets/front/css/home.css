@@ -3103,11 +3103,13 @@ body {
 }
 
 @media (max-width: 620px) {
+    /* Phones: in the empty top corner of the hero, clear of the car's name
+       (at top: 92px it sat on the heading and hid its letters). */
     .hero__stamp {
-        width: 132px;
-        height: 132px;
-        right: 14px;
-        top: 92px;
+        width: 104px;
+        height: 104px;
+        right: 12px;
+        top: 14px;
     }
 
     .hero__stamp-ring text {
@@ -3116,21 +3118,21 @@ body {
     }
 
     .hero__stamp-core {
-        width: 84px;
-        height: 84px;
+        width: 66px;
+        height: 66px;
     }
 
     .hero__stamp-core svg {
-        width: 21px;
-        height: 21px;
+        width: 17px;
+        height: 17px;
     }
 
     .hero__stamp-core strong {
-        font-size: 16px;
+        font-size: 13px;
     }
 
     .hero__stamp-core small {
-        font-size: 9px;
+        font-size: 8px;
     }
 }
 .sbk-brand-menu {
