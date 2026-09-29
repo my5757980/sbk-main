@@ -19,7 +19,8 @@ return [
     ],
     'users' => [
         'label' => 'Customers',
-        'actions' => ['index' => 'List Customers', 'create' => 'Add Customer', 'edit' => 'Edit Customer', 'show' => 'View Customer', 'destroy' => 'Delete Customer'],
+        // view_all: without it an admin sees only their own customers (see User::scopeVisibleTo).
+        'actions' => ['index' => 'List Customers', 'create' => 'Add Customer', 'edit' => 'Edit Customer', 'show' => 'View Customer', 'destroy' => 'Delete Customer', 'view_all' => 'See all customers'],
     ],
     'orders' => [
         'label' => 'Orders',

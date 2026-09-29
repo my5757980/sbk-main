@@ -59,6 +59,12 @@ class Admin extends Authenticatable
             ->exists();
     }
 
+    /** "See all customers"; without it only their own (User::scopeVisibleTo). */
+    public function canSeeAllCustomers(): bool
+    {
+        return $this->hasAdminPermission('users.view_all');
+    }
+
     public function canAccessAdminModule(string $module): bool
     {
         if ((int) $this->is_system_admin === 1) {

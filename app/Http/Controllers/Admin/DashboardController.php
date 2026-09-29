@@ -30,7 +30,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $usersCount = User::count();
+        // An agent's numbers and list cover only their own customers (User::scopeVisibleTo).
+        $admin = auth('admin')->user();
+        $usersCount = User::visibleTo($admin)->count();
         $productCount = Product::count();
         $publishedProductCount = Product::published()->count();
         $blogCount = Blog::count();
@@ -43,7 +45,7 @@ class DashboardController extends Controller
         $remainingBalance = CheckoutOrder::sum('remaining_amount');
         $contactCount = ContactUs::count();
         $newsletterCount = NewsLetter::count();
-        $users = User::orderBy('id', 'DESC')->take(5)->get();
+        $users = User::visibleTo($admin)->orderBy('id', 'DESC')->take(5)->get();
         $recentOrders = CheckoutOrder::with('user')->orderBy('id', 'DESC')->take(5)->get();
         $orderChart = collect(range(5, 0))->map(function ($monthsAgo) {
             $date = Carbon::now()->subMonths($monthsAgo);

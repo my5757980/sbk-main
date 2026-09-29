@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Models\AdminRole;
+use App\Models\CustomerAgent;
 use App\Models\User;
 use App\Services\Crm\CrmClient;
 use App\Services\Crm\CrmCustomerSync;
@@ -42,13 +43,20 @@ class UserController extends Controller
             }
             $crmLastSync = CrmCustomerSync::lastRun();
             $crmProblem = CrmStatus::problem();
+            $admin = $this->admin();
             $crmAwaitingPasswords = Schema::hasColumn('users', 'crm_password_generated_at')
-                ? CrmPasswords::awaitingPassword()->count()
+                ? CrmPasswords::awaitingPassword()->visibleTo($admin)->count()
                 : 0;
 
-            $data = User::orderBy('created_at', 'DESC')->get();
+            // An agent gets only their own customers; "See all customers" gets everyone plus an Agent column.
+            $seesAll = $admin->canSeeAllCustomers();
+            $data = User::visibleTo($admin)
+                ->when($seesAll && CustomerAgent::ready(), fn ($query) => $query->with('agents'))
+                ->orderBy('created_at', 'DESC')
+                ->get();
+            $agentNames = $seesAll ? $this->agentNames() : [];
             $roleOptions = $this->roleOptions();
-            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync', 'crmProblem', 'crmAwaitingPasswords'));
+            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync', 'crmProblem', 'crmAwaitingPasswords', 'seesAll', 'agentNames'));
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
             return redirect()->back();
@@ -87,12 +95,17 @@ class UserController extends Controller
 
         $this->syncAdminPanelAccount($user, $validated['password']);
 
+        // A customer added here belongs to whoever added them.
+        if ($user->role === 'customer') {
+            CustomerAgent::assign($user, $this->admin()->email, CustomerAgent::SOURCE_PANEL);
+        }
+
         return redirect()->route('admin.users.index')->with('success', 'User has been created successfully.');
     }
 
     public function show(Request $request, $id, CrmClient $crmClient)
     {
-        $data = User::findOrFail($id);
+        $data = $this->visibleUser($id);
 
         // The customer's complete CRM record (invoices, payments, cars, photos, documents).
         $crm = null;
@@ -112,7 +125,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $data = User::findOrFail($id);
+        $data = $this->visibleUser($id);
         $roleOptions = $this->roleOptions();
         $form = [
             'heading' => 'Edit User',
@@ -126,7 +139,7 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->visibleUser($id);
         $oldEmail = $user->email;
         $validated = $this->validatedData($request, $user->id);
         [$firstName, $lastName] = $this->splitName($validated['name']);
@@ -162,7 +175,7 @@ class UserController extends Controller
      */
     public function changePassword(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->visibleUser($id);
 
         $validated = $request->validate([
             'password' => ['required', 'string', 'min:6', 'max:100', 'confirmed'],
@@ -181,8 +194,9 @@ class UserController extends Controller
 
     public function destroy($id)
     {
+        $data = $this->visibleUser($id);
+
         try {
-            $data = User::findOrFail($id);
             if ($data->logo != '' && file_exists(uploadsDir() . $data->logo)) {
                 unlink(uploadsDir() . $data->logo);
             }
@@ -200,8 +214,8 @@ class UserController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Find the user by ID
-            $user = User::find($request->id);
+            // Find the user by ID, among the ones this admin may see
+            $user = User::visibleTo($this->admin())->find($request->id);
 
             // Check if the user exists
             if (!$user) {
@@ -211,8 +225,16 @@ class UserController extends Controller
                 ]);
             }
 
-            // Update the user's status based on the request
-            $user->{$request->column} = $request->status;
+            // The switch in the list is the only caller: nothing but status may be written here
+            // (any other column - role, crm_email - would bypass the rules around it).
+            if ($request->input('column', 'status') !== 'status') {
+                DB::rollBack();
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Only the status can be changed here.',
+                ]);
+            }
+            $user->status = $request->status ? 1 : 0;
             $user->save(); // Use save instead of update for better clarity
 
             DB::commit();
@@ -255,7 +277,32 @@ class UserController extends Controller
 
     private function roleOptions(): array
     {
+        // Only an admin who sees every customer may hand out staff roles; an agent
+        // could otherwise give someone (or a second account) "See all customers".
+        if (!$this->admin()->canSeeAllCustomers()) {
+            return ['customer' => 'Customer'];
+        }
+
         return ['customer' => 'Customer'] + AdminRole::orderBy('name')->pluck('name', 'slug')->toArray();
+    }
+
+    private function admin(): Admin
+    {
+        return auth('admin')->user();
+    }
+
+    /** A user this admin may see (see User::scopeVisibleTo), or 404. */
+    private function visibleUser($id): User
+    {
+        return User::visibleTo($this->admin())->findOrFail($id);
+    }
+
+    /** Staff names by lower-case email, for the Agent column. */
+    private function agentNames(): array
+    {
+        return Admin::get(['first_name', 'last_name', 'email'])
+            ->mapWithKeys(fn ($admin) => [CustomerAgent::normalize($admin->email) => trim($admin->fullName()) ?: $admin->email])
+            ->all();
     }
 
     private function syncAdminPanelAccount(User $user, ?string $plainPassword = null, ?string $oldEmail = null): void

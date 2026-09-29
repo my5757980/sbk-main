@@ -39,6 +39,16 @@ The CRM stays the single source of truth. Records are read live (cached for 60 s
 - The migration has not run.
 - On Windows/XAMPP, PHP lacks the CA certificate bundle (cURL error 60).
 
+## Agents see only their own customers
+- **Who sees what.** An admin whose role lacks **Customers → "See all customers"** (`users.view_all`) sees only their own customers. This covers Users, the dashboard, each user page, and the CRM files and PDFs. Any other id returns 404.
+- **"Own" customers are:**
+  - customers whose CRM lead belongs to the admin's **email** (the CRM's `leads.created_by`, the same rule the CRM applies to its agents), and
+  - customers the admin added in this panel.
+- **The migration ticks "See all customers"** for the roles `super-admin`, `admin`, `administrator`, `manager` and `csd`. Change it under Roles & Permissions. The system administrator always sees everyone.
+- **An agent's website email must be their CRM email.** The CRM Global button needs the same match. For admins who see everyone, the Users list has an **Agent** column, and it marks an owner email with no website account as *(no account)*.
+- **An agent can only create or edit customers.** Staff roles are offered only to admins who see everyone.
+- **Deploy the CRM first.** Its `/api/external/customers` must answer with `agentEmails`. Until it does, ownership stays as it is: agents see only the customers they added. After the website deploy, run `php artisan migrate`, which creates `customer_agents` and the permission.
+
 ## How accounts are linked (security)
 - If no website account has the customer's email, one is **created**: role customer, random password.
 - An account the sync created, or one whose email was proved by completing a password reset, is **linked**.
@@ -52,7 +62,8 @@ The CRM stays the single source of truth. Records are read live (cached for 60 s
 |---|---|
 | `app/Services/Crm/CrmSigner.php` | RSA-SHA256 tokens: SSO (60 s, single use) and API reads (bound to method, path and query) |
 | `app/Services/Crm/CrmClient.php` | Signed reads of the CRM's `/api/external/*`, cached, failures degrade gracefully |
-| `app/Services/Crm/CrmCustomerSync.php` + `crm:sync-customers` | Account creation and linking |
+| `app/Services/Crm/CrmCustomerSync.php` + `crm:sync-customers` | Account creation and linking, and each customer's agents |
+| `app/Models/CustomerAgent.php`, `User::scopeVisibleTo()` | Whose customer is whom; what an admin without "See all customers" may see |
 | `app/Services/Crm/CrmRecord.php`, `CrmFileCache.php` | Visibility rules, ownership checks, file cache |
 | `app/Http/Controllers/Admin/CrmController.php` | CRM Global, Sync, Link now, Send password link, admin file/PDF routes |
 | `app/Http/Controllers/Front/CrmRecordController.php`, `PasswordResetController.php` | Customer file/PDF routes, forgot/reset password |

@@ -2,6 +2,7 @@
 
 namespace App\Services\Crm;
 
+use App\Models\CustomerAgent;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
@@ -132,7 +133,36 @@ class CrmCustomerSync
             'country' => $user->country ?: (($customer['country'] ?? '') ?: null),
         ])->save();
 
+        // The agent(s) whose leads these are, so each agent sees their own
+        // customers. A CRM that does not send agentEmails leaves them as they are.
+        if (isset($customer['agentEmails']) && is_array($customer['agentEmails'])) {
+            $this->syncAgents($user, $customer['agentEmails']);
+        }
+
         return $outcome;
+    }
+
+    /** The customer's "crm" owners become exactly the CRM's lead owners; "panel" owners stay. */
+    private function syncAgents(User $user, array $emails): void
+    {
+        if (!CustomerAgent::ready()) {
+            return;
+        }
+
+        $emails = collect($emails)
+            ->map(fn ($email) => CustomerAgent::normalize(is_string($email) ? $email : ''))
+            ->filter(fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL))
+            ->unique()
+            ->values();
+
+        CustomerAgent::where('user_id', $user->id)
+            ->where('source', CustomerAgent::SOURCE_CRM)
+            ->whereNotIn('agent_email', $emails->all())
+            ->delete();
+
+        foreach ($emails as $email) {
+            CustomerAgent::assign($user, $email, CustomerAgent::SOURCE_CRM);
+        }
     }
 
     private function splitName(string $name): array

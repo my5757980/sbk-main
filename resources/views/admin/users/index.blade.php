@@ -49,6 +49,9 @@
                                             <th>Created At</th>
                                             <th>Status</th>
                                             <th>CRM</th>
+                                            @if(!empty($seesAll))
+                                                <th>Agent</th>
+                                            @endif
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -97,6 +100,21 @@
                                                         <span class="text-muted">-</span>
                                                     @endif
                                                 </td>
+                                                @if(!empty($seesAll))
+                                                    {{-- Whose customer this is: the CRM lead's owner, or who added them here. --}}
+                                                    <td style="white-space:nowrap">
+                                                        @forelse($user->relationLoaded('agents') ? $user->agents : [] as $owner)
+                                                            <div title="{{ $owner->agent_email }}">
+                                                                {{ $agentNames[$owner->agent_email] ?? $owner->agent_email }}
+                                                                @unless(isset($agentNames[$owner->agent_email]))
+                                                                    <small class="text-warning" title="No admin account with this email on the website">(no account)</small>
+                                                                @endunless
+                                                            </div>
+                                                        @empty
+                                                            <span class="text-muted">-</span>
+                                                        @endforelse
+                                                    </td>
+                                                @endif
 
                                                 <td>
                                                     @adminCan('users.show')

@@ -81,6 +81,38 @@ class User extends Authenticatable implements MustVerifyEmail
         return !empty($this->crm_email);
     }
 
+    /** The agents this customer belongs to (by email; see CustomerAgent). */
+    public function agents()
+    {
+        return $this->hasMany(CustomerAgent::class);
+    }
+
+    /**
+     * The users an admin may see: everyone with "See all customers"
+     * (users.view_all), otherwise only the customers that belong to the
+     * admin's email - their CRM leads and the ones they added here.
+     */
+    public function scopeVisibleTo($query, ?Admin $admin)
+    {
+        if ($admin && $admin->canSeeAllCustomers()) {
+            return $query;
+        }
+
+        if (!$admin || !CustomerAgent::ready()) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        $email = CustomerAgent::normalize($admin->email);
+
+        return $query->where('users.role', 'customer')
+            ->whereExists(function ($owned) use ($email) {
+                $owned->selectRaw('1')
+                    ->from('customer_agents')
+                    ->whereColumn('customer_agents.user_id', 'users.id')
+                    ->where('customer_agents.agent_email', $email);
+            });
+    }
+
     public function getAvatorUrlAttribute()
     {
         if (!isset($this->attributes['avator']) || empty($this->attributes['avator'])) {

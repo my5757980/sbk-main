@@ -62,7 +62,7 @@ class CrmController extends Controller
     /** Links an existing account whose email matches a CRM customer (admin vouches for it). */
     public function link($id, CrmCustomerSync $sync)
     {
-        $user = User::findOrFail($id);
+        $user = $this->visibleUser($id);
 
         if (!$user->crm_pending_email || $user->crm_email) {
             return back()->with('error', 'This account has no CRM customer waiting to be linked.');
@@ -82,7 +82,7 @@ class CrmController extends Controller
     public function generatePasswords()
     {
         $rows = [];
-        foreach (CrmPasswords::awaitingPassword()->orderBy('first_name')->get() as $user) {
+        foreach (CrmPasswords::awaitingPassword()->visibleTo(auth('admin')->user())->orderBy('first_name')->get() as $user) {
             $rows[] = [
                 'id' => $user->id,
                 'name' => $user->name ?: $user->email,
@@ -107,7 +107,7 @@ class CrmController extends Controller
 
     public function file(Request $request, $id, string $file, CrmClient $crm, CrmFileCache $cache)
     {
-        $user = User::findOrFail($id);
+        $user = $this->visibleUser($id);
         abort_unless($user->hasCrmRecord() && CrmRecord::isId($file), 404);
 
         $record = $crm->customerRecord($user->crm_email);
@@ -119,7 +119,7 @@ class CrmController extends Controller
 
     public function pdf(Request $request, $id, string $invoice, CrmClient $crm, CrmFileCache $cache)
     {
-        $user = User::findOrFail($id);
+        $user = $this->visibleUser($id);
         abort_unless($user->hasCrmRecord() && CrmRecord::isId($invoice), 404);
 
         $record = $crm->customerRecord($user->crm_email);
@@ -127,5 +127,11 @@ class CrmController extends Controller
         abort_unless($found, 404);
 
         return $cache->pdfResponse($found, $request->boolean('download')) ?? abort(502, 'The CRM could not be reached.');
+    }
+
+    /** A user this admin may see (their own customers, or everyone with "See all customers"), or 404. */
+    private function visibleUser($id): User
+    {
+        return User::visibleTo(auth('admin')->user())->findOrFail($id);
     }
 }
