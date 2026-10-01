@@ -20,29 +20,29 @@
         ['Volkswagen', 'img/brand-vw.webp'],
     ];
     $hero = [
-        ['2024 HYBRID', 'TOYOTA PRIUS PRIME', 'Eco-Friendly Technology with Exceptional Efficiency', 'CVT', 'Hybrid', '8,500 Km', 'img/hero-prius.webp'],
-        ['2026 NEW ARRIVAL', 'TOYOTA HILUX TRAVO', 'Overland Plus Edition - Premium Off-Road Performance', 'Automatic', 'Diesel 4WD', '0 Km', 'img/hero-hilux.webp'],
-        ['2025 PREMIUM', 'HYUNDAI SANTA FE', 'Luxury SUV with Advanced Safety Features', 'Automatic', 'Gasoline', '0 Km', 'img/hero-santafe.webp'],
+        ['2024 HYBRID', 'TOYOTA PRIUS PRIME', 'Eco-Friendly Technology with Exceptional Efficiency', 'CVT', 'Hybrid', '8,500 Km', 'img/home-hero-prius-prime-2024.jpg'],
+        ['2026 NEW ARRIVAL', 'TOYOTA HILUX TRAVO', 'Overland Plus Edition - Premium Off-Road Performance', 'Automatic', 'Diesel 4WD', '0 Km', 'img/home-hero-hilux-travo.webp'],
+        ['2025 PREMIUM', 'HYUNDAI SANTA FE', 'Luxury SUV with Advanced Safety Features', 'Automatic', 'Gasoline', '0 Km', 'img/home-hero-santafe-2025.jpg'],
     ];
     $cars = [
-        ['TOYOTA MARK X Black 2016', '2016 Toyota Mark X 250G F Package in Black with GRX130 chassis and automatic transmission.', '$8,200.00', 'img/car-markx-black.jpg', ''],
-        ['TOYOTA MARK X White 2016', '2016 Toyota Mark X 250G Package in White with 2500 cc engine and FAT transmission.', '$7,800.00', 'img/car-markx-white.jpg', ''],
-        ['MERCEDES BENZ GLS Black', 'Luxury SUV with leather seats, panoramic sunroof, navigation, 360 camera, and roof rails.', '$21,550.00', 'img/car-gls-black.jpeg', '5% OFF'],
-        ['MERCEDES-BENZ GLS Black 2016', 'Premium black Mercedes-Benz GLS with comfort features and powerful SUV styling.', '$21,880.00', 'img/car-gls-second.jpeg', '5% OFF'],
-        ['Honda Fit White - 2015', 'Honda Fit 2015 with practical hatchback appeal, economy, and everyday comfort.', '$4,700.00', 'img/car-honda-fit.jpeg', 'Reserved'],
-        ['TOYOTA MARK X 2015', 'Pearl white Toyota Mark X with navigation, alloy wheels, cameras, and parking sensors.', '$6,200.00', 'img/car-markx-white.jpg', ''],
-        ['TOYOTA HIACE VAN - 2016', 'Reliable white Toyota Hiace DX with automatic gearbox and 2.0L gasoline engine.', '$9,000.00', 'img/car-hiace.jpeg', ''],
-        ['TOYOTA ALLION 2015 Silver', 'Dependable 4WD automatic sedan with ABS, airbags, fog lights, and clean finish.', '$7,900.00', 'img/car-allion.jpeg', '5% OFF'],
+        ['TOYOTA MARK X Black 2016', '2016 Toyota Mark X 250G F Package in Black with GRX130 chassis and automatic transmission.', '$8,200.00', 'img/home-cutout-markx-black-2016.png', ''],
+        ['TOYOTA MARK X White 2016', '2016 Toyota Mark X 250G Package in White with 2500 cc engine and FAT transmission.', '$7,800.00', 'img/home-cutout-markx-white-2016.png', ''],
+        ['MERCEDES BENZ GLS Black', 'Luxury SUV with leather seats, panoramic sunroof, navigation, 360 camera, and roof rails.', '$21,550.00', 'img/home-cutout-mercedes-gls-black-2016.png', '5% OFF'],
+        ['MERCEDES-BENZ GLS Black 2016', 'Premium black Mercedes-Benz GLS with comfort features and powerful SUV styling.', '$21,880.00', 'img/home-cutout-mercedes-gls-black-2016-2.png', '5% OFF'],
+        ['Honda Fit White - 2015', 'Honda Fit 2015 with practical hatchback appeal, economy, and everyday comfort.', '$4,700.00', 'img/home-cutout-honda-fit-white-2015.png', 'Reserved'],
+        ['TOYOTA MARK X 2015', 'Pearl white Toyota Mark X with navigation, alloy wheels, cameras, and parking sensors.', '$6,200.00', 'img/home-cutout-markx-white-2016.png', ''],
+        ['TOYOTA HIACE VAN - 2016', 'Reliable white Toyota Hiace DX with automatic gearbox and 2.0L gasoline engine.', '$9,000.00', 'img/home-cutout-hiace-van-2016.png', ''],
+        ['TOYOTA ALLION 2015 Silver', 'Dependable 4WD automatic sedan with ABS, airbags, fog lights, and clean finish.', '$7,900.00', 'img/home-cutout-allion-silver-2015.png', '5% OFF'],
     ];
     $upcoming = [
-        ['Honda Fit White - 2015', '$4,700.00', 'img/car-honda-fit.jpeg'],
-        ['TOYOTA HIACE VAN - 2016', '$9,000.00', 'img/car-hiace.jpeg'],
-        ['Toyota Crown 2.5 Z Silver', '$45,716.00', 'img/car-crown.jpeg'],
-        ['Toyota Crown Sport Z Black', '$41,930.00', 'img/car-gls-black.jpeg'],
+        ['Honda Fit White - 2015', '$4,700.00', 'img/home-cutout-honda-fit-white-2015.png'],
+        ['TOYOTA HIACE VAN - 2016', '$9,000.00', 'img/home-cutout-hiace-van-2016.png'],
+        ['Toyota Crown 2.5 Z Silver', '$45,716.00', 'img/home-cutout-crown-silver.png'],
+        ['Toyota Crown Sport Z Black', '$41,930.00', 'img/home-cutout-crown-sport-black.png'],
     ];
     $bodyTypes = [
-        ['Sedan', 'img/car-markx-white.jpg'], ['SUV', 'img/car-gls-black.jpeg'], ['Sports', 'img/hero-bmw.webp'], ['Convertible', 'img/hero-mercedes.webp'],
-        ['Compact', 'img/car-honda-fit.jpeg'], ['Pick Up', 'img/hero-hilux.webp'], ['Crossover', 'img/hero-santafe.webp'], ['Electric', 'img/hero-prius.webp'],
+        ['Sedan', 'img/home-cutout-markx-white-2016.png'], ['SUV', 'img/home-cutout-mercedes-gls-black-2016.png'], ['Sports', 'img/hero-bmw.webp'], ['Convertible', 'img/hero-mercedes.webp'],
+        ['Compact', 'img/home-cutout-honda-fit-white-2015.png'], ['Pick Up', 'img/home-cutout-hilux-travo.png'], ['Crossover', 'img/home-cutout-santafe-2025.png'], ['Electric', 'img/home-cutout-prius-prime-2024.png'],
     ];
     $faqs = [
         'Where is your showroom located?',
@@ -76,6 +76,7 @@
 
 <style>
 .hero,.hero__slide{min-height:560px}.hero__content{min-height:510px}.hero h1{font-size:58px}.hero__tabs button{padding-top:13px;padding-bottom:13px}.sbk-home-search{position:relative;z-index:8;margin:-44px 0 36px}.sbk-home-search__panel{position:relative;overflow:hidden;border:1px solid rgba(17,18,22,.08);border-radius:14px;background:#fff;box-shadow:0 24px 70px rgba(17,18,22,.18)}.sbk-home-search__panel:before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,#d71920,#111216)}.sbk-home-search__head{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;padding:24px 26px 16px;border-bottom:1px solid #eef0f3}.sbk-home-search__head span{display:block;color:#d71920;font-size:11px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase}.sbk-home-search__head h2{margin:5px 0 0;font-size:26px;line-height:1.05}.sbk-home-search__head p{max-width:410px;margin:0;color:#6b717b;font-size:13px;line-height:1.55}.sbk-home-filter{display:grid;grid-template-columns:repeat(6,minmax(0,1fr)) auto;gap:13px;align-items:end;padding:22px 26px 26px}.sbk-home-field{display:grid;gap:8px}.sbk-home-field label{color:#111216;font-size:11px;font-weight:900;letter-spacing:.8px;text-transform:uppercase}.sbk-home-control{position:relative}.sbk-home-control:after{content:"";position:absolute;right:14px;top:50%;width:8px;height:8px;border-right:2px solid #d71920;border-bottom:2px solid #d71920;transform:translateY(-65%) rotate(45deg);pointer-events:none}.sbk-home-control select{width:100%;height:50px;appearance:none;border:1px solid #dfe2e7;border-radius:8px;background:#fafbfc;color:#222;padding:0 38px 0 14px;font:inherit;font-size:13px;outline:none}.sbk-home-control select:focus{border-color:#d71920;background:#fff;box-shadow:0 0 0 4px rgba(215,25,32,.08)}.sbk-home-submit{height:50px;min-width:148px;border:0;border-radius:8px;background:linear-gradient(135deg,#d71920,#a90f15);color:#fff;font-size:12px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;box-shadow:0 14px 30px rgba(215,25,32,.24);cursor:pointer}.sbk-home-submit:hover{background:linear-gradient(135deg,#111216,#d71920)}.sbk-home-search__quick{display:flex;gap:10px;flex-wrap:wrap;padding:0 26px 24px}.sbk-home-search__quick a{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:999px;background:#f4f5f7;color:#444;font-size:11px;font-weight:800}.sbk-home-search__quick a:hover{background:#111216;color:#fff}@media(max-width:1180px){.sbk-home-filter{grid-template-columns:repeat(3,minmax(0,1fr))}.sbk-home-submit{width:100%}}@media(max-width:980px){.sbk-home-filter{grid-template-columns:repeat(2,minmax(0,1fr))}.sbk-home-submit{width:100%}.hero,.hero__slide{min-height:530px}.hero__content{min-height:490px}}@media(max-width:620px){.hero,.hero__slide{min-height:500px!important}.hero__content{min-height:460px!important}.sbk-home-search{margin:-24px 0 28px}.sbk-home-search__head{display:block;padding:20px}.sbk-home-search__head p{margin-top:10px}.sbk-home-filter{grid-template-columns:1fr;padding:20px}.sbk-home-search__quick{padding:0 20px 20px}.hero h1{font-size:44px!important}}
+img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 16px 16px rgba(17,18,22,.18))}
 </style>
 
  
@@ -421,7 +422,7 @@
                     <p>Share your preferred model, budget, year, mileage, and condition. Our agent searches Japanese auctions and bids on your behalf for the right car at the right price.</p>
                     <a class="btn" href="#">Request Auction Support</a>
                 </div>
-                <img src="{{ $assetBase }}/img/hero-hilux.webp" alt="Auction support vehicle">
+                <img src="{{ $assetBase }}/img/home-cutout-hilux-travo.png" alt="Auction support vehicle">
             </div>
         </section>
 
@@ -472,7 +473,7 @@
                     <p>Tell us what you need, and our team will help you buy a car from Japan through a simple process.</p>
                     <a class="btn btn--light" href="#">Register Now</a>
                 </div>
-                <img src="{{ $assetBase }}/img/car-hiace.jpeg" alt="Register vehicle">
+                <img src="{{ $assetBase }}/img/home-cutout-hiace-van-2016.png" alt="Register vehicle">
             </div>
         </section>
 
@@ -509,7 +510,7 @@
                         <details><summary>{{ $faq }}</summary><p>Our team can guide you with details and next steps. Contact SBK for current requirements and availability.</p></details>
                     @endforeach
                 </div>
-                <img src="{{ $assetBase }}/img/hero-santafe.webp" alt="FAQ vehicle">
+                <img src="{{ $assetBase }}/img/home-cutout-santafe-2025.png" alt="FAQ vehicle">
             </div>
         </section>
     

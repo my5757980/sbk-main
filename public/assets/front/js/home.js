@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         navLinks.addEventListener('click', (event) => {
-            if (event.target.closest('a') && !event.target.closest('.sbk-brand-trigger')) {
+            if (event.target.closest('a') && !event.target.closest('.sbk-brand-trigger') && !event.target.closest('.sbk-about-trigger')) {
                 setNavOpen(false);
             }
         });

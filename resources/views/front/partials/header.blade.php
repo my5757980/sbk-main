@@ -597,7 +597,7 @@
 .sbk-about-dropdown a:hover,.sbk-about-dropdown a.is-active{background:#fff1f1;color:#d50000!important}
 .sbk-about-menu:hover .sbk-about-dropdown,.sbk-about-menu:focus-within .sbk-about-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
 .sbk-about-menu:hover .sbk-about-trigger svg,.sbk-about-menu:focus-within .sbk-about-trigger svg{transform:rotate(180deg)}
-@media(max-width:900px){.sbk-about-menu{display:block;width:100%}.navlinks .sbk-about-trigger{width:100%;justify-content:space-between}.sbk-about-dropdown{position:static;display:grid;min-width:0;margin:0 0 4px 14px;padding:4px 0 0;border:0;box-shadow:none;opacity:1;visibility:visible;transform:none;background:transparent}.sbk-about-dropdown:before{display:none}.sbk-about-dropdown a{min-height:36px!important;padding:0 12px!important;background:transparent!important;font-size:12px!important}.sbk-about-trigger svg{transform:none!important}}
+@media(max-width:900px){.sbk-about-menu{display:block;width:100%}.navlinks .sbk-about-trigger{width:100%;justify-content:space-between}.sbk-about-dropdown{position:static;display:grid;min-width:0;max-height:0;margin:0;padding:0;border:0;box-shadow:none;opacity:0;visibility:hidden;overflow:hidden;transform:none;background:transparent;transition:max-height .22s ease,opacity .18s ease,visibility .18s ease}.sbk-about-menu.is-open .sbk-about-dropdown{max-height:120px;margin:0 0 4px 14px;padding:4px 0 0;opacity:1;visibility:visible}.sbk-about-dropdown:before{display:none}.sbk-about-dropdown a{min-height:36px!important;padding:0 12px!important;background:transparent!important;font-size:12px!important}.sbk-about-trigger svg{transform:none!important}.sbk-about-menu.is-open .sbk-about-trigger svg{transform:rotate(180deg)!important}}
 </style>
 
 
@@ -614,6 +614,11 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
+    const aboutMenu =
+        document.querySelector('.sbk-about-menu');
+
+    const aboutTrigger =
+        document.querySelector('.sbk-about-trigger');
 
     const brandMenu =
         document.querySelector('.sbk-brand-menu');
@@ -624,6 +629,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!brandMenu || !brandTrigger) {
         return;
+    }
+
+    if (aboutMenu && aboutTrigger) {
+        aboutTrigger.addEventListener(
+            'click',
+            function (event) {
+                if (window.innerWidth <= 900) {
+                    event.preventDefault();
+
+                    aboutMenu.classList.toggle(
+                        'is-open'
+                    );
+                }
+            }
+        );
     }
 
 
