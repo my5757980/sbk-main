@@ -35,9 +35,20 @@ class CrmClient
      */
     public function customers(): ?array
     {
+        $feed = $this->customerFeed();
+
+        return $feed['customers'] ?? null;
+    }
+
+    /**
+     * The whole feed: 'customers' (by email) and - from a CRM that sends it -
+     * 'noEmailCustomers' (by CRM lead, no email). Null if the CRM could not be reached.
+     */
+    public function customerFeed(): ?array
+    {
         $data = $this->getJson('/api/external/customers');
 
-        return is_array($data['customers'] ?? null) ? $data['customers'] : null;
+        return is_array($data['customers'] ?? null) ? $data : null;
     }
 
     /**
@@ -47,15 +58,25 @@ class CrmClient
     public function customerRecord(string $email, bool $fresh = false): ?array
     {
         $email = strtolower(trim($email));
-        $key = 'crm:record:' . sha1($email);
 
+        return $this->record('crm:record:' . sha1($email), ['email' => $email], $fresh);
+    }
+
+    /** The same for a customer with no email: that CRM lead's invoices. */
+    public function leadRecord(string $leadId, bool $fresh = false): ?array
+    {
+        return $this->record('crm:lead:' . sha1($leadId), ['lead' => $leadId], $fresh);
+    }
+
+    private function record(string $key, array $query, bool $fresh): ?array
+    {
         if ($fresh) {
             Cache::forget($key);
         } elseif (is_array($cached = Cache::get($key))) {
             return $cached;
         }
 
-        $data = $this->getJson('/api/external/customer', ['email' => $email]);
+        $data = $this->getJson('/api/external/customer', $query);
         if (!is_array($data) || !array_key_exists('invoices', $data)) {
             return null;
         }

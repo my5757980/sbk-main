@@ -63,6 +63,10 @@ Route::name('admin.')->middleware('admin.permission')->group(
         Route::get('users/crm-passwords', 'CrmController@generatedPasswords')->name('users.edit.crm-passwords-result');
         Route::get('users/{user}/crm/files/{file}', 'CrmController@file')->name('users.show.crm-file');
         Route::get('users/{user}/crm/invoices/{invoice}/pdf', 'CrmController@pdf')->name('users.show.crm-pdf');
+        # A CRM customer with no email (CrmLead): their record, photos/documents, PDFs.
+        Route::get('users/crm-lead/{lead}', 'CrmController@lead')->name('users.show.crm-lead');
+        Route::get('users/crm-lead/{lead}/files/{file}', 'CrmController@leadFile')->name('users.show.crm-lead-file');
+        Route::get('users/crm-lead/{lead}/invoices/{invoice}/pdf', 'CrmController@leadPdf')->name('users.show.crm-lead-pdf');
 
         Route::resource('administrators', 'AdministratorsController');
         Route::resource('admin-roles', 'AdminRoleController');

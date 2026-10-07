@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Models\AdminRole;
+use App\Models\CrmLead;
 use App\Models\CustomerAgent;
 use App\Models\User;
 use App\Services\Crm\CrmClient;
@@ -56,7 +57,11 @@ class UserController extends Controller
                 ->get();
             $agentNames = $seesAll ? $this->agentNames() : [];
             $roleOptions = $this->roleOptions();
-            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync', 'crmProblem', 'crmAwaitingPasswords', 'seesAll', 'agentNames'));
+            // CRM customers with no email in the CRM (no website account possible yet).
+            $crmLeads = CrmLead::ready()
+                ? CrmLead::visibleTo($admin)->orderByDesc('last_invoice_at')->get()
+                : collect();
+            return view('admin.users.index', compact('data', 'roleOptions', 'crmLastSync', 'crmProblem', 'crmAwaitingPasswords', 'seesAll', 'agentNames', 'crmLeads'));
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
             return redirect()->back();
@@ -165,6 +170,9 @@ class UserController extends Controller
         if (!empty($validated['password']) && Schema::hasColumn('users', 'crm_password_generated_at')) {
             $user->forceFill(['crm_password_generated_at' => now()])->save();
         }
+        if (!empty($validated['password'])) {
+            $this->linkPendingCrm($user);
+        }
 
         return redirect()->route('admin.users.index')->with('success', 'User has been updated successfully.');
     }
@@ -188,6 +196,7 @@ class UserController extends Controller
         if (Schema::hasColumn('users', 'crm_password_generated_at')) {
             $user->forceFill(['crm_password_generated_at' => now()])->save();
         }
+        $this->linkPendingCrm($user);
 
         return redirect()->route('admin.users.show', $user->id)->with('success', 'Password has been changed.');
     }
@@ -199,6 +208,11 @@ class UserController extends Controller
         try {
             if ($data->logo != '' && file_exists(uploadsDir() . $data->logo)) {
                 unlink(uploadsDir() . $data->logo);
+            }
+            // A deleted member of staff must not keep their admin-panel login.
+            if (!in_array($data->role, [null, '', 'customer'], true)) {
+                Admin::where('email', $data->email)->where('is_system_admin', 0)
+                    ->update(['is_active' => 0, 'admin_role_id' => null]);
             }
             $data->delete();
             return redirect()
@@ -237,6 +251,11 @@ class UserController extends Controller
             $user->status = $request->status ? 1 : 0;
             $user->save(); // Use save instead of update for better clarity
 
+            // Staff: the switch also opens / closes their admin-panel login.
+            if (!in_array($user->role, [null, '', 'customer'], true)) {
+                $this->syncAdminPanelAccount($user);
+            }
+
             DB::commit();
             return response()->json([
                 'status' => true,
@@ -258,9 +277,22 @@ class UserController extends Controller
             : ['required'];
         $roles = implode(',', array_keys($this->roleOptions()));
 
+        // A staff role's admin-panel login is this email. The main administrator's
+        // own email cannot be given to a second person: their login would stay the
+        // administrator's, so the password typed here would never work.
+        $notSystemAdmin = function ($attribute, $value, $fail) use ($request, $userId) {
+            $current = $userId ? (string) optional(User::find($userId))->email : '';
+            if ($request->input('role', 'customer') === 'customer' || strcasecmp($current, (string) $value) === 0) {
+                return;
+            }
+            if (Admin::where('email', $value)->where('is_system_admin', 1)->exists()) {
+                $fail('This email is already the login of the main administrator. Use a different email for this user.');
+            }
+        };
+
         return $request->validate([
             'name' => ['required', 'string', 'max:192'],
-            'email' => ['required', 'email', 'max:192', 'unique:users,email,' . $userId],
+            'email' => ['required', 'email', 'max:192', 'unique:users,email,' . $userId, $notSystemAdmin],
             'phone' => ['required', 'string', 'max:50'],
             'country' => ['required', 'string', 'max:120'],
             'role' => ['required', 'in:' . $roles],
@@ -305,9 +337,22 @@ class UserController extends Controller
             ->all();
     }
 
+    /**
+     * Staff setting a customer's password vouch for the account, as "Link now"
+     * does: a CRM customer waiting on this very email is linked, so the customer
+     * sees their invoices as soon as they sign in with it.
+     */
+    private function linkPendingCrm(User $user): void
+    {
+        $pending = (string) $user->crm_pending_email;
+        if (!$user->crm_email && $pending !== '' && strtolower((string) $user->email) === $pending) {
+            $user->forceFill(['crm_email' => $pending, 'crm_pending_email' => null])->save();
+        }
+    }
+
     private function syncAdminPanelAccount(User $user, ?string $plainPassword = null, ?string $oldEmail = null): void
     {
-        $adminRole = AdminRole::where('slug', $user->role)->first();
+        $adminRole = Admin::roleFor($user);
         $oldEmail = $oldEmail ?: $user->email;
 
         if (!$adminRole) {
@@ -329,11 +374,7 @@ class UserController extends Controller
             return;
         }
 
-        $payload = [
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'phone' => $user->phone,
-            'email' => $user->email,
+        $payload = Admin::profileFrom($user) + [
             'is_active' => (int) $user->status === 1,
             'admin_role_id' => $adminRole->id,
         ];

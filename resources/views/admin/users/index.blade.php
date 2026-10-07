@@ -155,6 +155,92 @@
             </div>
         </div>
     </section>
+
+    {{-- CRM customers with NO email in the CRM (app/Models/CrmLead): no website login can be
+         made for them, but they are their agent's customers all the same, with their invoices. --}}
+    @if(isset($crmLeads) && $crmLeads->isNotEmpty())
+        <section id="crm-no-email">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">CRM customers without an email ({{ $crmLeads->count() }})</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body card-dashboard">
+                                <p class="text-muted" style="margin-bottom:14px">
+                                    These customers have invoices in the CRM but no email there, so they cannot sign in to the website yet.
+                                    Add the customer's email on their lead in the CRM: within 5 minutes they move to the list above as a
+                                    website account with all their invoices, and their password can be set there.
+                                </p>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="crm-leads-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Country</th>
+                                                <th>CRM</th>
+                                                <th>Last invoice</th>
+                                                @if(!empty($seesAll))
+                                                    <th>Agent</th>
+                                                @endif
+                                                <th class="text-center">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($crmLeads as $lead)
+                                                <tr>
+                                                    <td>
+                                                        {{ $lead->name ?: 'CRM customer' }}
+                                                        <span class="badge badge-danger ml-25" title="From the CRM">CRM</span>
+                                                        <span class="badge badge-warning" title="No email in the CRM, so no website login yet">No email</span>
+                                                    </td>
+                                                    <td>{{ $lead->phone ?: 'N/A' }}</td>
+                                                    <td>{{ $lead->country ?: 'N/A' }}</td>
+                                                    <td style="white-space:nowrap">
+                                                        <span style="display:none">{{ $lead->invoice_count }}</span>
+                                                        {{ $lead->invoice_count }} invoice{{ $lead->invoice_count == 1 ? '' : 's' }}<br>
+                                                        @if($lead->balance > 0)
+                                                            <small class="text-danger">${{ number_format($lead->balance) }} due</small>
+                                                        @else
+                                                            <small class="text-success">Paid in full</small>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <span style="display:none">{{ optional($lead->last_invoice_at)->timestamp }}</span>{{ optional($lead->last_invoice_at)->format('d/m/Y') ?? '-' }}
+                                                    </td>
+                                                    @if(!empty($seesAll))
+                                                        <td style="white-space:nowrap" title="{{ $lead->agent_email }}">
+                                                            @if($lead->agent_email)
+                                                                {{ $agentNames[$lead->agent_email] ?? ($lead->agent_name ?: $lead->agent_email) }}
+                                                                @unless(isset($agentNames[$lead->agent_email]))
+                                                                    <small class="text-warning" title="No admin account with this email on the website">(no account)</small>
+                                                                @endunless
+                                                            @else
+                                                                <span class="text-muted">-</span>
+                                                            @endif
+                                                        </td>
+                                                    @endif
+                                                    <td class="text-center">
+                                                        @adminCan('users.show')
+                                                            <a href="{{ route('admin.users.show.crm-lead', $lead->lead_id) }}"
+                                                               class="btn btn-info btn-sm waves-effect waves-light" title="Open the CRM record"><i
+                                                                    class="feather icon-search"></i></a>
+                                                        @endadminCan
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 @endsection
 @section('footer-js')
     <script>
@@ -163,6 +249,11 @@
                 "order": [[5, "desc"]],
                 "stateSave": true
             });
+            if ($('#crm-leads-table').length) {
+                $('#crm-leads-table').DataTable({
+                    "order": [[4, "desc"]]
+                });
+            }
         });
 
         $(document).on('change', '.switch-button', function() {

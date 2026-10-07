@@ -9,7 +9,14 @@
                 <div class="card-content">
                     <div class="card-body">
                         @if($errors->any())
-                            <div class="alert alert-danger">Please check the user fields and try again.</div>
+                            <div class="alert alert-danger">
+                                Please check the user fields and try again.
+                                <ul class="mb-0 mt-50">
+                                    @foreach($errors->all() as $message)
+                                        <li>{{ $message }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         @endif
                         <form method="POST" action="{{ $form['action'] }}">
                             @csrf
@@ -45,6 +52,10 @@
                                     <div class="form-group">
                                         <label>Role *</label>
                                         <select name="role" class="form-control" required>
+                                            {{-- A role that no longer exists must be chosen again, never silently turned into "Customer". --}}
+                                            @unless(array_key_exists(old('role', $data->role ?? 'customer'), $roleOptions))
+                                                <option value="" selected disabled>- choose a role -</option>
+                                            @endunless
                                             @foreach($roleOptions as $value => $label)
                                                 <option value="{{ $value }}" {!! matchSelected($value, old('role', $data->role ?? 'customer')) !!}>{{ $label }}</option>
                                             @endforeach

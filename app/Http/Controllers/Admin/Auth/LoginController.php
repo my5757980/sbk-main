@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Models\Admin;
-use App\Models\AdminRole;
 use App\Models\User;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -56,6 +56,11 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        // A Users row left on a renamed role's old slug is put right on sign-in.
+        if ($staff = User::where('email', $user->email)->first()) {
+            Admin::roleFor($staff);
+        }
+
         return redirect()->route($user->firstAccessibleAdminRoute());
     }
 
@@ -77,7 +82,42 @@ class LoginController extends Controller
             return $this->sendLoginResponse($request);
         }
 
+        // With the right password, say what is actually in the way; with a wrong
+        // one, only the usual "do not match" (nothing about the account).
+        if ($reason = $this->blockedReason($request)) {
+            throw ValidationException::withMessages([$this->username() => [$reason]]);
+        }
+
         return $this->sendFailedLoginResponse($request);
+    }
+
+    /** Why an account whose password IS right still cannot use the admin panel. */
+    private function blockedReason(Request $request): ?string
+    {
+        $email = $request->{$this->username()};
+        $user = User::where('email', $email)->first();
+        $admin = Admin::where('email', $email)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            if ((int) $user->status !== 1) {
+                return 'This account is switched off. An administrator can turn it on in Users.';
+            }
+            if (in_array($user->role, [null, '', 'customer'], true)) {
+                return 'This is a customer account. Customers sign in on the website, not in the admin panel.';
+            }
+            if (!Admin::roleFor($user)) {
+                return 'The role of this account no longer exists. An administrator can choose its role in Users - Edit.';
+            }
+            if ($admin && (int) $admin->is_system_admin === 1) {
+                return 'This email is the login of the main administrator - sign in with the password of that administrator.';
+            }
+        }
+
+        if ($admin && (int) $admin->is_active !== 1 && Hash::check($request->password, (string) $admin->password)) {
+            return 'This admin account is switched off. An administrator can turn it on.';
+        }
+
+        return null;
     }
 
     protected function credentials(Request $request)
@@ -98,7 +138,7 @@ class LoginController extends Controller
             return false;
         }
 
-        $adminRole = AdminRole::where('slug', $user->role)->first();
+        $adminRole = Admin::roleFor($user);
 
         if (!$adminRole) {
             return false;
@@ -110,11 +150,7 @@ class LoginController extends Controller
             return true;
         }
 
-        $payload = [
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'phone' => $user->phone,
-            'email' => $user->email,
+        $payload = Admin::profileFrom($user) + [
             'password' => $user->password,
             'is_active' => 1,
             'admin_role_id' => $adminRole->id,

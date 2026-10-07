@@ -50,7 +50,7 @@
                 <h3>{{ $customer['name'] ?? '' ?: 'SBK Customer' }}</h3>
                 <ul>
                     @if(!empty($customer['contactPerson']))<li><b>Contact</b>{{ $customer['contactPerson'] }}</li>@endif
-                    <li><b>Email</b>{{ $customer['email'] ?? '' }}</li>
+                    <li><b>Email</b>{{ ($customer['email'] ?? '') ?: 'Not in the CRM' }}</li>
                     @if(!empty($customer['phone']))<li><b>Phone</b>{{ $customer['phone'] }}</li>@endif
                     @if(!empty($customer['country']))<li><b>Country</b>{{ $customer['country'] }}{{ !empty($customer['port']) ? ' / ' . $customer['port'] : '' }}</li>@endif
                     @if(!empty($customer['address']))<li><b>Address</b>{{ $customer['address'] }}</li>@endif
@@ -93,6 +93,8 @@
                     'Location' => $unit['location'] ?? null,
                 ], fn ($v) => $v !== null && $v !== '');
                 $consignee = array_filter($inv['consignee'] ?? []);
+                // Several vehicles on one invoice (the fields above are vehicle 1).
+                $vehicles = $inv['vehicles'] ?? [];
             @endphp
 
             <details class="crm-inv" {{ $index === 0 ? 'open' : '' }}>
@@ -105,7 +107,7 @@
                         </span>
                     @endif
                     <span class="crm-inv__title">
-                        <strong>{{ $title }}</strong>
+                        <strong>{{ $title }}@if(count($vehicles) > 1) <span class="crm-count">+{{ count($vehicles) - 1 }} more</span>@endif</strong>
                         <small>Invoice {{ $inv['number'] }} &middot; {{ $day($inv['createdAt'] ?? null) }}{{ !empty($inv['chassisNo']) ? ' · ' . $inv['chassisNo'] : '' }}</small>
                     </span>
                     <span class="crm-badge crm-badge--{{ $statusTone[$status] ?? 'grey' }}">{{ $statusText[$status] ?? ucfirst($status) }}</span>
@@ -163,6 +165,24 @@
                             @endif
                         </section>
                     </div>
+
+                    @if(count($vehicles) > 1)
+                        <section class="crm-card crm-card--wide">
+                            <h4>Vehicles on this invoice <span class="crm-count">{{ count($vehicles) }}</span></h4>
+                            <ol class="crm-vehicles">
+                                @foreach($vehicles as $n => $vehicle)
+                                    <li>
+                                        <span class="crm-vehicles__n">{{ $n + 1 }}</span>
+                                        <span class="crm-vehicles__what">
+                                            <strong>{{ ($vehicle['unit'] ?? '') ?: 'Vehicle ' . ($n + 1) }}</strong>
+                                            <small>{{ implode(' · ', array_filter([$vehicle['year'] ?? '', $vehicle['color'] ?? '', $vehicle['chassisNo'] ?? ''])) ?: '—' }}</small>
+                                        </span>
+                                        <b class="crm-vehicles__price">{{ $money($vehicle['cnfPrice'] ?? 0) }}</b>
+                                    </li>
+                                @endforeach
+                            </ol>
+                        </section>
+                    @endif
 
                     <section class="crm-card crm-card--wide">
                         <h4>Payment history <span class="crm-count">{{ count($inv['payments'] ?? []) }}</span></h4>
@@ -299,6 +319,12 @@
 .crm-table td{padding:10px 12px;border-bottom:1px solid var(--crm-line)}
 .crm-table tbody tr:last-child td{border-bottom:0}
 .crm-num{text-align:right!important;white-space:nowrap;font-weight:700}
+.crm-vehicles{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.crm-vehicles li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--crm-soft)}
+.crm-vehicles__n{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fff;color:var(--crm-red);font-size:12px;font-weight:800}
+.crm-vehicles__what{min-width:0}.crm-vehicles__what strong{display:block;overflow-wrap:anywhere}
+.crm-vehicles__what small{display:block;color:var(--crm-muted);font-size:12px;overflow-wrap:anywhere}
+.crm-vehicles__price{white-space:nowrap;font-weight:800}
 .crm-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
 .crm-gallery a{position:relative;display:block;aspect-ratio:4/3;border-radius:9px;overflow:hidden;background:var(--crm-soft)}
 .crm-gallery img{width:100%;height:100%;object-fit:cover;transition:transform .25s}

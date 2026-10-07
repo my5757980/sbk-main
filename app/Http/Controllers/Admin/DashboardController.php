@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Blog;
 use App\Models\CheckoutOrder;
+use App\Models\CrmLead;
 use App\Models\ContactUs;
 use App\Models\NewsLetter;
 use App\Models\Page;
@@ -33,6 +34,8 @@ class DashboardController extends Controller
         // An agent's numbers and list cover only their own customers (User::scopeVisibleTo).
         $admin = auth('admin')->user();
         $usersCount = User::visibleTo($admin)->count();
+        // CRM customers with no email in the CRM (no website account yet) count as customers too.
+        $crmLeadsCount = CrmLead::ready() ? CrmLead::visibleTo($admin)->count() : 0;
         $productCount = Product::count();
         $publishedProductCount = Product::published()->count();
         $blogCount = Blog::count();
@@ -61,6 +64,7 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.index', compact(
             'usersCount',
+            'crmLeadsCount',
             'productCount',
             'publishedProductCount',
             'blogCount',

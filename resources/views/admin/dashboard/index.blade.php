@@ -72,8 +72,14 @@
                         <div class="card-body">
                             <div>
                                 <p class="sbk-stat-label">Customers</p>
-                                <h2 class="sbk-stat-number">{{ number_format($usersCount ?? 0) }}</h2>
-                                <p class="sbk-stat-note">Latest buyer accounts</p>
+                                <h2 class="sbk-stat-number">{{ number_format(($usersCount ?? 0) + ($crmLeadsCount ?? 0)) }}</h2>
+                                <p class="sbk-stat-note">
+                                    @if(($crmLeadsCount ?? 0) > 0)
+                                        {{ number_format($crmLeadsCount) }} of them without an email in the CRM
+                                    @else
+                                        Latest buyer accounts
+                                    @endif
+                                </p>
                             </div>
                             <div class="sbk-stat-icon gray"><i class="feather icon-users font-medium-5"></i></div>
                         </div>

@@ -94,7 +94,46 @@ class Admin extends Authenticatable
             }
         }
 
-        return 'admin.dashboard.index';
+        // A role with no section ticked still gets in (their own profile, the chat
+        // desk) instead of a "no permission" page straight after signing in.
+        return 'admin.update-profile';
+    }
+
+    /**
+     * The admin-panel account fields copied from a staff member's Users row,
+     * cut to this table's column sizes (MySQL refuses a longer value outright,
+     * which used to make the account - and so the login - fail).
+     */
+    public static function profileFrom(User $user): array
+    {
+        $cut = fn ($value, int $length) => mb_substr(trim((string) $value), 0, $length);
+
+        return [
+            'first_name' => $cut($user->first_name, 32),
+            'last_name' => $cut($user->last_name, 32),
+            'phone' => $cut($user->phone, 24),
+            'email' => $user->email,
+        ];
+    }
+
+    /**
+     * The admin role a Users row stands for: the role with its slug, or - for a
+     * role renamed back when renaming also changed its slug - the role its admin
+     * account still has, and the Users row is put right.
+     */
+    public static function roleFor(User $user): ?AdminRole
+    {
+        $role = AdminRole::where('slug', $user->role)->first();
+        if ($role || in_array($user->role, [null, '', 'customer'], true)) {
+            return $role;
+        }
+
+        $role = optional(self::where('email', $user->email)->first())->role;
+        if ($role) {
+            $user->forceFill(['role' => $role->slug])->save();
+        }
+
+        return $role;
     }
 
     public function sendPasswordResetNotification($token)

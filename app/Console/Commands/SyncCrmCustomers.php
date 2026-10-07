@@ -22,12 +22,13 @@ class SyncCrmCustomers extends Command
         }
 
         $this->info(sprintf(
-            '%d CRM customers: %d created, %d linked, %d updated, %d waiting for the owner to verify their email.',
+            '%d CRM customers: %d created, %d linked, %d updated, %d waiting for the owner to verify their email; %d without an email in the CRM.',
             $stats['customers'],
             $stats['created'],
             $stats['linked'],
             $stats['updated'],
-            $stats['pending']
+            $stats['pending'],
+            $stats['without_email']
         ));
 
         return self::SUCCESS;

@@ -60,8 +60,8 @@ class CheckCrmConnection extends Command
 
         $stats = $sync->run();
         if ($stats !== null) {
-            $this->info(sprintf('Account sync ....... OK - %d created, %d linked, %d updated, %d waiting for email verification',
-                $stats['created'], $stats['linked'], $stats['updated'], $stats['pending']));
+            $this->info(sprintf('Account sync ....... OK - %d created, %d linked, %d updated, %d waiting for email verification; %d without an email in the CRM',
+                $stats['created'], $stats['linked'], $stats['updated'], $stats['pending'], $stats['without_email']));
         }
         $this->info('Linked accounts .... ' . User::whereNotNull('crm_email')->count() . ' (Admin > Users shows them with a red CRM badge)');
 

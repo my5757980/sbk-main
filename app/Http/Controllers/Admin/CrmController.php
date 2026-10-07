@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\CrmLead;
 use App\Models\User;
 use App\Services\Crm\CrmClient;
 use App\Services\Crm\CrmCustomerSync;
@@ -50,13 +51,62 @@ class CrmController extends Controller
         }
 
         return back()->with('success', sprintf(
-            'CRM sync done: %d customers - %d new accounts, %d linked, %d up to date, %d waiting for email verification.',
+            'CRM sync done: %d customers - %d new accounts, %d linked, %d up to date, %d waiting for email verification; %d without an email in the CRM.',
             $stats['customers'],
             $stats['created'],
             $stats['linked'],
             $stats['updated'],
-            $stats['pending']
+            $stats['pending'],
+            $stats['without_email']
         ));
+    }
+
+    /** A CRM customer with no email (see CrmLead): their whole CRM record, for staff. */
+    public function lead(Request $request, string $lead, CrmClient $crm)
+    {
+        $data = $this->visibleLead($lead);
+        $record = $crm->leadRecord($data->lead_id, $request->boolean('refresh'));
+        $crmView = [
+            'record' => $record ? CrmRecord::forAudience($record, false) : null,
+            'unavailable' => $record === null,
+            'fileUrl' => fn ($file, $download = false) => route('admin.users.show.crm-lead-file', ['lead' => $data->lead_id, 'file' => $file['id']] + ($download ? ['download' => 1] : [])),
+            'pdfUrl' => fn ($invoice, $download = false) => route('admin.users.show.crm-lead-pdf', ['lead' => $data->lead_id, 'invoice' => $invoice['id']] + ($download ? ['download' => 1] : [])),
+            'audience' => 'admin',
+        ];
+
+        return view('admin.users.crm-lead', ['data' => $data, 'crm' => $crmView]);
+    }
+
+    public function leadFile(Request $request, string $lead, string $file, CrmClient $crm, CrmFileCache $cache)
+    {
+        $data = $this->visibleLead($lead);
+        abort_unless(CrmRecord::isId($file), 404);
+
+        $record = $crm->leadRecord($data->lead_id);
+        $found = $record ? CrmRecord::findFile($record, $file, false) : null;
+        abort_unless($found, 404);
+
+        return $cache->fileResponse($found, $request->boolean('download')) ?? abort(502, 'The CRM could not be reached.');
+    }
+
+    public function leadPdf(Request $request, string $lead, string $invoice, CrmClient $crm, CrmFileCache $cache)
+    {
+        $data = $this->visibleLead($lead);
+        abort_unless(CrmRecord::isId($invoice), 404);
+
+        $record = $crm->leadRecord($data->lead_id);
+        $found = $record ? CrmRecord::findInvoiceWithPdf($record, $invoice, false) : null;
+        abort_unless($found, 404);
+
+        return $cache->pdfResponse($found, $request->boolean('download')) ?? abort(502, 'The CRM could not be reached.');
+    }
+
+    /** A no-email CRM customer this admin may see (their own, or everyone with "See all customers"), or 404. */
+    private function visibleLead(string $lead): CrmLead
+    {
+        abort_unless(CrmLead::ready() && CrmRecord::isId($lead), 404);
+
+        return CrmLead::visibleTo(auth('admin')->user())->where('lead_id', $lead)->firstOrFail();
     }
 
     /** Links an existing account whose email matches a CRM customer (admin vouches for it). */

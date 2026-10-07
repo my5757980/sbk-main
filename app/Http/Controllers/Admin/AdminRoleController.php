@@ -77,9 +77,10 @@ class AdminRoleController extends Controller
         }
 
         $validated = $this->validated($request);
+        // The slug stays as it is: every staff member's Users row points at it, so
+        // changing it with the name used to lock that role's people out.
         $adminRole->update([
             'name' => $validated['name'],
-            'slug' => $this->uniqueSlug($validated['name'], $adminRole->id),
             'description' => $validated['description'] ?? null,
         ]);
         $adminRole->permissions()->sync($validated['permissions'] ?? []);

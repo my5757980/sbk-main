@@ -282,6 +282,10 @@
                                 <p class="px-2">Welcome to {!! $siteSettings->site_title !!} Admin, please login to your account.</p>
                                 <div class="card-content">
                                     <div class="card-body pt-1">
+                                        {{-- Why the sign-in did not go through (wrong password, account switched off...). --}}
+                                        @if($errors->any() || session('error'))
+                                            <div class="alert alert-danger" role="alert">{{ $errors->first() ?: session('error') }}</div>
+                                        @endif
                                         <form method="POST" action="{{ route('admin.auth.login') }}">
                                             @csrf
                                             <fieldset class="form-label-group form-group position-relative has-icon-left">

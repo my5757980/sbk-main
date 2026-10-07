@@ -2,8 +2,10 @@
 
 namespace App\Services\Crm;
 
+use App\Models\CrmLead;
 use App\Models\CustomerAgent;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -22,6 +24,9 @@ use Illuminate\Support\Str;
  *    itself once the owner completes a password reset, or an admin links it.
  * A password or role is never changed, and profile fields are only filled
  * where the website has nothing yet.
+ *
+ * CRM customers with NO email get no account (a login needs one); they are
+ * kept in crm_leads (CrmLead) so their agent still sees them and their record.
  */
 class CrmCustomerSync
 {
@@ -36,14 +41,14 @@ class CrmCustomerSync
     {
         Cache::forever(self::LAST_RUN_KEY . ':attempt', now()->toIso8601String());
 
-        $customers = $this->crm->customers();
-        if ($customers === null) {
+        $feed = $this->crm->customerFeed();
+        if ($feed === null) {
             return null;
         }
 
-        $stats = ['customers' => 0, 'created' => 0, 'linked' => 0, 'updated' => 0, 'pending' => 0];
+        $stats = ['customers' => 0, 'created' => 0, 'linked' => 0, 'updated' => 0, 'pending' => 0, 'without_email' => 0];
 
-        foreach ($customers as $customer) {
+        foreach ($feed['customers'] as $customer) {
             $email = strtolower(trim((string) ($customer['email'] ?? '')));
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 continue;
@@ -52,9 +57,51 @@ class CrmCustomerSync
             $stats[$this->syncOne($email, $customer)]++;
         }
 
+        // Customers with no email in the CRM: listed for their agent (no account -
+        // a login needs an email). A CRM that does not send them leaves the list as it is.
+        if (is_array($feed['noEmailCustomers'] ?? null) && CrmLead::ready()) {
+            $stats['without_email'] = $this->syncLeads($feed['noEmailCustomers']);
+        }
+
         Cache::forever(self::LAST_RUN_KEY, now()->toIso8601String());
 
         return $stats;
+    }
+
+    /** The no-email list becomes exactly the CRM's; returns how many there are. */
+    private function syncLeads(array $leads): int
+    {
+        $seen = [];
+        foreach ($leads as $lead) {
+            $id = (string) ($lead['leadId'] ?? '');
+            if (!CrmRecord::isId($id)) {
+                continue;
+            }
+            $agent = collect($lead['agentEmails'] ?? [])
+                ->map(fn ($email) => CustomerAgent::normalize(is_string($email) ? $email : ''))
+                ->first(fn ($email) => filter_var($email, FILTER_VALIDATE_EMAIL));
+
+            CrmLead::updateOrCreate(['lead_id' => $id], [
+                'name' => Str::limit(trim((string) ($lead['name'] ?? '')) ?: trim((string) ($lead['contactPerson'] ?? '')), 191, ''),
+                'contact_person' => Str::limit(trim((string) ($lead['contactPerson'] ?? '')), 191, ''),
+                'phone' => Str::limit(trim((string) ($lead['phone'] ?? '')), 50, ''),
+                'country' => Str::limit(trim((string) ($lead['country'] ?? '')), 120, ''),
+                'invoice_count' => (int) ($lead['invoiceCount'] ?? 0),
+                'total' => (float) ($lead['total'] ?? 0),
+                'paid' => (float) ($lead['paid'] ?? 0),
+                'balance' => (float) ($lead['balance'] ?? 0),
+                'last_invoice_at' => !empty($lead['lastInvoiceAt']) ? Carbon::parse($lead['lastInvoiceAt']) : null,
+                'agent_email' => $agent ?: null,
+                'agent_name' => Str::limit(trim((string) ($lead['agentName'] ?? '')), 191, ''),
+            ]);
+            $seen[] = $id;
+        }
+
+        // Gone from the CRM's list (an email was added, so they are an account now,
+        // or their invoices were rejected): gone here too.
+        CrmLead::whereNotIn('lead_id', $seen)->delete();
+
+        return count($seen);
     }
 
     /** Run at most once per $minutes (used when an admin opens the Users list). */
