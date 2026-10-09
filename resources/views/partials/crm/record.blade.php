@@ -44,18 +44,21 @@
             $paidPct = $totals['total'] > 0 ? min(100, round($totals['paid'] / $totals['total'] * 100)) : 0;
         @endphp
 
-        <div class="crm-rec__summary">
-            <div class="crm-rec__who">
-                <span class="crm-rec__eyebrow">{{ $isAdmin ? 'CRM customer' : 'Customer' }}</span>
-                <h3>{{ $customer['name'] ?? '' ?: 'SBK Customer' }}</h3>
-                <ul>
-                    @if(!empty($customer['contactPerson']))<li><b>Contact</b>{{ $customer['contactPerson'] }}</li>@endif
-                    <li><b>Email</b>{{ ($customer['email'] ?? '') ?: 'Not in the CRM' }}</li>
-                    @if(!empty($customer['phone']))<li><b>Phone</b>{{ $customer['phone'] }}</li>@endif
-                    @if(!empty($customer['country']))<li><b>Country</b>{{ $customer['country'] }}{{ !empty($customer['port']) ? ' / ' . $customer['port'] : '' }}</li>@endif
-                    @if(!empty($customer['address']))<li><b>Address</b>{{ $customer['address'] }}</li>@endif
-                </ul>
-            </div>
+        {{-- Staff see whose record this is; the customer already sees their own account beside it. --}}
+        <div class="crm-rec__summary {{ $isAdmin ? '' : 'crm-rec__summary--solo' }}">
+            @if($isAdmin)
+                <div class="crm-rec__who">
+                    <span class="crm-rec__eyebrow">CRM customer</span>
+                    <h3>{{ $customer['name'] ?? '' ?: 'SBK Customer' }}</h3>
+                    <ul>
+                        @if(!empty($customer['contactPerson']))<li><b>Contact</b>{{ $customer['contactPerson'] }}</li>@endif
+                        <li><b>Email</b>{{ ($customer['email'] ?? '') ?: 'Not in the CRM' }}</li>
+                        @if(!empty($customer['phone']))<li><b>Phone</b>{{ $customer['phone'] }}</li>@endif
+                        @if(!empty($customer['country']))<li><b>Country</b>{{ $customer['country'] }}{{ !empty($customer['port']) ? ' / ' . $customer['port'] : '' }}</li>@endif
+                        @if(!empty($customer['address']))<li><b>Address</b>{{ $customer['address'] }}</li>@endif
+                    </ul>
+                </div>
+            @endif
             <div class="crm-rec__tiles">
                 <div class="crm-tile"><small>Invoices</small><strong>{{ $totals['invoices'] }}</strong></div>
                 <div class="crm-tile"><small>Total</small><strong>{{ $money($totals['total']) }}</strong></div>
@@ -100,7 +103,7 @@
             <details class="crm-inv" {{ $index === 0 ? 'open' : '' }}>
                 <summary class="crm-inv__bar">
                     @if($cover)
-                        <img class="crm-inv__thumb" src="{{ $fileUrl($cover) }}" alt="" loading="lazy">
+                        <img class="crm-inv__thumb" src="{{ $fileUrl($cover) }}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
                     @else
                         <span class="crm-inv__thumb crm-inv__thumb--empty" aria-hidden="true">
                             <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M5 11l1.5-4.5h11L19 11m-1.5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m-11 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3M18.92 6c-.2-.58-.76-1-1.42-1h-11c-.66 0-1.22.42-1.42 1L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8z"/></svg>
@@ -119,17 +122,38 @@
                 </summary>
 
                 <div class="crm-inv__body">
-                    <div class="crm-grid">
-                        <section class="crm-card">
-                            <h4>Vehicle</h4>
-                            <dl class="crm-specs">
-                                @forelse($specs as $label => $value)
-                                    <div><dt>{{ $label }}</dt><dd>{{ $value }}</dd></div>
-                                @empty
-                                    <div><dt>Vehicle</dt><dd>{{ $title }}</dd></div>
-                                @endforelse
-                            </dl>
+                    {{-- Several vehicles: their list leads (it replaces the one-vehicle card). --}}
+                    @if(count($vehicles) > 1)
+                        <section class="crm-card crm-card--wide crm-card--first">
+                            <h4>Vehicles on this invoice <span class="crm-count">{{ count($vehicles) }}</span></h4>
+                            <ol class="crm-vehicles">
+                                @foreach($vehicles as $n => $vehicle)
+                                    <li>
+                                        <span class="crm-vehicles__n">{{ $n + 1 }}</span>
+                                        <span class="crm-vehicles__what">
+                                            <strong>{{ ($vehicle['unit'] ?? '') ?: 'Vehicle ' . ($n + 1) }}</strong>
+                                            <small>{{ implode(' · ', array_filter([$vehicle['year'] ?? '', $vehicle['color'] ?? '', $vehicle['chassisNo'] ?? ''])) ?: '—' }}</small>
+                                        </span>
+                                        <b class="crm-vehicles__price">{{ $money($vehicle['cnfPrice'] ?? 0) }}</b>
+                                    </li>
+                                @endforeach
+                            </ol>
                         </section>
+                    @endif
+
+                    <div class="crm-grid {{ count($vehicles) > 1 ? 'crm-grid--two' : '' }}">
+                        @if(count($vehicles) <= 1)
+                            <section class="crm-card">
+                                <h4>Vehicle</h4>
+                                <dl class="crm-specs">
+                                    @forelse($specs as $label => $value)
+                                        <div><dt>{{ $label }}</dt><dd>{{ $value }}</dd></div>
+                                    @empty
+                                        <div><dt>Vehicle</dt><dd>{{ $title }}</dd></div>
+                                    @endforelse
+                                </dl>
+                            </section>
+                        @endif
 
                         <section class="crm-card">
                             <h4>Payment</h4>
@@ -140,7 +164,7 @@
                                 <div class="crm-price__total"><dt>Remaining</dt><dd class="{{ ($inv['balance'] ?? 0) > 0 ? 'crm-due' : 'crm-ok' }}">{{ $money($inv['balance'] ?? 0) }}</dd></div>
                             </dl>
                             <div class="crm-rec__progress crm-rec__progress--sm"><span style="width: {{ $invPaidPct }}%"></span></div>
-                            <p class="crm-rec__progress-label">{{ $invPaidPct }}% paid</p>
+                            <p class="crm-rec__progress-label">{{ $invPaidPct }}% paid{{ empty($inv['payments']) ? ' · no payment recorded yet' : '' }}</p>
                             @if(!empty($inv['pdf']))
                                 <div class="crm-actions">
                                     <a class="crm-btn" href="{{ $pdfUrl($inv) }}" target="_blank" rel="noopener">View invoice PDF</a>
@@ -166,29 +190,10 @@
                         </section>
                     </div>
 
-                    @if(count($vehicles) > 1)
-                        <section class="crm-card crm-card--wide">
-                            <h4>Vehicles on this invoice <span class="crm-count">{{ count($vehicles) }}</span></h4>
-                            <ol class="crm-vehicles">
-                                @foreach($vehicles as $n => $vehicle)
-                                    <li>
-                                        <span class="crm-vehicles__n">{{ $n + 1 }}</span>
-                                        <span class="crm-vehicles__what">
-                                            <strong>{{ ($vehicle['unit'] ?? '') ?: 'Vehicle ' . ($n + 1) }}</strong>
-                                            <small>{{ implode(' · ', array_filter([$vehicle['year'] ?? '', $vehicle['color'] ?? '', $vehicle['chassisNo'] ?? ''])) ?: '—' }}</small>
-                                        </span>
-                                        <b class="crm-vehicles__price">{{ $money($vehicle['cnfPrice'] ?? 0) }}</b>
-                                    </li>
-                                @endforeach
-                            </ol>
-                        </section>
-                    @endif
-
+                    {{-- Only what there is: an empty history, gallery or document list adds a box of nothing. --}}
+                    @if(!empty($inv['payments']))
                     <section class="crm-card crm-card--wide">
-                        <h4>Payment history <span class="crm-count">{{ count($inv['payments'] ?? []) }}</span></h4>
-                        @if(empty($inv['payments']))
-                            <p class="crm-muted">No payment has been recorded yet.</p>
-                        @else
+                        <h4>Payment history <span class="crm-count">{{ count($inv['payments']) }}</span></h4>
                             <div class="crm-table-wrap">
                                 <table class="crm-table">
                                     <thead><tr><th>#</th><th>Date</th><th class="crm-num">Amount</th><th class="crm-num">Balance after</th></tr></thead>
@@ -204,14 +209,19 @@
                                     </tbody>
                                 </table>
                             </div>
-                        @endif
                     </section>
+                    @endif
 
+                    @if($photos->isEmpty() && $documents->isEmpty())
+                        <p class="crm-note">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                            Photos and documents of this car will appear here once they are added.
+                        </p>
+                    @endif
+
+                    @if($photos->isNotEmpty())
                     <section class="crm-card crm-card--wide">
                         <h4>Vehicle photos <span class="crm-count">{{ $photos->count() }}</span></h4>
-                        @if($photos->isEmpty())
-                            <p class="crm-muted">No photos have been added yet.</p>
-                        @else
                             <div class="crm-gallery" data-crm-gallery>
                                 @foreach($photos as $photo)
                                     <a href="{{ $fileUrl($photo) }}" target="_blank" rel="noopener" data-crm-photo data-caption="{{ $photo['folder'] }} · {{ $photo['filename'] }}">
@@ -220,14 +230,12 @@
                                     </a>
                                 @endforeach
                             </div>
-                        @endif
                     </section>
+                    @endif
 
+                    @if($documents->isNotEmpty())
                     <section class="crm-card crm-card--wide">
                         <h4>Documents <span class="crm-count">{{ $documents->flatten(1)->count() }}</span></h4>
-                        @if($documents->isEmpty())
-                            <p class="crm-muted">No documents have been added yet.</p>
-                        @else
                             @foreach($documents as $folder => $files)
                                 <div class="crm-docs">
                                     <h5>{{ $folder }}</h5>
@@ -241,8 +249,8 @@
                                     @endforeach
                                 </div>
                             @endforeach
-                        @endif
                     </section>
+                    @endif
                 </div>
             </details>
         @endforeach
@@ -319,6 +327,11 @@
 .crm-table td{padding:10px 12px;border-bottom:1px solid var(--crm-line)}
 .crm-table tbody tr:last-child td{border-bottom:0}
 .crm-num{text-align:right!important;white-space:nowrap;font-weight:700}
+.crm-rec__summary--solo{grid-template-columns:1fr}
+.crm-rec__summary--solo .crm-rec__tiles{grid-template-columns:repeat(4,minmax(0,1fr))}
+.crm-grid--two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.crm-note{display:flex;align-items:center;gap:9px;margin:14px 0 0;padding:12px 14px;border:1px dashed #d9dce2;border-radius:10px;background:#fff;color:var(--crm-muted);font-size:13px}
+.crm-note svg{flex:0 0 auto;color:#b3b8c1}
 .crm-vehicles{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .crm-vehicles li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;border-radius:8px;background:var(--crm-soft)}
 .crm-vehicles__n{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#fff;color:var(--crm-red);font-size:12px;font-weight:800}
@@ -345,10 +358,13 @@
 .crm-lightbox__btn{position:absolute;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:30px;line-height:1;cursor:pointer}
 .crm-lightbox__btn:hover{background:#d71920}
 .crm-lightbox__close{top:18px;right:18px}.crm-lightbox__prev{left:18px}.crm-lightbox__next{right:18px}
-@media (max-width:991px){.crm-grid{grid-template-columns:1fr 1fr}.crm-grid .crm-card:last-child{grid-column:1/-1}}
+@media (max-width:991px){.crm-grid{grid-template-columns:1fr 1fr}.crm-grid .crm-card:last-child{grid-column:1/-1}.crm-grid--two .crm-card:last-child{grid-column:auto}}
 @media (max-width:767px){
  .crm-rec__summary{grid-template-columns:1fr}
- .crm-grid{grid-template-columns:1fr}
+ .crm-rec__summary--solo .crm-rec__tiles{grid-template-columns:1fr 1fr}
+ .crm-grid,.crm-grid--two{grid-template-columns:1fr}
+ .crm-tile{padding:12px 14px}
+ .crm-tile strong{font-size:19px}
  .crm-inv__bar{grid-template-columns:52px minmax(0,1fr) 18px;gap:10px;padding:12px}
  .crm-inv__thumb{width:52px;height:40px}
  .crm-inv__bar .crm-badge,.crm-inv__money{grid-column:2/3}

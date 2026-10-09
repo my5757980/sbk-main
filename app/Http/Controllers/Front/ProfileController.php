@@ -77,7 +77,7 @@ class ProfileController extends Controller
             $user->forceFill(['email_verified_at' => null])->save();
         }
 
-        return redirect()->route('profile.index')->with('success', 'Profile has been updated.');
+        return redirect()->route('profile.index', ['tab' => 'edit'])->with('success', 'Profile has been updated.');
     }
 
     public function updatePassword(Request $request)
@@ -91,7 +91,7 @@ class ProfileController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        return redirect()->route('profile.index')->with('success', 'Password has been changed.');
+        return redirect()->route('profile.index', ['tab' => 'edit'])->with('success', 'Password has been changed.');
     }
 
     private function splitName(string $name): array
