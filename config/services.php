@@ -48,4 +48,10 @@ return [
         'cache_seconds' => (int) env('CRM_CACHE_SECONDS', 60),
     ],
 
+    // The auction portal: its "Auction" sign-in is signed with the CRM key above
+    // (the auction holds the public half, in its sso.php).
+    'auction' => [
+        'url' => rtrim(env('AUCTION_URL', 'https://auction.sbkautotrading.com'), '/'),
+    ],
+
 ];

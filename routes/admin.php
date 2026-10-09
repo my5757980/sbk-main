@@ -56,6 +56,7 @@ Route::name('admin.')->middleware('admin.permission')->group(
         # CRM (app/Services/Crm). The second name segment is the permission the
         # admin.permission middleware checks: users.edit / users.show.
         Route::get('crm-sso', 'CrmController@sso')->name('crm-sso');
+        Route::get('auction-sso', 'CrmController@auctionSso')->name('auction-sso');
         Route::post('users/crm-sync', 'CrmController@sync')->name('users.edit.crm-sync');
         Route::post('users/{user}/crm-link', 'CrmController@link')->name('users.edit.crm-link');
         Route::post('users/{user}/change-password', 'UserController@changePassword')->name('users.edit.change-password');

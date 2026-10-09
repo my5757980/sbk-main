@@ -38,6 +38,24 @@ class CrmController extends Controller
         return redirect()->away($crmUrl . '/api/auth/sso?token=' . urlencode($token));
     }
 
+    /**
+     * "Auction": the same one-minute signed link for the auction's admin panel
+     * (auction portal sso.php). It signs in the auction staff account with this
+     * admin's email, or shows the auction's staff login page when there is none.
+     */
+    public function auctionSso(CrmSigner $signer)
+    {
+        $auctionUrl = config('services.auction.url');
+
+        if (!CrmSigner::configured()) {
+            return redirect()->away($auctionUrl . '/admin/login.php');
+        }
+
+        $token = $signer->auctionSsoToken(auth('admin')->user()->email);
+
+        return redirect()->away($auctionUrl . '/sso.php?token=' . urlencode($token));
+    }
+
     public function sync(CrmCustomerSync $sync)
     {
         if (!CrmSigner::configured() || !CrmStatus::migrated()) {

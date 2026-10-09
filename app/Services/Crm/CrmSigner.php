@@ -6,7 +6,8 @@ use RuntimeException;
 
 /**
  * Signs what the CRM accepts from this website: the "CRM Global" sign-in
- * links and reads of the CRM's /api/external/* records.
+ * links and reads of the CRM's /api/external/* records - and the "Auction"
+ * sign-in links the auction portal accepts (its sso.php, same key pair).
  *
  * RSA-SHA256 with this website's private key (config services.crm); the CRM
  * verifies with the public half (official-crm src/lib/website-link.ts).
@@ -30,6 +31,25 @@ class CrmSigner
         return $this->sign([
             'iss' => self::ISSUER,
             'aud' => self::AUDIENCE,
+            'purpose' => 'sso',
+            'sub' => strtolower(trim($email)),
+            'iat' => $now,
+            'exp' => $now + 60,
+            'nonce' => bin2hex(random_bytes(16)),
+        ]);
+    }
+
+    /**
+     * The same for the auction's admin panel (auction portal sso.php): its own
+     * audience, so a CRM link can never be used on the auction or the other way round.
+     */
+    public function auctionSsoToken(string $email): string
+    {
+        $now = time();
+
+        return $this->sign([
+            'iss' => self::ISSUER,
+            'aud' => 'sbk-auction',
             'purpose' => 'sso',
             'sub' => strtolower(trim($email)),
             'iat' => $now,

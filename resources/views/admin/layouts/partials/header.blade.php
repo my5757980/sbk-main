@@ -54,6 +54,13 @@
                             CRM Global
                         </a>
                     </li>
+                    <li class="nav-item d-none d-sm-flex align-items-center mr-1">
+                        {{-- The same for the auction's admin panel (Admin\CrmController@auctionSso): signed in
+                             when the auction has a staff account with this admin's email; otherwise its login page. --}}
+                        <a class="btn btn-sm sbk-crm-global-btn" href="{{ route('admin.auction-sso') }}">
+                            Auction
+                        </a>
+                    </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link"
                             href="#" data-toggle="dropdown">
                             <div class="user-nav d-sm-flex d-none"><span
