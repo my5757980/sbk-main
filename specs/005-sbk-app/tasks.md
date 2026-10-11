@@ -24,7 +24,9 @@ Branch `native-app`. Code in `mobile-app/`. Phase 1 is the UI/UX; phase 2 connec
 
 ### Checks
 - [x] T20 Every screen photographed at 320, 390 and 430 wide and at 768 (tablet): no screen wider than the phone, no error on any screen.
-- [ ] T21 Release APK built, installed and opened on a phone (`com.sbkautotrading.app`, version 2.0.0 / code 2, so it updates the earlier app).
+- [x] T21 Release APK built (12 Oct): `com.sbkautotrading.app` 2.0.0 / code 2, 50 MB, arm64-v8a + armeabi-v7a, 16 KB aligned,
+  signed with the same key as the earlier test build, so it installs over it.
+- [ ] T22 Installed and opened on a real phone (the owner).
 
 ## Phase 2 — the website's database (sbk-main)
 
