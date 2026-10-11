@@ -2,29 +2,24 @@
   "expo": {
     "name": "SBK Global Auto Trading",
     "slug": "sbk-website",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "backgroundColor": "#FFFFFF",
-    "primaryColor": "#18335E",
-    "splash": {
-      "backgroundColor": "#18335E",
-      "resizeMode": "contain",
-      "image": "./assets/splash-icon.png"
-    },
+    "backgroundColor": "#F4F5F7",
+    "primaryColor": "#D71920",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.sbkautotrading.app",
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Used for voice notes and calls in the website's live chat.",
         "NSCameraUsageDescription": "Used for video calls in the website's live chat.",
-        "NSPhotoLibraryUsageDescription": "Used to pick a picture you choose to send or upload on the website."
+        "NSPhotoLibraryUsageDescription": "Used to pick a picture for your profile or to send in the live chat."
       }
     },
     "android": {
       "package": "com.sbkautotrading.app",
-      "versionCode": 1,
+      "versionCode": 2,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -47,7 +42,25 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "./plugins/withLowMemoryBuild"
+      "./plugins/withLowMemoryBuild",
+      "expo-image",
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-video",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Used to pick a picture for your profile or to send in the live chat."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#111216",
+          "image": "./assets/site/logo.png",
+          "imageWidth": 170
+        }
+      ]
     ]
   }
 }
