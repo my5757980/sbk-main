@@ -1,105 +1,174 @@
-/* SBK Global Auto Trading - the website, as an app.
+/* SBK Global Auto Trading - the website's frontend, as a real app.
    ---------------------------------------------------------------------------
-   Sir's instruction (29 Sep 2026): a NEW app, separate from the SBK Chat app,
-   in which the whole website comes in by itself - nothing fetched separately,
-   the UI exactly the website's, the chat usable, and everything managed from
-   the website's own database and admin panel.
+   Sir's instruction (11 Oct 2026): the app holds the website's customer side -
+   the home page, the shop, every page a customer reads, the account and the
+   live chat - and NOT the admin dashboard, the auction or the CRM, which stay on
+   the website. One database: the website's. The UI/UX comes first; the data is
+   then connected to the website's database (src/api is the only door to it).
 
-   So this is one full-screen WebView of the website and nothing else. What is
-   here only makes the website behave inside an app as it does in a phone's
-   browser:
-     - the phone's Back button goes back in the website (otherwise it would
-       close the app on the first press);
-     - phone, e-mail, WhatsApp and map links open in their own apps, as they
-       do from a browser;
-     - the live chat's microphone, camera and picture picker work (voice
-       notes, calls, pictures);
-     - text is not re-sized by the phone's font setting, so every page looks
-       exactly as the website draws it. */
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { BackHandler, Linking, StyleSheet } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+   Five tabs - Home, Shop, Chat, Cart, Menu - and every other page on a native
+   stack above them, so Back always does what a phone user expects. */
+import { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { WebView } from 'react-native-webview';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-import { SITE_URL } from './src/config';
+import { C } from './src/theme';
+import { Button, T } from './src/components/base';
+import { ShopProvider, useShop } from './src/store/shop';
+import { AccountProvider } from './src/store/account';
+import { ChatProvider } from './src/store/chat';
+import { FiltersProvider } from './src/store/filters';
 
-/* A link for another app (tel:, mailto:, whatsapp:, geo:, intent: ...). An
-   Android "intent://" link - WhatsApp's own button uses one - names the app
-   and, sometimes, a web page to fall back to. */
-function openOutside(url) {
-  if (/^intent:/i.test(url)) {
-    const scheme = /;scheme=([^;]+)/i.exec(url);
-    const fallback = /;S\.browser_fallback_url=([^;]+)/i.exec(url);
-    const target = scheme ? scheme[1] + '://' + url.replace(/^intent:\/\//i, '').split('#Intent')[0] : '';
-    Linking.openURL(target).catch(() => {
-      if (fallback) {
-        Linking.openURL(decodeURIComponent(fallback[1])).catch(() => {});
-      }
-    });
-    return;
+import HomeScreen from './src/screens/HomeScreen';
+import ShopScreen from './src/screens/ShopScreen';
+import FiltersScreen from './src/screens/FiltersScreen';
+import ProductScreen from './src/screens/ProductScreen';
+import GalleryScreen from './src/screens/GalleryScreen';
+import VideoScreen from './src/screens/VideoScreen';
+import CartScreen from './src/screens/CartScreen';
+import WishlistScreen from './src/screens/WishlistScreen';
+import CheckoutScreen from './src/screens/CheckoutScreen';
+import MenuScreen from './src/screens/MenuScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import { ForgotScreen, LoginScreen, RegisterScreen } from './src/screens/AuthScreens';
+import { AboutScreen, PartnersScreen, ServicesScreen } from './src/screens/CompanyScreens';
+import { BankScreen, ContactScreen, FaqScreen, LocationsScreen } from './src/screens/ContactScreens';
+import { BlogPostScreen, BlogScreen } from './src/screens/BlogScreens';
+import { ChatScreen, ChatThreadScreen } from './src/screens/ChatScreens';
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: { ...DefaultTheme.colors, primary: C.red, background: C.bg, card: C.card, text: C.ink, border: C.line, notification: C.red },
+};
+
+const TAB_ICONS = {
+  Home: ['home', 'home-outline'],
+  Shop: ['car-sport', 'car-sport-outline'],
+  Chat: ['chatbubbles', 'chatbubbles-outline'],
+  Cart: ['cart', 'cart-outline'],
+  Menu: ['grid', 'grid-outline'],
+};
+
+function Tabs() {
+  const shop = useShop();
+  const insets = useSafeAreaInsets();
+  return (
+    <Tab.Navigator
+      backBehavior="firstRoute"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: C.red,
+        tabBarInactiveTintColor: '#8A9099',
+        tabBarHideOnKeyboard: true,
+        tabBarStyle: {
+          backgroundColor: C.card,
+          borderTopColor: C.line,
+          height: 62 + insets.bottom,
+          paddingTop: 6,
+          paddingBottom: Math.max(insets.bottom, 8),
+        },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
+        tabBarAllowFontScaling: false,
+        tabBarIcon: ({ focused, color }) => (
+          <Ionicons name={TAB_ICONS[route.name][focused ? 0 : 1]} size={23} color={color} />
+        ),
+        tabBarBadgeStyle: { backgroundColor: C.red, color: C.white, fontSize: 10, fontWeight: '800' },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Shop" component={ShopScreen} />
+      <Tab.Screen name="Chat" component={ChatScreen} />
+      <Tab.Screen name="Cart" component={CartScreen} options={{ tabBarBadge: shop.cart.length || undefined }} />
+      <Tab.Screen name="Menu" component={MenuScreen} />
+    </Tab.Navigator>
+  );
+}
+
+/* A page that fails to draw shows a way back instead of closing the app. */
+class Guard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
   }
-  Linking.openURL(url).catch(() => {});
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    if (!this.state.failed) return this.props.children;
+    return (
+      <View style={styles.failed}>
+        <Ionicons name="warning-outline" size={40} color={C.red} />
+        <T v="h2" center style={{ marginTop: 12 }}>Something went wrong</T>
+        <T v="sub" color={C.muted} center style={{ marginTop: 6 }}>Please try again.</T>
+        <Button title="Try again" onPress={() => this.setState({ failed: false })} style={{ marginTop: 18, minWidth: 180 }} />
+      </View>
+    );
+  }
 }
 
 export default function App() {
-  const web = useRef(null);
-  const [canGoBack, setCanGoBack] = useState(false);
-
-  // Back goes back in the website; only on the first page does it leave the app.
-  useEffect(() => {
-    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (canGoBack && web.current) {
-        web.current.goBack();
-        return true;
-      }
-      return false;
-    });
-    return () => sub.remove();
-  }, [canGoBack]);
-
-  // Web pages stay in the app; links meant for other apps go to them.
-  const onShouldStartLoadWithRequest = useCallback((req) => {
-    const url = String(req.url || '');
-    if (/^(https?:|about:|blob:|data:|javascript:)/i.test(url)) {
-      return true;
-    }
-    openOutside(url);
-    return false;
-  }, []);
-
   return (
     <SafeAreaProvider>
-      <StatusBar style="dark" backgroundColor="#FFFFFF" />
-      <SafeAreaView style={styles.page} edges={['top', 'bottom']}>
-        <WebView
-          ref={web}
-          source={{ uri: SITE_URL }}
-          style={styles.page}
-          onNavigationStateChange={(s) => setCanGoBack(s.canGoBack)}
-          onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
-          // Signed-in customers and staff stay signed in, as in a browser.
-          javaScriptEnabled
-          domStorageEnabled
-          sharedCookiesEnabled
-          thirdPartyCookiesEnabled
-          // The live chat: voice notes, voice/video calls, their sound.
-          mediaCapturePermissionGrantType="grant"
-          allowsInlineMediaPlayback
-          mediaPlaybackRequiresUserAction={false}
-          // "Open in a full window" and target="_blank" stay inside the app.
-          setSupportMultipleWindows={false}
-          // iPhone: swipe back, like Back on Android.
-          allowsBackForwardNavigationGestures
-          // Pages exactly as the website draws them, whatever the phone's font size.
-          textZoom={100}
-          originWhitelist={['*']}
-        />
-      </SafeAreaView>
+      <Guard>
+        <AccountProvider>
+          <ShopProvider>
+            <ChatProvider>
+              <FiltersProvider>
+                <NavigationContainer theme={navTheme}>
+                  <StatusBar style="dark" />
+                  <Stack.Navigator
+                    screenOptions={{
+                      headerTintColor: C.ink,
+                      headerTitleStyle: { fontWeight: '800', fontSize: 17 },
+                      headerShadowVisible: false,
+                      headerStyle: { backgroundColor: C.card },
+                      headerBackButtonDisplayMode: 'minimal',
+                      contentStyle: { backgroundColor: C.bg },
+                      animation: 'slide_from_right',
+                    }}
+                  >
+                    <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
+                    <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name="Gallery" component={GalleryScreen} options={{ headerShown: false, animation: 'fade', contentStyle: { backgroundColor: '#000' } }} />
+                    <Stack.Screen name="Video" component={VideoScreen} options={{ headerShown: false, animation: 'fade', contentStyle: { backgroundColor: '#000' } }} />
+                    <Stack.Screen name="Filters" component={FiltersScreen} options={{ title: 'Filters', animation: 'slide_from_bottom' }} />
+                    <Stack.Screen name="Wishlist" component={WishlistScreen} options={{ title: 'Your Wishlist' }} />
+                    <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />
+                    <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
+                    <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Create Account' }} />
+                    <Stack.Screen name="Forgot" component={ForgotScreen} options={{ title: 'Forgot Password' }} />
+                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'My Profile' }} />
+                    <Stack.Screen name="About" component={AboutScreen} options={{ title: 'About SBK' }} />
+                    <Stack.Screen name="Services" component={ServicesScreen} options={{ title: 'Services' }} />
+                    <Stack.Screen name="Partners" component={PartnersScreen} options={{ title: 'Official Partners' }} />
+                    <Stack.Screen name="Locations" component={LocationsScreen} options={{ title: 'Our Locations' }} />
+                    <Stack.Screen name="Bank" component={BankScreen} options={{ title: 'Bank Details' }} />
+                    <Stack.Screen name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />
+                    <Stack.Screen name="Faq" component={FaqScreen} options={{ title: 'FAQ' }} />
+                    <Stack.Screen name="Blog" component={BlogScreen} options={{ title: 'Blogs' }} />
+                    <Stack.Screen name="BlogPost" component={BlogPostScreen} options={{ title: '' }} />
+                    <Stack.Screen name="ChatThread" component={ChatThreadScreen} options={{ title: '' }} />
+                  </Stack.Navigator>
+                </NavigationContainer>
+              </FiltersProvider>
+            </ChatProvider>
+          </ShopProvider>
+        </AccountProvider>
+      </Guard>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { flex: 1, backgroundColor: '#FFFFFF' },
+  failed: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, backgroundColor: C.bg },
 });

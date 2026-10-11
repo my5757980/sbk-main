@@ -1,25 +1,47 @@
-# SBK Global Auto Trading - the website as an app
+# SBK Global Auto Trading - the app
 
-Sir's instruction (29 Sep 2026, third voice note):
-- Keep the SBK Chat app as it is.
-- Make a **new** app that shows the whole website, identical, with the live chat usable.
-- Everything is managed from the website's database and admin panel.
+Sir's instruction (11 Oct 2026):
+- The app holds the website's **frontend**, the customer side: the home page, the shop, every page a customer reads, the account, and the live chat.
+- The admin dashboard, the auction and the CRM stay on the website and are **not** in the app.
+- There is **one database**, the website's. The UI/UX comes first; the data is then connected to the website's database.
 
-So this app is one full-screen WebView of the website (Mohsin's Laravel site, `MohsinRaza2000/sbk-main`). It has no screens or data of its own, and a change on the website shows in the app at once.
+It is a native app (React Native / Expo), not a web page in a frame. Spec, plan and tasks: `specs/005-sbk-app/`.
 
 | | |
 |---|---|
-| Android package | `com.sbkautotrading.app`, separate from SBK Chat's `com.sbkautotrading.chat`, so both install side by side |
-| Name / icon | "SBK Global Auto Trading", with the same SBK mark as the other app |
-| Permissions | internet; microphone, camera and audio settings (the chat's voice notes, calls and pictures) |
+| Android package | `com.sbkautotrading.app` (version 2.0.0, code 2). It updates the earlier test build, and installs beside SBK Chat (`com.sbkautotrading.chat`). |
+| Name / icon | "SBK Global Auto Trading", with the SBK mark; the splash shows the SBK logo on black |
+| Tabs | Home · Shop · Chat · Cart · Menu |
 
-What `App.js` does, besides showing the site: the Back button goes back in the website; phone, e-mail, WhatsApp and map links open their own apps; the text size is fixed to the website's own.
+## Where things are
 
-## The address
+```
+App.js                  navigation: five tabs, and every other screen on a stack
+src/theme.js            the website's colours and type; one scale for every phone
+src/api/index.js        THE ONLY DOOR TO DATA - every screen asks this file
+src/api/content.json    phase 1: the website's vehicles, blogs, filter lists (generated)
+src/api/static.js       the website's fixed texts, word for word from its views
+src/store/              cart, wishlist, account, chat, shop filters (kept on the phone)
+src/components/         the shared pieces every screen is built from
+src/screens/            one file per screen or group of screens
+tools/build-content.py  copies the website's public content into content.json
+tools/build-assets.py   makes phone-sized copies of the website's fixed pictures
+```
 
-The app opens `EXPO_PUBLIC_SITE_URL`, which is set when the app is built. The default is `https://sbkautotrading.com/`.
-- **Now:** the website is not live yet, so test builds point at a temporary test link.
-- **Final:** once the website is live, build with its real address.
+## Phase 1 and phase 2
+
+- **Phase 1 (now):** every screen, with the website's real content. The cart and wishlist work. Forms check themselves like the website's. Sending (orders, messages, login, chat) is **not** connected yet, and each screen says so in plain words.
+- **Phase 2:** the website gets a JSON API on its own database (`/api/app/*`, token login for customers). `src/api/index.js` switches to it, and the chat connects to the website's chat. No screen changes.
+
+To refresh the bundled content from the live website:
+
+```
+python tools/build-content.py https://v2.sbkautotrading.com
+```
+
+## The website's address
+
+Pictures and, in phase 2, all data come from `EXPO_PUBLIC_SITE_URL`, set when the app is built. The default is `https://v2.sbkautotrading.com`, where the website runs today. Build with the final domain once the website moves.
 
 ## Building the APK (this machine: Node 24, JDK 21, Android SDK)
 
@@ -27,7 +49,6 @@ Run everything from this `mobile-app/` folder. The website around it is not invo
 
 ```
 npm install
-set EXPO_PUBLIC_SITE_URL=https://<the website>/
 npx expo prebuild --platform android
 # android/local.properties:  sdk.dir=C:/Users/ASFAR/AppData/Local/Android/Sdk
 cd android
