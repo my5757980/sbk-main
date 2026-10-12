@@ -35,10 +35,29 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->configureAppRateLimiting();
         $this->mapAdminRoutes();
         $this->mapChatRoutes();
         $this->mapFrontRoutes(); // front routes should always be in bottom
         $this->mapApiRoutes();
+    }
+
+    /**
+     * Limits for the SBK app's forms (routes/app.php), each counted on its own
+     * per phone address, so signing in never uses up the contact form's turns.
+     *
+     * @return void
+     */
+    protected function configureAppRateLimiting()
+    {
+        $per = fn (string $what, int $perMinute) => RateLimiter::for('app-' . $what,
+            fn (Request $request) => Limit::perMinute($perMinute)->by($what . '|' . $request->ip()));
+
+        $per('auth', 10);
+        $per('forgot', 5);
+        $per('checkout', 10);
+        $per('contact', 10);
+        $per('chat-start', 30);
     }
 
     /**
