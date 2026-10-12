@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', () => window.setTimeout(hidePreloader, 450), { once: true });
     window.setTimeout(hidePreloader, 2600);
 
+    const headerClocks = document.querySelector('.topbar__clocks');
+    const headerGrid = document.querySelector('.navgrid');
+    const headerLogo = headerGrid?.querySelector('.logo');
+    if (headerClocks && headerGrid && headerLogo) {
+        const clockParent = headerClocks.parentNode;
+        const clockNextSibling = headerClocks.nextSibling;
+        const mobileHeader = window.matchMedia('(max-width: 900px)');
+        const positionHeaderClocks = () => {
+            if (mobileHeader.matches) {
+                headerLogo.after(headerClocks);
+            } else {
+                clockParent.insertBefore(headerClocks, clockNextSibling);
+            }
+        };
+        positionHeaderClocks();
+        mobileHeader.addEventListener('change', positionHeaderClocks);
+    }
+
     const clockNodes = Array.from(document.querySelectorAll('[data-clock]'));
 
     const updateClocks = () => {
