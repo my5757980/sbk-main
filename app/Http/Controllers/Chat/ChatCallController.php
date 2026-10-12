@@ -156,6 +156,9 @@ class ChatCallController extends Controller
             'staff_seen' => $now,
         ]);
 
+        // A customer rung by the desk hears it on their phone (the SBK app).
+        \App\Services\App\AppPush::ringing($id);
+
         return ChatService::json(['ok' => true, 'call' => $chat->callOut($chat->callRow($id), $viewerIsGuest)]);
     }
 }

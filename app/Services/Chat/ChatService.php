@@ -521,6 +521,9 @@ class ChatService
             $col => DB::raw($col . ' + ' . ($bumpUnread ? 1 : 0)),
         ]);
 
+        // The customer's phone hears about the desk's message (the SBK app).
+        \App\Services\App\AppPush::afterMessage($threadId, $fromGuest, $staffId, $kind, $body, $bumpUnread);
+
         return (int) $id;
     }
 

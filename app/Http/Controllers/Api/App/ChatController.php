@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Chat\ChatService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * The chat's way in, for the SBK app - Chat\ChatPageController@start with the
@@ -67,6 +68,40 @@ class ChatController extends Controller
         }
 
         return ChatService::json(self::answer($g, $user, false));
+    }
+
+    /**
+     * This phone's notification token (Firebase), kept for the customer it now
+     * belongs to; do=forget drops it (signing out). See App\Services\App\AppPush.
+     */
+    public function push(Request $request, ChatService $chat)
+    {
+        $token = trim((string) $request->input('token', ''));
+        if ($token === '' || strlen($token) > 255) {
+            return ChatService::json(['ok' => false, 'error' => 'No token.'], 422);
+        }
+        if (!Schema::hasTable('sbk_app_push')) {
+            return ChatService::json(['ok' => true, 'stored' => false]);
+        }
+        if ($request->input('do') === 'forget') {
+            DB::table('sbk_app_push')->where('token', $token)->delete();
+
+            return ChatService::json(['ok' => true]);
+        }
+        $g = $chat->guest();
+        if (!$g || $chat->staff()) {
+            return ChatService::json(['ok' => false, 'signedout' => true], 401);
+        }
+        $now = now();
+        DB::table('sbk_app_push')->updateOrInsert(['token' => $token], [
+            'who' => 'guest',
+            'who_id' => (int) $g['id'],
+            'platform' => $request->input('platform') === 'ios' ? 'ios' : 'android',
+            'updated_at' => $now,
+            'created_at' => $now,
+        ]);
+
+        return ChatService::json(['ok' => true, 'stored' => true]);
     }
 
     /** Who the chat now knows this phone as - and, for a visitor, the token to keep. */

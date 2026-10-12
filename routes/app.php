@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\App\AccountController;
 use App\Http\Controllers\Api\App\CatalogController;
 use App\Http\Controllers\Api\App\ChatController;
 use App\Http\Controllers\Api\App\OrderController;
+use App\Http\Controllers\Api\App\PayController;
 use App\Http\Controllers\Chat\ChatApiController;
 use App\Http\Controllers\Chat\ChatCallController;
 use App\Http\Controllers\Chat\ChatMediaController;
@@ -35,6 +36,12 @@ Route::get('blogs/{slug}', [CatalogController::class, 'blog'])->name('blog');
 Route::post('checkout', [OrderController::class, 'checkout'])->middleware('throttle:app-checkout')->name('checkout');
 Route::post('contact', [OrderController::class, 'contact'])->middleware('throttle:app-contact')->name('contact');
 
+// PayPal / card, as the website's checkout takes it: the app starts it, the
+// phone's browser shows the payment page (/app/pay/{key}, routes/front.php).
+Route::post('checkout/pay', [PayController::class, 'start'])->middleware('throttle:app-checkout')->name('pay.start');
+Route::post('pay/{key}/create', [PayController::class, 'create'])->where('key', '[A-Za-z0-9]{40}')->name('pay.create');
+Route::post('pay/{key}/capture', [PayController::class, 'capture'])->where('key', '[A-Za-z0-9]{40}')->name('pay.capture');
+
 // The account - one account with the website.
 Route::prefix('auth')->name('auth.')->group(function () {
     Route::post('register', [AccountController::class, 'register'])->middleware('throttle:app-auth')->name('register');
@@ -60,4 +67,5 @@ Route::prefix('chat')->name('chat.')->middleware(AppChatIdentity::class)->group(
     Route::get('ice', [ChatApiController::class, 'ice'])->name('ice');
     Route::match(['get', 'post'], 'call', [ChatCallController::class, 'handle'])->name('call');
     Route::get('media/{message}', [ChatMediaController::class, 'show'])->whereNumber('message')->name('media');
+    Route::post('push', [ChatController::class, 'push'])->name('push');
 });
