@@ -3,8 +3,8 @@
 
    The website's three steps: a visitor gives name, e-mail and telephone once
    ("Chat with our team"), a signed-in customer only what their account lacks;
-   then the team, with who is online; then the conversation - text, pictures and
-   voice notes, with the desk's ticks. */
+   then the team, with who is online; then the conversation - text, pictures,
+   voice notes and voice/video calls, with the desk's ticks. */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
@@ -24,6 +24,7 @@ import VoiceBubble from '../components/VoiceBubble';
 import { useChat } from '../store/chat';
 import { useAccount } from '../store/account';
 import { audioLib, pickerLib } from '../lazy';
+import { useCallEngine, useCallSnap } from '../calls';
 import { openSite } from '../actions';
 
 const FACES = ['#D71920', '#111216', '#A90F15', '#3A3F47', '#7E0A0F', '#2A2D35'];
@@ -160,6 +161,7 @@ function Gate({ details, me }) {
 function Team() {
   const nav = useNavigation();
   const chat = useChat();
+  const calls = useCallEngine();
   const [state, setState] = useState(null);
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -170,11 +172,12 @@ function Team() {
       setState(r);
       setError('');
       chat.setUnread(r.unread || 0);
+      if (r.call && calls) calls.notePoll(r.call);
     } catch (e) {
       if (e.status === 401) chat.refreshWho();
       else setError(e.message);
     }
-  }, [chat]);
+  }, [chat, calls]);
 
   useFocusEffect(useCallback(() => {
     load();
@@ -234,6 +237,8 @@ export function ChatThreadScreen() {
   const insets = useSafeAreaInsets();
   const headerH = useHeaderHeight();
   const chat = useChat();
+  const calls = useCallEngine();
+  const callSnap = useCallSnap();
   const p = route.params || {};
   const [threadId, setThreadId] = useState(p.threadId || null);
   const [messages, setMessages] = useState([]);
@@ -262,8 +267,21 @@ export function ChatThreadScreen() {
           </View>
         </View>
       ),
+      // Calls, as on the website: to the member of the team this conversation is with.
+      headerRight: () => (calls ? (
+        <View style={{ flexDirection: 'row' }}>
+          <IconButton name="call-outline" onPress={() => startCall('voice')} label="Voice call" />
+          <IconButton name="videocam-outline" onPress={() => startCall('video')} label="Video call" />
+        </View>
+      ) : null),
     });
-  }, [nav, p.name, p.online, p.role, p.ini, p.hue, ui.width]);
+  }, [nav, p.name, p.online, p.role, p.ini, p.hue, ui.width, calls, callSnap.status]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const startCall = (kind) => {
+    if (!calls) return;
+    if (calls.busy()) { setErr('You are already in a call.'); return; }
+    calls.start(kind, { to: p.staffId, peer: p.name || 'SBK', peerId: p.staffId, hue: p.hue });
+  };
 
   const merge = useCallback((incoming, receipts) => {
     setMessages((prev) => {
@@ -279,11 +297,20 @@ export function ChatThreadScreen() {
     });
   }, []);
 
+  // No conversation yet: the first message or call makes one - a call says which.
+  useEffect(() => {
+    if (!threadId && callSnap.thread && Number(callSnap.peerId) === Number(p.staffId)) setThreadId(callSnap.thread);
+  }, [threadId, callSnap.thread, callSnap.peerId, p.staffId]);
+
   const poll = useCallback(async () => {
-    if (!threadId) return;
+    if (!threadId) {
+      setLoading(false);
+      return;
+    }
     try {
       const r = await chatApi.poll({ thread: threadId, after: after.current, open: 1 });
       merge(r.messages, r.receipts);
+      if (r.call && calls) calls.notePoll(r.call);
       if (typeof r.unread === 'number') chat.setUnread(r.unread);
       setErr('');
     } catch (e) {
@@ -291,7 +318,7 @@ export function ChatThreadScreen() {
     } finally {
       setLoading(false);
     }
-  }, [threadId, merge, chat, nav]);
+  }, [threadId, merge, chat, nav, calls, p.staffId]);
 
   useFocusEffect(useCallback(() => {
     poll();

@@ -3,11 +3,9 @@
    A signed-in customer is known by their account token. A visitor gives name,
    e-mail and telephone once and keeps the chat's visitor token in the secure
    store (the website keeps the same value in a browser cookie), so tomorrow
-   they are the same person with the same conversation. The number of unread
-   replies is checked every half minute while the app is open, for the tab's
-   badge. */
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState } from 'react-native';
+   they are the same person with the same conversation. The unread count and a
+   ringing call are picked up by ChatBeat (src/calls/beat.js). */
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -28,8 +26,6 @@ export function ChatProvider({ children }) {
   const [unread, setUnread] = useState(0);
   const [draft, setDraft] = useState('');
   const userId = account.user ? account.user.id : null;
-  const whoRef = useRef(null);
-  whoRef.current = who;
 
   useEffect(() => {
     // The phase-1 preview kept pretend messages on the phone; they were never sent.
@@ -78,30 +74,6 @@ export function ChatProvider({ children }) {
   useEffect(() => {
     if (loaded && account.ready) refreshWho();
   }, [loaded, account.ready, refreshWho]);
-
-  // The tab's badge: unread replies, every half minute while the app is open.
-  useEffect(() => {
-    let timer = null;
-    const tick = () => {
-      const w = whoRef.current;
-      if (!w || w.staff || w.details) return;
-      chatApi.poll().then((r) => setUnread(r.unread || 0)).catch(() => {});
-    };
-    const run = () => {
-      if (timer) clearInterval(timer);
-      tick();
-      timer = setInterval(tick, 30000);
-    };
-    run();
-    const sub = AppState.addEventListener('change', (s) => {
-      if (s === 'active') run();
-      else if (timer) { clearInterval(timer); timer = null; }
-    });
-    return () => {
-      if (timer) clearInterval(timer);
-      sub.remove();
-    };
-  }, [who]);
 
   const value = useMemo(() => ({
     ready: loaded && account.ready && !checking,

@@ -227,6 +227,26 @@ export async function checkout(slugs, form, percent, amount) {
   });
 }
 
+/** PayPal / card: the website keeps the checkout and returns its payment page. */
+export async function startPay(slugs, form, percent, amount) {
+  return request('POST', '/checkout/pay', {
+    json: {
+      items: slugs,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      country: form.country,
+      city: form.city,
+      port: form.port,
+      message: form.message,
+      payment_percentage: percent,
+      payment_amount: amount || undefined,
+      password: form.password || undefined,
+      password_confirmation: form.confirm || undefined,
+    },
+  });
+}
+
 export async function sendContact(form) {
   return request('POST', '/contact', { json: form });
 }

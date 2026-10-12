@@ -8,9 +8,9 @@
 
    Five tabs - Home, Shop, Chat, Cart, Menu - and every other page on a native
    stack above them, so Back always does what a phone user expects. */
-import { Component } from 'react';
+import { Component, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, createNavigationContainerRef } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,6 +40,10 @@ import { AboutScreen, PartnersScreen, ServicesScreen } from './src/screens/Compa
 import { BankScreen, ContactScreen, FaqScreen, LocationsScreen } from './src/screens/ContactScreens';
 import { BlogPostScreen, BlogScreen } from './src/screens/BlogScreens';
 import { ChatScreen, ChatThreadScreen } from './src/screens/ChatScreens';
+import CallScreen from './src/screens/CallScreen';
+import { CallProvider } from './src/calls';
+import ChatBeat from './src/calls/beat';
+import { onTap, startPush, stopPush } from './src/push';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -89,6 +93,43 @@ function Tabs() {
   );
 }
 
+const navRef = createNavigationContainerRef();
+
+/* Notifications follow whoever is in the chat; a tapped one opens its
+   conversation (or the chat, for a call). */
+function Push({ who }) {
+  useEffect(() => {
+    if (!who) return undefined;
+    startPush();
+    return () => { stopPush(); };
+  }, [who]);
+  useEffect(() => onTap((b) => {
+    const go = () => {
+      if (b.type === 'message' && b.to) navRef.navigate('ChatThread', { staffId: b.to, threadId: b.thread || null, name: b.name || 'SBK' });
+      else navRef.navigate('Tabs', { screen: 'Chat' });
+    };
+    if (navRef.isReady()) go();
+    else setTimeout(go, 800);
+  }), []);
+  return null;
+}
+
+/* Calls belong to whoever is in the chat: the call screen comes up over any
+   page, and the chat's beat notices a ring wherever the customer is. */
+function WithCalls({ children }) {
+  const chat = useChat();
+  const w = chat.who;
+  const key = w && !w.staff && !w.details ? 'chat:' + ((w.me && w.me.email) || 'me') : null;
+  return (
+    <CallProvider who={key}>
+      {children}
+      <ChatBeat />
+      <Push who={key} />
+      <CallScreen />
+    </CallProvider>
+  );
+}
+
 /* A page that fails to draw shows a way back instead of closing the app. */
 class Guard extends Component {
   constructor(props) {
@@ -121,7 +162,8 @@ export default function App() {
           <ShopProvider>
             <ChatProvider>
               <FiltersProvider>
-                <NavigationContainer theme={navTheme}>
+                <WithCalls>
+                <NavigationContainer ref={navRef} theme={navTheme}>
                   <StatusBar style="dark" />
                   <Stack.Navigator
                     screenOptions={{
@@ -157,6 +199,7 @@ export default function App() {
                     <Stack.Screen name="ChatThread" component={ChatThreadScreen} options={{ title: '' }} />
                   </Stack.Navigator>
                 </NavigationContainer>
+                </WithCalls>
               </FiltersProvider>
             </ChatProvider>
           </ShopProvider>

@@ -66,7 +66,7 @@ function firstError(data) {
  * `form` is a FormData (pictures); React Native sets its boundary itself.
  */
 export async function request(method, path, opts = {}) {
-  const { query, json, form, timeout = 20000, chat = false } = opts;
+  const { query, json, form, urlencoded, timeout = 20000, chat = false } = opts;
   const qs = typeof query === 'string' ? query : queryOf(query);
   const url = SITE_URL + '/api/app' + path + (qs ? '?' + qs : '');
   const headers = { Accept: 'application/json' };
@@ -76,6 +76,10 @@ export async function request(method, path, opts = {}) {
   if (json) {
     headers['Content-Type'] = 'application/json';
     body = JSON.stringify(json);
+  } else if (urlencoded) {
+    // As a browser posts a form - the chat's call endpoint reads the SDP from it.
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    body = queryOf(urlencoded);
   } else if (form) {
     body = form;
   }

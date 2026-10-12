@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import * as WebBrowser from 'expo-web-browser';
 
 import { C, R, lift, useUI } from '../theme';
 import * as api from '../api';
@@ -78,6 +79,7 @@ export default function CheckoutScreen() {
   const [amountDraft, setAmountDraft] = useState(null);
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false);
+  const [paying, setPaying] = useState(false);
   const [done, setDone] = useState(null);
 
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function CheckoutScreen() {
     setAmountDraft(null);
   };
 
-  const submit = async () => {
+  const checkForm = () => {
     const e = {};
     if (!valid.filled(form.name)) e.name = 'The name field is required.';
     if (!valid.email(form.email)) e.email = 'Enter a valid email address.';
@@ -126,8 +128,46 @@ export default function CheckoutScreen() {
     setErrors(e);
     if (Object.keys(e).length) {
       Alert.alert('Please check the form', 'Please check the highlighted checkout fields and try again.');
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const serverErrors = (err) => {
+    const fe = {};
+    Object.keys(err.errors || {}).forEach((k) => { fe[k === 'password_confirmation' ? 'confirm' : k] = String(err.errors[k][0] || ''); });
+    setErrors(fe);
+    Alert.alert('Please check the form', Object.keys(fe).length ? 'Please check the highlighted checkout fields and try again.' : err.message);
+  };
+
+  /* PayPal or card - the website's own payment page, in the phone's browser;
+     when PayPal has taken the payment, the website writes the order and sends
+     the phone back here (sbkapp://pay-result). */
+  const payOnline = async () => {
+    if (!checkForm()) return;
+    setPaying(true);
+    try {
+      const r = await api.startPay(shop.cart, form, Number(percent), pay.paid);
+      if (r.signedIn && r.signedIn.token) account.adopt(r.signedIn.token, r.signedIn.user);
+      const result = await WebBrowser.openAuthSessionAsync(r.url, r.returnUrl || 'sbkapp://pay-result');
+      const url = result && result.type === 'success' ? String(result.url || '') : '';
+      const m = /[?&]status=paid&order=([^&]+)/.exec(url);
+      if (m) {
+        const paid = { orderNo: decodeURIComponent(m[1]), items: items || [], subtotal, paid: r.payNow, online: true };
+        shop.clearCart();
+        setDone(paid);
+      } else if (/status=expired/.test(url)) {
+        Alert.alert('Payment page expired', 'Please press "Pay with PayPal or card" again.');
+      }
+    } catch (err) {
+      serverErrors(err);
+    } finally {
+      setPaying(false);
+    }
+  };
+
+  const submit = async () => {
+    if (!checkForm()) return;
     setBusy(true);
     try {
       const r = await api.checkout(shop.cart, form, Number(percent), pay.paid);
@@ -135,10 +175,7 @@ export default function CheckoutScreen() {
       shop.clearCart();
       setDone(r.order);
     } catch (err) {
-      const fe = {};
-      Object.keys(err.errors || {}).forEach((k) => { fe[k === 'password_confirmation' ? 'confirm' : k] = String(err.errors[k][0] || ''); });
-      setErrors(fe);
-      Alert.alert('Please check the form', Object.keys(fe).length ? 'Please check the highlighted checkout fields and try again.' : err.message);
+      serverErrors(err);
     } finally {
       setBusy(false);
     }
@@ -150,9 +187,9 @@ export default function CheckoutScreen() {
         <PageHero eyebrow={CHECKOUT_TEXT.eyebrow} title={CHECKOUT_TEXT.title} compact />
         <Wrap style={{ paddingTop: 16 }}>
           <View style={styles.card}>
-            <Eyebrow>{CHECKOUT_TEXT.doneLabel}</Eyebrow>
-            <T v="h2">{CHECKOUT_TEXT.doneTitle}</T>
-            <T v="body" color={C.muted} style={{ marginTop: 10 }}>{CHECKOUT_TEXT.doneText}</T>
+            <Eyebrow>{done.online ? 'Payment Received' : CHECKOUT_TEXT.doneLabel}</Eyebrow>
+            <T v="h2">{done.online ? 'Payment completed successfully.' : CHECKOUT_TEXT.doneTitle}</T>
+            <T v="body" color={C.muted} style={{ marginTop: 10 }}>{done.online ? 'Paid ' + money(done.paid) + ' by PayPal. SBK will confirm the shipment and the next payment steps.' : CHECKOUT_TEXT.doneText}</T>
             <View style={styles.doneBox}>
               <T v="label" color={C.muted}>Order</T>
               <T v="h3" style={{ marginTop: 2 }}>{done.orderNo}</T>
@@ -251,7 +288,13 @@ export default function CheckoutScreen() {
               placeholder="Tell us about shipment timing, inspection needs, or documents you need."
             />
 
-            <Button title="Submit Order for Checking" icon="shield-checkmark-outline" onPress={submit} loading={busy} full style={{ marginTop: 4 }} />
+            <View style={styles.payBox}>
+              <T v="title">Pay with PayPal or card</T>
+              <T v="sub" color={C.muted} style={{ marginTop: 4 }}>Pay {money(pay.paid)} now on SBK's secure PayPal page; the order is confirmed straight away.</T>
+              <Button title={'Pay ' + money(pay.paid) + ' Now'} icon="card-outline" kind="dark" onPress={payOnline} loading={paying} disabled={busy} full style={{ marginTop: 12 }} />
+            </View>
+            <T v="small" color={C.muted} weight="600" center style={{ marginVertical: 12 }}>or send the order first and pay later</T>
+            <Button title="Submit Order for Checking" icon="shield-checkmark-outline" onPress={submit} loading={busy} disabled={paying} full style={{ marginTop: 4 }} />
             <Button title="Continue Shopping" kind="outline" onPress={() => nav.goBack()} full style={{ marginTop: 10 }} />
           </View>
         </Wrap>
@@ -274,5 +317,6 @@ const styles = StyleSheet.create({
   item: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   thumb: { width: 74, height: 56, borderRadius: R.sm },
   line: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 7 },
+  payBox: { borderWidth: 1, borderColor: C.line, borderRadius: R.md, padding: 14, backgroundColor: C.bg, marginTop: 4 },
   doneBox: { borderWidth: 1, borderColor: C.line, borderRadius: R.md, padding: 14, backgroundColor: C.bg, marginTop: 16 },
 });

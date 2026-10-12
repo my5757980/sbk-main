@@ -2,7 +2,8 @@
   "expo": {
     "name": "SBK Global Auto Trading",
     "slug": "sbk-website",
-    "version": "2.0.0",
+    "version": "2.1.0",
+    "scheme": "sbkapp",
     "orientation": "default",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,7 +20,7 @@
     },
     "android": {
       "package": "com.sbkautotrading.app",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -34,9 +35,9 @@
         "MODIFY_AUDIO_SETTINGS"
       ],
       "blockedPermissions": [
-        "android.permission.SYSTEM_ALERT_WINDOW",
-        "android.permission.VIBRATE"
-      ]
+        "android.permission.SYSTEM_ALERT_WINDOW"
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -61,7 +62,30 @@
           "imageWidth": 170
         }
       ],
-      "expo-audio"
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Allow SBK to use your microphone to record a voice note."
+        }
+      ],
+      [
+        "@config-plugins/react-native-webrtc",
+        {
+          "cameraPermission": "Allow SBK to use your camera for video calls.",
+          "microphonePermission": "Allow SBK to use your microphone for calls and voice notes."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#D71920",
+          "defaultChannel": "messages",
+          "sounds": [
+            "./assets/ring.ogg"
+          ]
+        }
+      ]
     ]
   }
 }
