@@ -116,3 +116,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('amazing-features', 'ContentController@amazingFeatures');
     Route::post('contact-us', 'ContentController@contactUs');
 });
+
+// The SBK app (mobile-app/): the website's frontend and chat on this database - routes/app.php.
+Route::prefix('app')->name('app.')->group(base_path('routes/app.php'));
