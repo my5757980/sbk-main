@@ -22,6 +22,7 @@ class Product extends Model
         'vehicle_specifications' => 'array',
         'is_featured' => 'boolean',
         'price' => 'decimal:2',
+        'discounted_price' => 'decimal:2',
     ];
 
     public function brand()
@@ -57,6 +58,6 @@ class Product extends Model
 
     public function getMileageLabelAttribute()
     {
-        return $this->mileage ? number_format($this->mileage) . ' km' : 'N/A';
+        return $this->mileage !== null && $this->mileage !== '' ? number_format($this->mileage) . ' km' : 'N/A';
     }
 }

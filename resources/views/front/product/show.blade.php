@@ -142,7 +142,7 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
             <aside class="sbk-buybox">
                 <div class="sbk-buybox-head">
                     <span>FOB Price</span>
-                    <strong>${{ number_format($product->price, 2) }}</strong>
+                    @if($product->discounted_price !== null && $product->discounted_price < $product->price)<del style="display:block;font-size:14px;opacity:.65">${{ number_format($product->price, 2) }}</del><strong style="display:block;font-weight:900">${{ number_format($product->discounted_price, 2) }}</strong>@else<strong>${{ number_format($product->price, 2) }}</strong>@endif
                     <small>Final invoice can include freight, inspection and destination charges.</small>
                 </div>
                 <div class="sbk-buybox-body">

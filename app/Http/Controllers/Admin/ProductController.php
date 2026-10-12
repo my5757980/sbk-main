@@ -124,6 +124,7 @@ class ProductController extends Controller
             'chassis_no' => ['required', 'string', 'max:100'],
             'year' => ['required', 'integer', 'min:1900', 'max:' . ((int) date('Y') + 1)],
             'price' => ['required', 'numeric', 'min:0'],
+            'discounted_price' => ['nullable', 'numeric', 'min:0', 'lte:price'],
             'mileage' => ['required', 'integer', 'min:0'],
             'fuel_type' => ['nullable', 'string', 'max:100'],
             'transmission' => ['nullable', 'string', 'max:100'],

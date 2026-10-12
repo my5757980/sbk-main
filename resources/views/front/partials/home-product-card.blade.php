@@ -16,7 +16,7 @@
             <span>{{ $product->fuel_type ?: 'N/A' }}</span>
         </div>
         <div class="sbk-car__foot">
-            <div class="sbk-price"><small>FOB Price</small><strong>${{ number_format($product->price, 2) }}</strong></div>
+            <div class="sbk-price"><small>FOB Price</small>@if($product->discounted_price !== null && $product->discounted_price < $product->price)<del style="display:block;font-size:14px;opacity:.65">${{ number_format($product->price, 2) }}</del><strong style="display:block;font-weight:900">${{ number_format($product->discounted_price, 2) }}</strong>@else<strong>${{ number_format($product->price, 2) }}</strong>@endif</div>
             <div class="sbk-actions">
                 <form action="{{ route('cart.store', $product) }}" method="POST" data-cart-form>
                     @csrf

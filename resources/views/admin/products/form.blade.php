@@ -44,6 +44,7 @@
                 <div class="row">
                     <div class="col-md-3"><div class="form-group"><label>Year *</label><input type="number" name="year" class="form-control" min="1900" max="{{ date('Y') + 1 }}" value="{{ old('year', $data->year) }}" required></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Price *</label><input type="number" name="price" class="form-control" min="0" step="0.01" value="{{ old('price', $data->price ?? 0) }}" required></div></div>
+                    <div class="col-md-3"><div class="form-group"><label>Discounted Price</label><input type="number" name="discounted_price" class="form-control" min="0" step="0.01" value="{{ old('discounted_price', $data->discounted_price) }}"></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Mileage *</label><input type="number" name="mileage" class="form-control" min="0" value="{{ old('mileage', $data->mileage) }}" required></div></div>
                     <div class="col-md-3"><div class="form-group"><label>Chassis No *</label><input type="text" name="chassis_no" class="form-control" value="{{ old('chassis_no', $data->chassis_no) }}" required></div></div>
                     <div class="col-md-3"><div class="form-group">
