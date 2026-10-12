@@ -45,3 +45,38 @@ export async function upload({ to, thread, uri, kind, secs, mimeType, fileName }
 export async function setName(name) {
   return request('POST', '/chat/name', { chat: true, json: { name } });
 }
+
+/** The website chat's lightweight beat: unread count and a call ringing for this person. */
+export async function ping() {
+  return request('GET', '/chat/ping', { chat: true, query: { from: 'chat' }, timeout: 10000 });
+}
+
+/* ---- calls: the website chat's own call endpoint (ChatCallController) */
+
+/** Where two phones/browsers look for each other: STUN, and the relay when one is set up. */
+export async function iceServers() {
+  const r = await request('GET', '/chat/ice', { chat: true });
+  return Array.isArray(r.iceServers) ? r.iceServers : [];
+}
+
+/** Ring a member of the team (`to`) - or, in a thread, its other side. */
+export async function callStart({ kind, offer, thread = 0, to = 0 }) {
+  const r = await request('POST', '/chat/call', { chat: true, urlencoded: { action: 'start', kind, offer, ...(to ? { to } : { thread }) } });
+  return r.call;
+}
+
+export async function callState(id) {
+  const r = await request('GET', '/chat/call', { chat: true, query: { action: 'state', call: id }, timeout: 10000 });
+  return r.call;
+}
+
+export async function callAnswer(id, answer) {
+  const r = await request('POST', '/chat/call', { chat: true, urlencoded: { action: 'answer', call: id, answer } });
+  return r.call;
+}
+
+/** decline / cancel / end - the website works out which from the call's state. */
+export async function callFinish(id, action, failed) {
+  const r = await request('POST', '/chat/call', { chat: true, urlencoded: { action, call: id, ...(failed ? { failed: 1 } : {}) } });
+  return r.call;
+}

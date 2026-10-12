@@ -32,13 +32,16 @@ Branch `native-app`. Code in `mobile-app/`. Phase 1 is the UI/UX; phase 2 connec
 
 - [x] T30 `routes/app.php` → `/api/app/*`, read: home rows, vehicles (search, filters, sort, pages), vehicle, blogs, filter lists.
 - [x] T31 Accounts: register, login (Sanctum token), logout, forgot password, profile, picture, password, orders. One account for the website and the app.
-- [x] T32 Checkout: the website's "Submit Order for Checking" (a new customer's order makes the account). PayPal / card in the app: not yet.
+- [x] T32 Checkout: the website's "Submit Order for Checking" (a new customer's order makes the account).
 - [x] T33 Contact form → `contact_us`, as the website's form.
-- [x] T34 Chat: the website chat's own endpoints with the app's token (AppChatIdentity) - text, pictures, voice notes, the desk's ticks. Calls and push notifications: not yet.
+- [x] T34 Chat: the website chat's own endpoints with the app's token (AppChatIdentity) - text, pictures, voice notes, the desk's ticks.
 - [x] T35 `src/api/index.js` reads the API; when the website cannot be reached it falls back to the bundled copy (`bundled.js`).
 - [x] T36 Tests on a local copy of the website (MariaDB + php -S): API 85/85 (`appapi_test.py`), app end to end 17/17 (`e2e_app.py`) - both in `E:\cw\sbk-app-web`.
-- [ ] T37 Mohsin deploys sbk-main. This change adds no migration; the token table is the 2019 `personal_access_tokens` migration, which `php artisan migrate:status` should show as run. Until the deploy the app shows its bundled copy and cannot sign in, order or chat.
-- [ ] T38 A new APK with phase 2, opened on a real phone against the live website.
+- [x] T39 Voice and video calls with the desk, both ways (`src/calls/`, the SBK Chat app's engine on the website chat's `/chat/call`). `e2e_calls.py` 12/12: the app rings the desk and the desk answers; the desk rings the app and it answers; either side hangs up.
+- [x] T40 PayPal / card from the checkout (`PayController`, `/app/pay/{key}` in the phone's browser, back to the app by `sbkapp://pay-result`). `AppPayTest` 5/5 with PayPal faked.
+- [x] T41 Notifications (Firebase `sbk-chat`, Android app `com.sbkautotrading.app` registered there): the desk's replies, ringing, missed calls; channels Messages and Calls; a tap opens the conversation. `AppPushTest` 5/5 with Google faked.
+- [ ] T37 Mohsin deploys sbk-main and runs `php artisan migrate` (new table `sbk_app_push`; `personal_access_tokens` from 2019 must show as run), sets `FCM_SERVICE_ACCOUNT` to the sbk-chat key file outside the web root, and checks the `PAYPAL_*` settings. Until the deploy the app shows its bundled copy and cannot sign in, order or chat.
+- [ ] T38 A new APK (2.1.0) opened on a real phone against the live website: a call each way, a notification with the app closed, a real PayPal payment. These three cannot be proven off a phone.
 
 ## Acceptance (phase 1)
 - Every screen opens from a tab or a link; there is no dead end; Back always goes back.
