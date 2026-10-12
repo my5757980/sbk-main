@@ -1,74 +1,135 @@
-/* The live chat's state on the phone.
+/* The live chat's state on the phone - the website's own chat.
 
-   The chat is the website's own live chat (routes/chat.php on the website's
-   database): a customer gives name, e-mail and telephone once, sees the team,
-   and talks to them - text, pictures, voice notes, calls.
-
-   PHASE 1 (now): the screens are built and work on the phone, but nothing
-   reaches the website yet; a message stays on this phone and says it is not
-   sent. PHASE 2: `send` posts to the website's chat API and `poll` brings the
-   team's replies, the same endpoints the website's chat page uses. */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+   A signed-in customer is known by their account token. A visitor gives name,
+   e-mail and telephone once and keeps the chat's visitor token in the secure
+   store (the website keeps the same value in a browser cookie), so tomorrow
+   they are the same person with the same conversation. The number of unread
+   replies is checked every half minute while the app is open, for the tab's
+   badge. */
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { AppState } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ME = 'sbk.chat.me.v1';
-const LOG = 'sbk.chat.preview.v1';
+import * as chatApi from '../api/chat';
+import { setGuestToken } from '../api/http';
+import { useAccount } from './account';
+
+const GUEST = 'sbk.chat.guest.v1';
 
 const ChatContext = createContext(null);
 
 export function ChatProvider({ children }) {
-  const [me, setMeState] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [ready, setReady] = useState(false);
+  const account = useAccount();
+  const [guest, setGuest] = useState(null);
+  const [loaded, setLoaded] = useState(false);
+  const [who, setWho] = useState(null); // { me, staff, details }
+  const [checking, setChecking] = useState(true);
+  const [unread, setUnread] = useState(0);
+  const [draft, setDraft] = useState('');
+  const userId = account.user ? account.user.id : null;
+  const whoRef = useRef(null);
+  whoRef.current = who;
 
   useEffect(() => {
-    Promise.all([AsyncStorage.getItem(ME), AsyncStorage.getItem(LOG)])
-      .then(([m, l]) => {
-        try { setMeState(m ? JSON.parse(m) : null); } catch (e) { /* start clean */ }
-        try { setMessages(l ? JSON.parse(l) : []); } catch (e) { /* start clean */ }
+    // The phase-1 preview kept pretend messages on the phone; they were never sent.
+    AsyncStorage.multiRemove(['sbk.chat.me.v1', 'sbk.chat.preview.v1']).catch(() => {});
+    SecureStore.getItemAsync(GUEST)
+      .then((t) => {
+        if (t) {
+          setGuestToken(t);
+          setGuest(t);
+        }
       })
       .catch(() => {})
-      .finally(() => setReady(true));
+      .finally(() => setLoaded(true));
   }, []);
 
-  const setMe = useCallback((details) => {
-    const v = details ? {
-      name: String(details.name || '').trim(),
-      email: String(details.email || '').trim().toLowerCase(),
-      phone: String(details.phone || '').trim(),
-    } : null;
-    setMeState(v);
-    (v ? AsyncStorage.setItem(ME, JSON.stringify(v)) : AsyncStorage.removeItem(ME)).catch(() => {});
+  const forgetGuest = useCallback(() => {
+    SecureStore.deleteItemAsync(GUEST).catch(() => {});
+    setGuestToken(null);
+    setGuest(null);
   }, []);
 
-  const push = useCallback((m) => {
-    setMessages((prev) => {
-      const next = [...prev, m].slice(-300);
-      AsyncStorage.setItem(LOG, JSON.stringify(next)).catch(() => {});
-      return next;
+  /** Ask the website who this phone is in the chat. */
+  const refreshWho = useCallback(async () => {
+    if (!userId && !guest) {
+      setWho(null);
+      setChecking(false);
+      return null;
+    }
+    setChecking(true);
+    try {
+      const r = await chatApi.who();
+      const w = { me: r.me || {}, staff: !!r.staff, details: !!r.details };
+      setWho(w);
+      return w;
+    } catch (e) {
+      if (e.status === 401) {
+        if (!userId) forgetGuest();
+        setWho(null);
+      }
+      return null;
+    } finally {
+      setChecking(false);
+    }
+  }, [userId, guest, forgetGuest]);
+
+  useEffect(() => {
+    if (loaded && account.ready) refreshWho();
+  }, [loaded, account.ready, refreshWho]);
+
+  // The tab's badge: unread replies, every half minute while the app is open.
+  useEffect(() => {
+    let timer = null;
+    const tick = () => {
+      const w = whoRef.current;
+      if (!w || w.staff || w.details) return;
+      chatApi.poll().then((r) => setUnread(r.unread || 0)).catch(() => {});
+    };
+    const run = () => {
+      if (timer) clearInterval(timer);
+      tick();
+      timer = setInterval(tick, 30000);
+    };
+    run();
+    const sub = AppState.addEventListener('change', (s) => {
+      if (s === 'active') run();
+      else if (timer) { clearInterval(timer); timer = null; }
     });
-  }, []);
+    return () => {
+      if (timer) clearInterval(timer);
+      sub.remove();
+    };
+  }, [who]);
 
   const value = useMemo(() => ({
-    ready,
-    me,
-    setMe,
-    messages,
-    connected: false,
-    send(text) {
-      const body = String(text || '').trim();
-      if (!body) return;
-      push({ id: Date.now() + '-' + Math.random().toString(36).slice(2, 7), mine: true, kind: 'text', text: body, at: new Date().toISOString(), status: 'queued' });
+    ready: loaded && account.ready && !checking,
+    who,
+    unread,
+    setUnread,
+    draft,
+    setDraft,
+    refreshWho,
+    /** The way in: name, e-mail and telephone (a signed-in customer's e-mail is fixed). */
+    async start(details) {
+      const r = await chatApi.start(details);
+      if (r.guestToken) {
+        await SecureStore.setItemAsync(GUEST, r.guestToken).catch(() => {});
+        setGuestToken(r.guestToken);
+        setGuest(r.guestToken);
+      }
+      const w = { me: r.me || {}, staff: !!r.staff, details: !!r.details };
+      setWho(w);
+      return w;
     },
-    sendPicture(uri, width, height) {
-      if (!uri) return;
-      push({ id: Date.now() + '-p', mine: true, kind: 'image', uri, width, height, at: new Date().toISOString(), status: 'queued' });
+    /** A visitor leaves the chat on this phone (the conversation stays on the website). */
+    leave() {
+      forgetGuest();
+      setWho(null);
+      setUnread(0);
     },
-    clear() {
-      setMessages([]);
-      AsyncStorage.removeItem(LOG).catch(() => {});
-    },
-  }), [ready, me, setMe, messages, push]);
+  }), [loaded, account.ready, checking, who, unread, draft, refreshWho, forgetGuest]);
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 }

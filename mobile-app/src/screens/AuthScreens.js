@@ -1,10 +1,6 @@
 /* Login, Create Account and Forgot Password - the website's three account
-   pages, with its fields, its words and its checks.
-
-   PHASE 1: nothing is sent to the website yet. Login and Create Account keep
-   the details on this phone so every account screen can be seen, and say so.
-   PHASE 2: they sign in against the website (one account for the website and
-   the app) and the reset link is e-mailed by the website. */
+   pages, with its fields, its words and its checks, against the website's own
+   accounts: one account for the website and the app. */
 import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -33,14 +29,24 @@ function AuthPage({ text, children }) {
   );
 }
 
-const PREVIEW = 'App preview: your account connects to the website in the next step. Until then this keeps your details on this phone only.';
-
 function Link({ label, onPress }) {
   return (
     <Press onPress={onPress} style={{ minHeight: 44, justifyContent: 'center' }} accessibilityLabel={label}>
       <T v="title" size={14} color={C.red} weight="800">{label}</T>
     </Press>
   );
+}
+
+/* The website's field errors ({ email: ['...'] }) as one message per field. */
+function fieldErrors(e) {
+  const out = {};
+  if (e && e.errors) {
+    Object.keys(e.errors).forEach((k) => {
+      const key = k === 'password_confirmation' ? 'confirm' : k;
+      out[key] = String((e.errors[k] || [])[0] || '');
+    });
+  }
+  return out;
 }
 
 export function LoginScreen() {
@@ -60,14 +66,18 @@ export function LoginScreen() {
     }
     setError('');
     setBusy(true);
-    await account.signIn({ email, password, remember });
-    setBusy(false);
-    nav.goBack();
+    try {
+      await account.signIn({ email, password });
+      nav.goBack();
+    } catch (e) {
+      setError(e.message || 'Please check your email and password.');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <AuthPage text={AUTH_TEXT.login}>
-      <Notice tone="preview" text={PREVIEW} style={{ marginBottom: 16 }} />
       {error ? <Notice tone="error" text={error} style={{ marginBottom: 16 }} /> : null}
       <Field label="Email Address" value={email} onChangeText={setEmail} keyboardType="email-address" autoComplete="email" textContentType="emailAddress" returnKeyType="next" onSubmitEditing={() => pass.current?.focus()} />
       <Field label="Password" value={password} onChangeText={setPassword} secure inputRef={pass} autoComplete="current-password" textContentType="password" returnKeyType="go" onSubmitEditing={submit} />
@@ -89,6 +99,7 @@ export function RegisterScreen() {
   const account = useAccount();
   const [f, setF] = useState({ name: '', email: '', phone: '', country: '', password: '', confirm: '' });
   const [errors, setErrors] = useState({});
+  const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const set = (k) => (v) => setF((x) => ({ ...x, [k]: v }));
 
@@ -101,17 +112,24 @@ export function RegisterScreen() {
     if (f.password.length < 8) e.password = 'The password must be at least 8 characters.';
     else if (f.password !== f.confirm) e.confirm = 'The password confirmation does not match.';
     setErrors(e);
+    setError('');
     if (Object.keys(e).length) return;
     setBusy(true);
-    await account.register(f);
-    setBusy(false);
-    nav.goBack();
+    try {
+      await account.register(f);
+      nav.goBack();
+    } catch (err) {
+      const fe = fieldErrors(err);
+      setErrors(fe);
+      setError(Object.keys(fe).length ? 'Please check the highlighted registration fields.' : err.message);
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <AuthPage text={AUTH_TEXT.register}>
-      <Notice tone="preview" text={PREVIEW} style={{ marginBottom: 16 }} />
-      {Object.keys(errors).length ? <Notice tone="error" text="Please check the highlighted registration fields." style={{ marginBottom: 16 }} /> : null}
+      {error || Object.keys(errors).length ? <Notice tone="error" text={error || 'Please check the highlighted registration fields.'} style={{ marginBottom: 16 }} /> : null}
       <Field label="Name" value={f.name} onChangeText={set('name')} error={errors.name} autoComplete="name" textContentType="name" />
       <Field label="Email Address" value={f.email} onChangeText={set('email')} error={errors.email} keyboardType="email-address" autoComplete="email" textContentType="emailAddress" />
       <Field label="Phone Number" value={f.phone} onChangeText={set('phone')} error={errors.phone} keyboardType="phone-pad" autoComplete="tel" textContentType="telephoneNumber" />
@@ -129,22 +147,31 @@ export function RegisterScreen() {
 
 export function ForgotScreen() {
   const nav = useNavigation();
+  const account = useAccount();
   const [email, setEmail] = useState('');
   const [state, setState] = useState(null);
+  const [busy, setBusy] = useState(false);
 
-  const submit = () => {
+  const submit = async () => {
     if (!valid.email(email)) {
       setState({ tone: 'error', text: 'Enter the email address your SBK account uses.' });
       return;
     }
-    setState({ tone: 'preview', text: 'App preview: the reset link is e-mailed by the website once the app is connected to it, in the next step.' });
+    setBusy(true);
+    try {
+      setState({ tone: 'ok', text: await account.forgot(email) });
+    } catch (e) {
+      setState({ tone: 'error', text: e.message });
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <AuthPage text={AUTH_TEXT.forgot}>
       {state ? <Notice tone={state.tone} text={state.text} style={{ marginBottom: 16 }} /> : null}
       <Field label="Email Address" value={email} onChangeText={setEmail} keyboardType="email-address" autoComplete="email" textContentType="emailAddress" returnKeyType="send" onSubmitEditing={submit} />
-      <Button title="Email me a link" onPress={submit} full />
+      <Button title="Email me a link" onPress={submit} loading={busy} full />
       <View style={{ alignItems: 'center', marginTop: 8 }}>
         <Link label="Back to login" onPress={() => nav.goBack()} />
       </View>

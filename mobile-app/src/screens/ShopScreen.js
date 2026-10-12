@@ -1,6 +1,6 @@
 /* Shop - the website's stock list: search, filters, sort, and the cards. */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -25,6 +25,8 @@ export default function ShopScreen() {
   const shop = useShop();
   const { filters, stamp, patch, setFilters } = useFilters();
   const [result, setResult] = useState(null);
+  const [more, setMore] = useState(false);
+  const [failed, setFailed] = useState('');
   const [text, setText] = useState(filters.search);
   const [sortOpen, setSortOpen] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -37,15 +39,44 @@ export default function ShopScreen() {
     return () => clearTimeout(t);
   }, [text, filters.search, patch]);
 
+  // The first page for these filters; a newer request always wins.
+  const seq = useRef(0);
   const load = useCallback(async () => {
-    setResult(await api.getProducts(filters));
+    const mine = ++seq.current;
+    setFailed('');
+    try {
+      const r = await api.getProducts(filters, 1);
+      if (mine === seq.current) setResult(r);
+    } catch (e) {
+      if (mine === seq.current) setFailed(e.message || 'Could not load vehicles.');
+    }
   }, [filters]);
 
   useEffect(() => { load(); }, [load]);
   useEffect(() => { list.current?.scrollToOffset({ offset: 0, animated: false }); }, [stamp]);
 
+  // The next page when the list nears its end.
+  const loadMore = async () => {
+    if (!result || more || result.page >= result.lastPage) return;
+    const mine = seq.current;
+    setMore(true);
+    try {
+      const r = await api.getProducts(filters, result.page + 1);
+      if (mine !== seq.current) return;
+      setResult((prev) => {
+        const have = new Set(prev.items.map((p) => p.slug));
+        return { ...r, items: [...prev.items, ...r.items.filter((p) => !have.has(p.slug))] };
+      });
+    } catch (e) {
+      // Scrolling again tries again.
+    } finally {
+      setMore(false);
+    }
+  };
+
   const refresh = async () => {
     setRefreshing(true);
+    await api.refresh();
     await load();
     setRefreshing(false);
   };
@@ -134,7 +165,12 @@ export default function ShopScreen() {
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} colors={[C.red]} tintColor={C.red} />}
-        ListEmptyComponent={result ? (
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.6}
+        ListFooterComponent={more ? <ActivityIndicator color={C.red} style={{ marginVertical: 18 }} /> : null}
+        ListEmptyComponent={failed ? (
+          <Empty icon="cloud-offline-outline" title="Could not load vehicles" text={failed} action="Try Again" onAction={load} />
+        ) : result ? (
           <Empty
             icon="search-outline"
             title="No vehicles match"

@@ -1,9 +1,8 @@
 /* Checkout - the website's checkout: buyer details, destination, how much to
    pay now (the same percentage rules as the website), and the order summary.
-
-   PHASE 1: the form checks itself exactly as the website's does, but the order
-   is not sent - the screen says so. PHASE 2: it is posted to the website, which
-   saves it and opens PayPal / card payment, as checkout.store does now. */
+   It is the website's "Submit Order for Checking": the order is saved on the
+   website for SBK to confirm availability, costs and the payment steps; a new
+   customer's order makes their account, as on the website. */
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -61,11 +60,25 @@ export default function CheckoutScreen() {
     confirm: '',
     message: '',
   });
+  // The account may arrive a moment after the screen: fill what is still empty.
+  useEffect(() => {
+    if (!user) return;
+    setForm((f) => ({
+      ...f,
+      name: f.name || user.name || '',
+      email: f.email || user.email || '',
+      phone: f.phone || user.phone || '',
+      country: f.country || user.country || '',
+    }));
+  }, [user]);
+
   // The percentage is what the buyer chose; the amount follows it, except
   // while the buyer is typing an amount of their own (amountDraft).
   const [percent, setPercent] = useState(null);
   const [amountDraft, setAmountDraft] = useState(null);
   const [errors, setErrors] = useState({});
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(null);
 
   useEffect(() => {
     if (shop.ready) api.getProductsBySlugs(shop.cart).then(setItems);
@@ -99,7 +112,7 @@ export default function CheckoutScreen() {
     setAmountDraft(null);
   };
 
-  const submit = () => {
+  const submit = async () => {
     const e = {};
     if (!valid.filled(form.name)) e.name = 'The name field is required.';
     if (!valid.email(form.email)) e.email = 'Enter a valid email address.';
@@ -115,13 +128,45 @@ export default function CheckoutScreen() {
       Alert.alert('Please check the form', 'Please check the highlighted checkout fields and try again.');
       return;
     }
-    Alert.alert(
-      'App preview',
-      'Everything is filled in correctly. Sending the order to SBK and paying the ' + money(pay.paid) + ' by PayPal or card switch on when the app is connected to the website, in the next step.',
-    );
+    setBusy(true);
+    try {
+      const r = await api.checkout(shop.cart, form, Number(percent), pay.paid);
+      if (r.signedIn && r.signedIn.token) account.adopt(r.signedIn.token, r.signedIn.user);
+      shop.clearCart();
+      setDone(r.order);
+    } catch (err) {
+      const fe = {};
+      Object.keys(err.errors || {}).forEach((k) => { fe[k === 'password_confirmation' ? 'confirm' : k] = String(err.errors[k][0] || ''); });
+      setErrors(fe);
+      Alert.alert('Please check the form', Object.keys(fe).length ? 'Please check the highlighted checkout fields and try again.' : err.message);
+    } finally {
+      setBusy(false);
+    }
   };
 
-  if (items && !items.length) {
+  if (done) {
+    return (
+      <ScrollView style={{ flex: 1, backgroundColor: C.bg }} contentContainerStyle={{ paddingBottom: 36 }}>
+        <PageHero eyebrow={CHECKOUT_TEXT.eyebrow} title={CHECKOUT_TEXT.title} compact />
+        <Wrap style={{ paddingTop: 16 }}>
+          <View style={styles.card}>
+            <Eyebrow>{CHECKOUT_TEXT.doneLabel}</Eyebrow>
+            <T v="h2">{CHECKOUT_TEXT.doneTitle}</T>
+            <T v="body" color={C.muted} style={{ marginTop: 10 }}>{CHECKOUT_TEXT.doneText}</T>
+            <View style={styles.doneBox}>
+              <T v="label" color={C.muted}>Order</T>
+              <T v="h3" style={{ marginTop: 2 }}>{done.orderNo}</T>
+              <T v="small" color={C.muted} weight="500" style={{ marginTop: 4 }}>{done.items.length} {done.items.length === 1 ? 'vehicle' : 'vehicles'} / {money(done.subtotal)}</T>
+            </View>
+            <Button title="Continue Shopping" onPress={() => go.shop({})} full style={{ marginTop: 16 }} />
+            {account.user ? <Button title="View My Orders" kind="outline" onPress={() => go.go('Profile', { tab: 'orders' })} full style={{ marginTop: 10 }} /> : null}
+          </View>
+        </Wrap>
+      </ScrollView>
+    );
+  }
+
+  if (items && !items.length && !done) {
     return (
       <View style={{ flex: 1, backgroundColor: C.bg }}>
         <Empty icon="cart-outline" title="Your cart is empty." text="Add a vehicle to your cart to checkout." action="Browse vehicles" onAction={() => go.shop()} />
@@ -206,17 +251,7 @@ export default function CheckoutScreen() {
               placeholder="Tell us about shipment timing, inspection needs, or documents you need."
             />
 
-            <View style={styles.payBox}>
-              <T v="title">Pay with PayPal or card</T>
-              <T v="sub" color={C.muted} style={{ marginTop: 4 }}>Complete your secure payment with PayPal, or pay with a card.</T>
-            </View>
-            <Notice
-              tone="preview"
-              title="App preview"
-              text="The order and the payment are not sent yet. They switch on when the app is connected to the website, in the next step."
-              style={{ marginTop: 12 }}
-            />
-            <Button title="Submit Order for Checking" icon="shield-checkmark-outline" onPress={submit} full style={{ marginTop: 16 }} />
+            <Button title="Submit Order for Checking" icon="shield-checkmark-outline" onPress={submit} loading={busy} full style={{ marginTop: 4 }} />
             <Button title="Continue Shopping" kind="outline" onPress={() => nav.goBack()} full style={{ marginTop: 10 }} />
           </View>
         </Wrap>
@@ -239,5 +274,5 @@ const styles = StyleSheet.create({
   item: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   thumb: { width: 74, height: 56, borderRadius: R.sm },
   line: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 7 },
-  payBox: { borderWidth: 1, borderColor: C.line, borderRadius: R.md, padding: 14, backgroundColor: C.bg },
+  doneBox: { borderWidth: 1, borderColor: C.line, borderRadius: R.md, padding: 14, backgroundColor: C.bg, marginTop: 16 },
 });

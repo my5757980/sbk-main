@@ -21,7 +21,7 @@ import { C } from './src/theme';
 import { Button, T } from './src/components/base';
 import { ShopProvider, useShop } from './src/store/shop';
 import { AccountProvider } from './src/store/account';
-import { ChatProvider } from './src/store/chat';
+import { ChatProvider, useChat } from './src/store/chat';
 import { FiltersProvider } from './src/store/filters';
 
 import HomeScreen from './src/screens/HomeScreen';
@@ -59,6 +59,7 @@ const TAB_ICONS = {
 
 function Tabs() {
   const shop = useShop();
+  const chat = useChat();
   const insets = useSafeAreaInsets();
   return (
     <Tab.Navigator
@@ -68,14 +69,10 @@ function Tabs() {
         tabBarActiveTintColor: C.red,
         tabBarInactiveTintColor: '#8A9099',
         tabBarHideOnKeyboard: true,
-        tabBarStyle: {
-          backgroundColor: C.card,
-          borderTopColor: C.line,
-          height: 62 + insets.bottom,
-          paddingTop: 6,
-          paddingBottom: Math.max(insets.bottom, 8),
-        },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '700' },
+        // React Navigation's 49pt bar cut the bold 11pt labels: a little taller,
+        // and the bottom inset (gesture bar) is still added by the library itself.
+        tabBarStyle: { backgroundColor: C.card, borderTopColor: C.line, height: 58 + insets.bottom },
+        tabBarLabelStyle: { fontSize: 11, lineHeight: 14, fontWeight: '700' },
         tabBarAllowFontScaling: false,
         tabBarIcon: ({ focused, color }) => (
           <Ionicons name={TAB_ICONS[route.name][focused ? 0 : 1]} size={23} color={color} />
@@ -85,7 +82,7 @@ function Tabs() {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Shop" component={ShopScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} />
+      <Tab.Screen name="Chat" component={ChatScreen} options={{ tabBarBadge: chat.unread || undefined }} />
       <Tab.Screen name="Cart" component={CartScreen} options={{ tabBarBadge: shop.cart.length || undefined }} />
       <Tab.Screen name="Menu" component={MenuScreen} />
     </Tab.Navigator>

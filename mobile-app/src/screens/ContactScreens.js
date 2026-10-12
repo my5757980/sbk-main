@@ -18,6 +18,7 @@ import { useGo } from '../nav';
 import { CONTACT } from '../config';
 import { callNumber, emailTo, openMap, whatsApp } from '../actions';
 import { clockIn } from '../format';
+import * as api from '../api';
 
 /* The time now, refreshed every half minute - for the offices' clocks. */
 function useNow() {
@@ -184,13 +185,20 @@ export function ContactScreen() {
   });
   const [errors, setErrors] = useState({});
   const [state, setState] = useState(null);
+  const [busy, setBusy] = useState(false);
   const set = (k) => (v) => setF((x) => ({ ...x, [k]: v }));
+
+  // The account may arrive a moment after the screen: fill what is still empty.
+  useEffect(() => {
+    if (!user) return;
+    setF((x) => ({ ...x, name: x.name || user.name || '', email: x.email || user.email || '', phone: x.phone || user.phone || '' }));
+  }, [user]);
 
   useEffect(() => {
     if (route.params?.subject) setF((x) => ({ ...x, subject: route.params.subject }));
   }, [route.params?.subject, route.params?.at]);
 
-  const submit = () => {
+  const submit = async () => {
     const e = {};
     if (!valid.filled(f.name)) e.name = 'The name field is required.';
     if (!valid.email(f.email)) e.email = 'Enter a valid email address.';
@@ -199,7 +207,19 @@ export function ContactScreen() {
       setState({ tone: 'error', text: 'Please check the form and try again.' });
       return;
     }
-    setState({ tone: 'preview', text: 'App preview: your message is ready, but it is sent to SBK only once the app is connected to the website, in the next step. For now, WhatsApp SBK below.' });
+    setBusy(true);
+    try {
+      const r = await api.sendContact(f);
+      setState({ tone: 'ok', text: r.message || c.success });
+      setF((x) => ({ ...x, subject: '', message: '' }));
+    } catch (err) {
+      const fe = {};
+      Object.keys(err.errors || {}).forEach((k) => { fe[k] = String(err.errors[k][0] || ''); });
+      setErrors(fe);
+      setState({ tone: 'error', text: Object.keys(fe).length ? 'Please check the form and try again.' : err.message });
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -234,7 +254,7 @@ export function ContactScreen() {
             <Field label="Phone Number" value={f.phone} onChangeText={set('phone')} placeholder="+1 000 000 0000" keyboardType="phone-pad" autoComplete="tel" />
             <Field label="Subject" value={f.subject} onChangeText={set('subject')} placeholder="Vehicle inquiry" />
             <Field label="Message" value={f.message} onChangeText={set('message')} multiline placeholder={c.messagePlaceholder} />
-            <Button title="Submit Message" icon="send" onPress={submit} full />
+            <Button title="Submit Message" icon="send" onPress={submit} loading={busy} full />
           </View>
 
           <View style={[styles.card, { marginTop: 14 }]}>
