@@ -24,7 +24,43 @@ class OrderController extends Controller
     public function checkout(Request $request)
     {
         $user = auth('sanctum')->user();
+        $validated = $request->validate(self::rules($request, $user));
 
+        $products = self::products($validated['items']);
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'These vehicles are no longer listed. Please choose again from the shop.'], 422);
+        }
+
+        $subtotal = (float) $products->sum('price');
+        $payment = self::paymentBreakdown($subtotal, (float) $validated['payment_percentage'],
+            isset($validated['payment_amount']) ? (float) $validated['payment_amount'] : null);
+
+        $token = null;
+        $order = DB::transaction(function () use ($validated, $products, $subtotal, $payment, $user, $request, &$token) {
+            $customer = self::customer($validated, $user, $request, $token);
+
+            // The website's "Submit Order for Checking": nothing paid yet.
+            return self::createOrder($customer, $validated, $products, $subtotal, $payment, [
+                'payment_method' => 'Order Check',
+                'paid_amount' => 0,
+                'remaining_amount' => $subtotal,
+                'paypal_order_id' => null,
+                'payment_status' => 'pending',
+                'status' => 'pending',
+            ]);
+        });
+
+        return response()->json([
+            'message' => 'Order submitted successfully. Order #' . $order->order_no,
+            'order' => AppPresenter::order($order->load('items.product.brand', 'items.product.vehicleModel')),
+            'payNow' => $payment['paid_amount'],
+            'signedIn' => $token,
+        ], 201);
+    }
+
+    /** Front\CheckoutController::validatedCheckout's rules, with the phone's cart. */
+    public static function rules(Request $request, ?User $user): array
+    {
         $rules = [
             'items' => ['required', 'array', 'min:1', 'max:50'],
             'items.*' => ['required', 'string', 'max:191'],
@@ -42,86 +78,89 @@ class OrderController extends Controller
         if (!$user && !User::where('email', $request->input('email'))->exists()) {
             $rules['password'] = ['required', 'string', 'min:8', 'confirmed'];
         }
-        $validated = $request->validate($rules);
 
-        $products = Product::with(['brand', 'vehicleModel'])->published()->whereIn('slug', array_unique($validated['items']))->get();
-        if ($products->isEmpty()) {
-            return response()->json(['message' => 'These vehicles are no longer listed. Please choose again from the shop.'], 422);
+        return $rules;
+    }
+
+    /** The listed vehicles among the phone's cart. */
+    public static function products(array $slugs)
+    {
+        return Product::with(['brand', 'vehicleModel'])->published()->whereIn('slug', array_unique($slugs))->get();
+    }
+
+    /**
+     * Who the order belongs to (Front\CheckoutController::resolveCheckoutUser):
+     * the signed-in customer; else the account with that email (signed in only
+     * with its own password); else a new account, signed in. $token is set when
+     * the phone gets signed in.
+     */
+    public static function customer(array $validated, ?User $user, Request $request, ?array &$token): User
+    {
+        if ($user) {
+            $user->update(['phone' => $validated['phone'], 'country' => $validated['country']]);
+
+            return $user;
         }
 
-        $subtotal = (float) $products->sum('price');
-        $payment = self::paymentBreakdown($subtotal, (float) $validated['payment_percentage'],
-            isset($validated['payment_amount']) ? (float) $validated['payment_amount'] : null);
-
-        $token = null;
-        $order = DB::transaction(function () use ($validated, $products, $subtotal, $payment, $user, $request, &$token) {
-            $customer = $user;
-            if ($customer) {
-                $customer->update(['phone' => $validated['phone'], 'country' => $validated['country']]);
-            } else {
-                $customer = User::where('email', $validated['email'])->first();
-                if (!$customer) {
-                    [$firstName, $lastName] = AccountController::splitName($validated['name']);
-                    $customer = User::create([
-                        'first_name' => $firstName,
-                        'last_name' => $lastName,
-                        'email' => $validated['email'],
-                        'phone' => $validated['phone'],
-                        'country' => $validated['country'],
-                        'password' => Hash::make($validated['password']),
-                        'status' => 1,
-                        'role' => 'customer',
-                    ]);
-                    $token = AccountController::signedIn($customer, $request);
-                } elseif (isset($validated['password']) && Hash::check($validated['password'], $customer->password)) {
-                    // Their own password: signed in, as the website does.
-                    $customer->update(['phone' => $validated['phone'], 'country' => $validated['country']]);
-                    $token = AccountController::signedIn($customer, $request);
-                }
-            }
-
-            $order = CheckoutOrder::create([
-                'user_id' => $customer->id,
-                'order_no' => 'SBK-' . now()->format('ymd') . '-' . strtoupper(Str::random(6)),
-                'session_id' => null,
-                'name' => $validated['name'],
+        $customer = User::where('email', $validated['email'])->first();
+        if (!$customer) {
+            [$firstName, $lastName] = AccountController::splitName($validated['name']);
+            $customer = User::create([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
                 'email' => $validated['email'],
                 'phone' => $validated['phone'],
                 'country' => $validated['country'],
-                'city' => $validated['city'] ?? null,
-                'port' => $validated['port'] ?? null,
-                'payment_method' => 'Order Check',
-                'payment_percentage' => (int) round($payment['effective_percentage']),
-                'message' => $validated['message'] ?? null,
-                'subtotal' => $subtotal,
-                'paid_amount' => 0,
-                'remaining_amount' => $subtotal,
-                'paypal_order_id' => null,
-                'payment_status' => 'pending',
-                'order_date' => now()->toDateString(),
-                'status' => 'pending',
+                'password' => Hash::make($validated['password']),
+                'status' => 1,
+                'role' => 'customer',
             ]);
+            $token = AccountController::signedIn($customer, $request);
+        } elseif (isset($validated['password']) && Hash::check($validated['password'], $customer->password)) {
+            $customer->update(['phone' => $validated['phone'], 'country' => $validated['country']]);
+            $token = AccountController::signedIn($customer, $request);
+        }
 
-            foreach ($products as $product) {
-                $order->items()->create([
-                    'product_id' => $product->id,
-                    'product_title' => $product->title,
-                    'brand' => optional($product->brand)->name,
-                    'model' => optional($product->vehicleModel)->name,
-                    'quantity' => 1,
-                    'price' => $product->price,
-                ]);
-            }
+        return $customer;
+    }
 
-            return $order;
-        });
+    /** Front\CheckoutController::createCheckoutOrder, with the vehicles from the phone. */
+    public static function createOrder(User $customer, array $validated, $products, float $subtotal, array $payment, array $how): CheckoutOrder
+    {
+        $order = CheckoutOrder::create([
+            'user_id' => $customer->id,
+            'order_no' => 'SBK-' . now()->format('ymd') . '-' . strtoupper(Str::random(6)),
+            'session_id' => null,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'country' => $validated['country'],
+            'city' => $validated['city'] ?? null,
+            'port' => $validated['port'] ?? null,
+            'payment_method' => $how['payment_method'],
+            'payment_percentage' => (int) round($payment['effective_percentage']),
+            'message' => $validated['message'] ?? null,
+            'subtotal' => $subtotal,
+            'paid_amount' => $how['paid_amount'],
+            'remaining_amount' => $how['remaining_amount'],
+            'paypal_order_id' => $how['paypal_order_id'],
+            'payment_status' => $how['payment_status'],
+            'order_date' => now()->toDateString(),
+            'status' => $how['status'],
+        ]);
 
-        return response()->json([
-            'message' => 'Order submitted successfully. Order #' . $order->order_no,
-            'order' => AppPresenter::order($order->load('items.product.brand', 'items.product.vehicleModel')),
-            'payNow' => $payment['paid_amount'],
-            'signedIn' => $token,
-        ], 201);
+        foreach ($products as $product) {
+            $order->items()->create([
+                'product_id' => $product->id,
+                'product_title' => $product->title,
+                'brand' => optional($product->brand)->name,
+                'model' => optional($product->vehicleModel)->name,
+                'quantity' => 1,
+                'price' => $product->price,
+            ]);
+        }
+
+        return $order;
     }
 
     public function contact(Request $request)

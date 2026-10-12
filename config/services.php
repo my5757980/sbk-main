@@ -31,6 +31,13 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // The SBK app's notifications (App\Services\App\AppPush): Firebase project and
+    // the path of its service-account key, a file outside the web root.
+    'fcm' => [
+        'project' => env('FCM_PROJECT', 'sbk-chat'),
+        'service_account' => env('FCM_SERVICE_ACCOUNT'),
+    ],
+
     'paypal' => [
         'mode' => env('PAYPAL_MODE', 'sandbox'),
         'client_id' => env('PAYPAL_CLIENT_ID', env('PAYPAL_SANDBOX_CLIENT_ID')),

@@ -57,3 +57,6 @@ Route::get('/our-locations', [SiteController::class, 'ourLocations'])->name('our
 Route::get('/bank', [SiteController::class, 'bank'])->name('bank');
 Route::get('/contact-us', [SiteController::class, 'contactUs'])->name('contact-us');
 Route::post('/contact-us', [SiteController::class, 'submitContact'])->name('contact-us.submit');
+
+// The SBK app's PayPal / card payment page (routes/app.php starts it).
+Route::get('/app/pay/{key}', [\App\Http\Controllers\Api\App\PayController::class, 'page'])->where('key', '[A-Za-z0-9]{40}')->name('app.pay');
