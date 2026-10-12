@@ -131,7 +131,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     <div class="sbk-home-search__head">
                         <div>
                             <span>Find Your Vehicle</span>
-                            <h2>Search SBK stock faster</h2>
+                            <h2>Search SBK Stock Faster</h2>
                         </div>
                         <p>Select brand, model, price, and year. We will take you to the shop page with matching vehicles.</p>
                     </div>
@@ -445,7 +445,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                 <div class="rail-slider rail-slider--video" data-rail-slider>
                     <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous client video">‹</button>
                     <div class="video-grid rail-track">
-                        @foreach(['client-1.mp4','client-2.mp4','client-3.mp4'] as $video)
+                        @foreach(['client-1.mp4','client-2.mp4','client-3.mp4','client-4.mp4'] as $video)
                             <video class="rail-item" controls muted preload="metadata"><source src="{{ $assetBase }}/video/{{ $video }}" type="video/mp4"></video>
                         @endforeach
                     </div>
