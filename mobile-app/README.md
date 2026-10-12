@@ -28,10 +28,11 @@ tools/build-content.py  copies the website's public content into content.json
 tools/build-assets.py   makes phone-sized copies of the website's fixed pictures
 ```
 
-## Phase 1 and phase 2
+## The website's database
 
-- **Phase 1 (now):** every screen, with the website's real content. The cart and wishlist work. Forms check themselves like the website's. Sending (orders, messages, login, chat) is **not** connected yet, and each screen says so in plain words.
-- **Phase 2:** the website gets a JSON API on its own database (`/api/app/*`, token login for customers). `src/api/index.js` switches to it, and the chat connects to the website's chat. No screen changes.
+- The app reads and writes the website's own database through the website's API for the app (`routes/app.php`, `/api/app/*`): vehicles, blogs, accounts (one account with the website), orders ("Submit Order for Checking"), the contact form, and the live chat (the same conversations the desk answers).
+- `src/api/index.js` is the only door to data. When the website cannot be reached (no connection, or a website without the API), the reading screens show the copy the app carries (`src/api/bundled.js`, `content.json`); signing in, orders and the chat need the website.
+- Not in the app yet: PayPal / card payment, voice and video calls, push notifications.
 
 To refresh the bundled content from the live website:
 

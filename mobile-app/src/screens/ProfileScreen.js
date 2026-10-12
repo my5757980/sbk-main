@@ -1,6 +1,6 @@
 /* My Profile - the website's My Account page without the CRM invoices (Sir:
-   the CRM stays out of the app): website orders, and the profile with its
-   picture and password. */
+   the CRM stays out of the app): the account's website orders, and the
+   profile with its picture and password, saved on the website. */
 import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -9,12 +9,12 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 
 import { C, GRAD, R, lift, useUI } from '../theme';
-import { Button, Img, Pill, Press, T } from '../components/base';
+import { Button, Img, Press, T } from '../components/base';
 import { Empty, Notice, Wrap } from '../components/layout';
 import { Field, valid } from '../components/form';
 import { useAccount } from '../store/account';
 import { useGo } from '../nav';
-import { initials } from '../format';
+import { initials, money } from '../format';
 
 export default function ProfileScreen() {
   const ui = useUI();
@@ -63,7 +63,6 @@ export default function ProfileScreen() {
               <T v="h3" lines={1}>{user.name || 'SBK Customer'}</T>
               <T v="sub" color={C.muted} lines={1}>{user.email}</T>
               {user.phone || user.country ? <T v="small" color={C.muted} weight="500" lines={1}>{[user.phone, user.country].filter(Boolean).join(' · ')}</T> : null}
-              {account.preview ? <Pill text="Preview account" tone="grey" style={{ marginTop: 6 }} /> : null}
             </View>
             <Press onPress={logout} style={styles.logout} accessibilityLabel="Logout">
               <Ionicons name="log-out-outline" size={20} color={C.red} />
@@ -79,35 +78,73 @@ export default function ProfileScreen() {
             ))}
           </View>
 
-          {tab === 'orders' ? <Orders onShop={() => go.shop({})} /> : <EditProfile user={user} account={account} />}
+          {tab === 'orders' ? <Orders onShop={() => go.shop({})} account={account} /> : <EditProfile key={user.email} user={user} account={account} />}
         </Wrap>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
-function Orders({ onShop }) {
+function Orders({ onShop, account }) {
+  const go = useGo();
+  const [orders, setOrders] = useState(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    account.orders().then(setOrders).catch((e) => setError(e.message));
+  }, [account]);
+
   return (
     <View style={styles.panel}>
       <T v="eyebrow" color={C.red}>Website orders</T>
       <T v="h2">Vehicle orders</T>
-      <Empty icon="receipt-outline" title="No order placed on the website yet." text="Orders you place on the website or in this app appear here, with what is paid and what remains." action="Browse vehicles" onAction={onShop} style={{ paddingVertical: 30 }} />
+      {error ? <Notice tone="error" text={error} style={{ marginTop: 14 }} /> : null}
+      {orders && !orders.length ? (
+        <Empty icon="receipt-outline" title="No order placed on the website yet." text="Orders you place on the website or in this app appear here, with what is paid and what remains." action="Browse vehicles" onAction={onShop} style={{ paddingVertical: 30 }} />
+      ) : null}
+      {(orders || []).map((o) => (
+        <View key={o.orderNo} style={styles.order}>
+          <View style={styles.orderTop}>
+            <View style={{ flex: 1 }}>
+              <T v="title">{o.orderNo}</T>
+              <T v="small" color={C.muted} weight="500" style={{ marginTop: 2 }}>{o.date} / {o.status}</T>
+            </View>
+            <View style={{ alignItems: 'flex-end' }}>
+              <T v="title" size={14}>Paid {money(o.paid)}</T>
+              <T v="small" color={C.muted} weight="500">Remaining {money(o.remaining)}</T>
+            </View>
+          </View>
+          {o.items.map((it, i) => (
+            <Press key={i} onPress={() => it.slug && go.product(it.slug)} style={styles.orderItem} accessibilityLabel={it.title}>
+              <Img src={it.image} style={styles.orderImg} />
+              <View style={{ flex: 1, marginLeft: 10 }}>
+                <T v="title" size={13.5} lines={2}>{it.title}</T>
+                <T v="small" color={C.muted} weight="500" lines={1}>{[it.brand, it.model].filter(Boolean).join(' ') || 'Vehicle details'} / Qty {it.quantity}</T>
+              </View>
+              <T v="title" size={13.5} color={C.red}>{money(it.price * it.quantity)}</T>
+            </Press>
+          ))}
+        </View>
+      ))}
     </View>
   );
 }
 
 function EditProfile({ user, account }) {
-  const [f, setF] = useState({ name: user.name, email: user.email, phone: user.phone, country: user.country, photo: user.photo });
+  const [f, setF] = useState({ name: user.name, email: user.email, phone: user.phone, country: user.country });
+  const [photo, setPhoto] = useState(null);
   const [errors, setErrors] = useState({});
-  const [saved, setSaved] = useState('');
+  const [saved, setSaved] = useState(null);
+  const [busy, setBusy] = useState(false);
   const [pw, setPw] = useState({ current: '', next: '', confirm: '' });
   const [pwState, setPwState] = useState(null);
+  const [pwBusy, setPwBusy] = useState(false);
   const set = (k) => (v) => setF((x) => ({ ...x, [k]: v }));
   const setP = (k) => (v) => setPw((x) => ({ ...x, [k]: v }));
 
   const pick = async () => {
     const r = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsEditing: true, aspect: [1, 1], quality: 0.7 });
-    if (!r.canceled && r.assets && r.assets[0]) set('photo')(r.assets[0].uri);
+    if (!r.canceled && r.assets && r.assets[0]) setPhoto(r.assets[0]);
   };
 
   const save = async () => {
@@ -117,28 +154,49 @@ function EditProfile({ user, account }) {
     if (!valid.filled(f.phone)) e.phone = 'The phone field is required.';
     if (!valid.filled(f.country)) e.country = 'The country field is required.';
     setErrors(e);
-    setSaved('');
+    setSaved(null);
     if (Object.keys(e).length) return;
-    await account.update(f);
-    setSaved('Profile updated on this phone. It is saved to your website account once the app is connected, in the next step.');
+    setBusy(true);
+    try {
+      setSaved({ tone: 'ok', text: await account.update(f, photo) });
+      setPhoto(null);
+    } catch (err) {
+      const fe = {};
+      Object.keys(err.errors || {}).forEach((k) => { fe[k] = String(err.errors[k][0] || ''); });
+      setErrors(fe);
+      setSaved({ tone: 'error', text: fe.profile_picture || err.message });
+    } finally {
+      setBusy(false);
+    }
   };
 
-  const changePassword = () => {
+  const changePassword = async () => {
     if (!pw.current) return setPwState({ tone: 'error', text: 'The current password field is required.' });
     if (pw.next.length < 8) return setPwState({ tone: 'error', text: 'The new password must be at least 8 characters.' });
     if (pw.next !== pw.confirm) return setPwState({ tone: 'error', text: 'The password confirmation does not match.' });
-    return setPwState({ tone: 'preview', text: 'App preview: the password is changed on the website once the app is connected to it, in the next step.' });
+    setPwBusy(true);
+    try {
+      setPwState({ tone: 'ok', text: await account.changePassword(pw.current, pw.next, pw.confirm) });
+      setPw({ current: '', next: '', confirm: '' });
+    } catch (err) {
+      setPwState({ tone: 'error', text: err.message });
+    } finally {
+      setPwBusy(false);
+    }
+    return null;
   };
+
+  const shown = photo ? photo.uri : user.photo;
 
   return (
     <>
       <View style={styles.panel}>
         <T v="eyebrow" color={C.red}>Profile details</T>
         <T v="h2" style={{ marginBottom: 16 }}>Edit profile</T>
-        {saved ? <Notice tone="ok" text={saved} style={{ marginBottom: 16 }} /> : null}
+        {saved ? <Notice tone={saved.tone} text={saved.text} style={{ marginBottom: 16 }} /> : null}
         <Press onPress={pick} style={styles.photoRow} accessibilityLabel="Change profile picture">
-          {f.photo ? (
-            <Img src={{ uri: f.photo }} style={styles.photo} />
+          {shown ? (
+            <Img src={{ uri: shown }} style={styles.photo} />
           ) : (
             <View style={[styles.photo, { backgroundColor: C.line2, alignItems: 'center', justifyContent: 'center' }]}>
               <Ionicons name="camera-outline" size={22} color={C.muted} />
@@ -146,14 +204,14 @@ function EditProfile({ user, account }) {
           )}
           <View style={{ marginLeft: 12, flex: 1 }}>
             <T v="label" color={C.ink}>Profile Picture</T>
-            <T v="small" color={C.red} weight="800" style={{ marginTop: 4 }}>{f.photo ? 'Change picture' : 'Choose a picture'}</T>
+            <T v="small" color={C.red} weight="800" style={{ marginTop: 4 }}>{photo ? 'New picture chosen - press Update Profile' : shown ? 'Change picture' : 'Choose a picture'}</T>
           </View>
         </Press>
         <Field label="Name" value={f.name} onChangeText={set('name')} error={errors.name} autoComplete="name" />
         <Field label="Email" value={f.email} onChangeText={set('email')} error={errors.email} keyboardType="email-address" autoComplete="email" />
         <Field label="Phone" value={f.phone} onChangeText={set('phone')} error={errors.phone} keyboardType="phone-pad" autoComplete="tel" />
         <Field label="Country" value={f.country} onChangeText={set('country')} error={errors.country} autoComplete="country" />
-        <Button title="Update Profile" onPress={save} full />
+        <Button title="Update Profile" onPress={save} loading={busy} full />
       </View>
 
       <View style={styles.panel}>
@@ -162,7 +220,7 @@ function EditProfile({ user, account }) {
         <Field label="Current Password" value={pw.current} onChangeText={setP('current')} secure autoComplete="current-password" textContentType="password" />
         <Field label="New Password" value={pw.next} onChangeText={setP('next')} secure autoComplete="new-password" textContentType="newPassword" />
         <Field label="Confirm Password" value={pw.confirm} onChangeText={setP('confirm')} secure autoComplete="new-password" textContentType="newPassword" />
-        <Button title="Change Password" kind="dark" onPress={changePassword} full />
+        <Button title="Change Password" kind="dark" onPress={changePassword} loading={pwBusy} full />
       </View>
     </>
   );
@@ -178,4 +236,8 @@ const styles = StyleSheet.create({
   panel: { backgroundColor: C.card, borderRadius: R.lg, padding: 16, marginTop: 14, ...lift },
   photoRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
   photo: { width: 64, height: 64, borderRadius: 32, overflow: 'hidden' },
+  order: { borderWidth: 1, borderColor: C.line, borderRadius: R.md, padding: 12, marginTop: 14 },
+  orderTop: { flexDirection: 'row', alignItems: 'flex-start', paddingBottom: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: C.line },
+  orderItem: { flexDirection: 'row', alignItems: 'center', paddingTop: 10 },
+  orderImg: { width: 64, height: 48, borderRadius: R.sm },
 });

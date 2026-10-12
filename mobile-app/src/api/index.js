@@ -1,169 +1,232 @@
 /* THE ONLY DOOR TO DATA.
 
    Every screen asks this file for what it shows and never looks behind it.
-   Phase 1 (now): the answers come from content.json, the website's own public
-   content (tools/build-content.py), worked out with the website's own rules -
-   the shop's filters, search and sorting below are SiteController@shop line
-   for line. Phase 2: the same functions fetch the website's JSON API on the
-   website's database, and no screen changes.
+   The answers come from the website's own database, through the website's
+   API for the app (sbk-main routes/app.php): the same vehicles, blogs,
+   accounts, orders and chat the website's pages use.
 
-   Every function is async on purpose, so the screens are already written for
-   a network. */
-import content from './content.json';
+   When the website cannot be reached (no connection, or a website that does
+   not carry the app's API yet), the reading screens fall back to the copy of
+   the website's content the app carries (./bundled.js), so the app never opens
+   empty. Signing in, orders, the contact form and the chat need the website. */
+import * as bundled from './bundled';
+import { ApiError, request } from './http';
 
-/* Test entries on the live website (lorem-ipsum text, $360). They show on the
-   website as well and should be deleted from its admin panel; the app leaves
-   them out so a customer never sees them. */
-const HIDDEN = new Set(['optio-et-accusantiu']);
+export { ApiError } from './http';
+export const CONTENT_DATE = bundled.CONTENT_DATE;
 
-/* SiteController::vehicleTypeLabel - the shop groups free-typed body types. */
-export function typeLabel(type) {
-  const t = String(type || '').trim().toLowerCase();
-  if (!t) return null;
-  if (t.includes('sedan')) return 'Sedan';
-  if (t.includes('suv')) return 'SUV';
-  if (t.includes('hatchback')) return 'Hatchback';
-  if (t.includes('wagon')) return 'Wagon';
-  if (t.includes('van') || t.includes('mpv')) return 'Van / MPV';
-  if (t.includes('coupe')) return 'Coupe';
-  if (t.includes('roadster') || t.includes('convertible')) return 'Convertible / Roadster';
-  if (t.includes('bus')) return 'Bus';
-  if (t.includes('truck') || t.includes('double cab')) return 'Truck / Double Cab';
-  return 'Other';
-}
+/* Is the website's API there? Checked with the filter lists (which every shop
+   screen needs anyway), and again every few minutes or on pull-to-refresh. */
+let mode = null;
+let checkedAt = 0;
+let filtersCache = null;
 
-/* SiteController::productGrade - the specification named "grade". */
-function gradeOf(p) {
-  const hit = (p.specs || []).find(([label]) => String(label).trim().toLowerCase() === 'grade');
-  const g = hit ? String(hit[1]).trim() : '';
-  return g || null;
-}
-
-const PRODUCTS = content.products
-  .filter((p) => !HIDDEN.has(p.slug))
-  .map((p, rank) => ({ ...p, rank, type: typeLabel(p.bodyType), grade: gradeOf(p) }));
-
-const BY_SLUG = new Map(PRODUCTS.map((p) => [p.slug, p]));
-const BLOGS = content.blogs || [];
-
-const lower = (v) => String(v == null ? '' : v).toLowerCase();
-const uniqueSorted = (list) => [...new Set(list.filter(Boolean))].sort((a, b) => String(a).localeCompare(String(b)));
-
-/** Every choice the shop's filters offer, exactly as the website builds them. */
-export async function getFilterOptions() {
-  const years = [...new Set(PRODUCTS.map((p) => p.year).filter(Boolean))].sort((a, b) => b - a);
-  return {
-    brands: content.filters.brands,
-    models: content.filters.models,
-    types: uniqueSorted(PRODUCTS.map((p) => p.type)),
-    grades: uniqueSorted(PRODUCTS.map((p) => p.grade)),
-    years,
-    maxPrice: Math.max(1, ...PRODUCTS.map((p) => Math.round(p.price))),
-    total: PRODUCTS.length,
-  };
-}
-
-/**
- * The shop: search, filter and sort - SiteController@shop.
- * f = { search, brands[], model, year, types[], grades[], maxMileage,
- *       transmission, minPrice, maxPrice, sort }
- */
-export async function getProducts(f = {}) {
-  const search = String(f.search || '').trim();
-  let list = PRODUCTS;
-  if (search) {
-    const n = lower(search);
-    list = list.filter((p) =>
-      lower(p.title).includes(n) || lower(p.stockNo).includes(n) || lower(p.chassisNo).includes(n)
-      || lower(p.brand).includes(n) || lower(p.model).includes(n) || lower(p.fuel).includes(n)
-      || lower(p.bodyType).includes(n));
+async function live(force) {
+  if (!force && mode && Date.now() - checkedAt < 3 * 60 * 1000) return mode === 'live';
+  try {
+    const f = await request('GET', '/filters', { timeout: 10000 });
+    if (!f || !Array.isArray(f.brands)) throw new ApiError('Not the app API', 0);
+    filtersCache = f;
+    mode = 'live';
+  } catch (e) {
+    mode = 'bundled';
   }
-  if (f.brands && f.brands.length) list = list.filter((p) => f.brands.includes(p.brand));
-  if (f.model) list = list.filter((p) => p.model === f.model);
-  if (f.year) list = list.filter((p) => p.year === Number(f.year));
-  if (f.types && f.types.length) list = list.filter((p) => f.types.includes(p.type));
-  if (f.grades && f.grades.length) list = list.filter((p) => f.grades.includes(p.grade));
-  if (f.maxMileage) list = list.filter((p) => p.mileage != null && p.mileage <= Number(f.maxMileage));
-  if (f.transmission) list = list.filter((p) => lower(p.transmission).includes(lower(f.transmission)));
-  if (f.minPrice != null && f.minPrice !== '') list = list.filter((p) => p.price >= Number(f.minPrice));
-  if (f.maxPrice != null && f.maxPrice !== '') list = list.filter((p) => p.price <= Number(f.maxPrice));
-
-  const sorted = [...list];
-  if (f.sort === 'price-low') sorted.sort((a, b) => a.price - b.price);
-  else if (f.sort === 'price-high') sorted.sort((a, b) => b.price - a.price);
-  else if (f.sort === 'year-new') sorted.sort((a, b) => (b.year || 0) - (a.year || 0));
-  return { items: sorted, total: sorted.length };
+  checkedAt = Date.now();
+  return mode === 'live';
 }
 
-export async function getProduct(slug) {
-  return BY_SLUG.get(slug) || null;
+/** Whether what is on screen is the website's database (true) or the app's copy. */
+export function isLive() {
+  return mode === 'live';
 }
 
-/* Same brand or same model, newest first (the website takes three; a phone
-   scrolls, so up to six). */
-export async function getRelated(product, take = 6) {
-  if (!product) return [];
-  return PRODUCTS
-    .filter((p) => p.slug !== product.slug && (p.brand === product.brand || (product.model && p.model === product.model)))
-    .sort((a, b) => (b.id || 0) - (a.id || 0))
-    .slice(0, take);
+/** Pull-to-refresh: look for the website again now. */
+export async function refresh() {
+  return live(true);
 }
 
-/** The search box's suggestions (SiteController@searchSuggestions): six at most. */
-export async function suggest(q) {
-  const n = lower(String(q || '').trim());
-  if (n.length < 2) return [];
-  return PRODUCTS
-    .filter((p) => lower(p.title).includes(n) || lower(p.stockNo).includes(n) || lower(p.chassisNo).includes(n)
-      || lower(p.fuel).includes(n) || lower(p.bodyType).includes(n) || lower(p.brand).includes(n) || lower(p.model).includes(n))
-    .slice(0, 6);
+/* A read that falls back to the app's copy if the website drops out midway. */
+async function read(fromApi, fromCopy) {
+  if (await live()) {
+    try {
+      return await fromApi();
+    } catch (e) {
+      if (!(e instanceof ApiError) || !e.offline || e.status === 404) throw e;
+      mode = 'bundled';
+    }
+  }
+  return fromCopy();
 }
 
-/** Vehicles by their addresses, in the order given; ones no longer listed drop out. */
-export async function getProductsBySlugs(slugs) {
-  return (slugs || []).map((s) => BY_SLUG.get(s)).filter(Boolean);
-}
-
-/** The home page's three rows of vehicles, chosen in the website's admin panel. */
-export async function getHome() {
-  const pick = (slugs) => (slugs || []).map((s) => BY_SLUG.get(s)).filter(Boolean);
+/* The app's filter object -> the website's own shop parameters. */
+function shopQuery(f = {}) {
   return {
-    bestSeller: pick(content.home.bestSeller),
-    upcoming: pick(content.home.upcoming),
-    newArrivals: pick(content.home.newArrivals),
-    blogs: BLOGS.slice(0, 12),
-    brands: brandCounts(),
+    search: f.search,
+    brands: f.brands,
+    model: f.model,
+    year: f.year,
+    types: f.types,
+    grades: f.grades,
+    max_mileage: f.maxMileage,
+    transmission: f.transmission,
+    min_price: f.minPrice,
+    max_price: f.maxPrice,
+    sort: f.sort && f.sort !== 'default' ? f.sort : undefined,
   };
 }
 
-/** The stocked brands, with how many vehicles each has, most first. */
-function brandCounts() {
-  const counts = new Map();
-  PRODUCTS.forEach((p) => counts.set(p.brand, (counts.get(p.brand) || 0) + 1));
-  return [...counts.entries()].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+/* ------------------------------------------------------------- the shop */
+
+export async function getFilterOptions() {
+  return read(async () => filtersCache || (filtersCache = await request('GET', '/filters')), () => bundled.getFilterOptions());
 }
 
-export async function getBrands() {
-  return brandCounts();
+/** The shop, a page at a time: { items, total, page, lastPage }. */
+export async function getProducts(f = {}, page = 1, perPage = 20) {
+  return read(
+    () => request('GET', '/products', { query: { ...shopQuery(f), page, per_page: perPage } }),
+    async () => {
+      const all = await bundled.getProducts(f);
+      return {
+        items: all.items.slice((page - 1) * perPage, page * perPage),
+        total: all.total,
+        page,
+        lastPage: Math.max(1, Math.ceil(all.total / perPage)),
+      };
+    },
+  );
 }
 
-/* ------------------------------------------------------------------ blog */
+/** A vehicle, or null when it is no longer listed. */
+export async function getProduct(slug) {
+  try {
+    return await read(() => request('GET', '/products/' + encodeURIComponent(slug)), () => bundled.getProduct(slug));
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 404) return null;
+    throw e;
+  }
+}
 
-const blogText = (b) => [b.title, b.excerpt, ...(b.body || []).map((x) => x.text || (x.items || []).join(' ') || '')].join(' ');
+/** Related vehicles: the website sends them with the vehicle. */
+export async function getRelated(product) {
+  if (product && Array.isArray(product.related) && product.related.length && typeof product.related[0] === 'object') {
+    return product.related;
+  }
+  return bundled.getRelated(product);
+}
+
+/** The phone's cart and wishlist, as vehicles still listed, in the same order. */
+export async function getProductsBySlugs(slugs) {
+  if (!slugs || !slugs.length) return [];
+  return read(
+    async () => (await request('GET', '/products', { query: { slugs: slugs.join(',') } })).items,
+    () => bundled.getProductsBySlugs(slugs),
+  );
+}
+
+export async function getHome() {
+  return read(() => request('GET', '/home'), () => bundled.getHome());
+}
+
+/* ----------------------------------------------------------------- blog */
+
+const blogCache = new Map();
 
 export async function getBlogs({ search } = {}) {
-  const n = lower(String(search || '').trim());
-  const items = n ? BLOGS.filter((b) => lower(blogText(b)).includes(n)) : BLOGS;
-  return { items, total: items.length };
+  return read(() => request('GET', '/blogs', { query: { search, per_page: 50 } }), () => bundled.getBlogs({ search }));
 }
 
 export async function getBlog(slug) {
-  return BLOGS.find((b) => b.slug === slug) || null;
+  try {
+    const b = await read(() => request('GET', '/blogs/' + encodeURIComponent(slug)), () => bundled.getBlog(slug));
+    if (b) blogCache.set(slug, b);
+    return b;
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 404) return null;
+    throw e;
+  }
 }
 
 export async function getRecentBlogs(exceptSlug, take = 4) {
-  return BLOGS.filter((b) => b.slug !== exceptSlug).slice(0, take);
+  const b = blogCache.get(exceptSlug);
+  if (b && Array.isArray(b.recent)) return b.recent.slice(0, take);
+  return bundled.getRecentBlogs(exceptSlug, take);
 }
 
-/** When the bundled content was copied from the website. */
-export const CONTENT_DATE = content.builtAt;
+/* ------------------------------------------- what needs the website itself */
+
+export async function login(email, password) {
+  return request('POST', '/auth/login', { json: { email, password, device_name: 'SBK app' } });
+}
+
+export async function register(fields) {
+  return request('POST', '/auth/register', {
+    json: {
+      name: fields.name,
+      email: fields.email,
+      phone: fields.phone,
+      country: fields.country,
+      password: fields.password,
+      password_confirmation: fields.confirm,
+      device_name: 'SBK app',
+    },
+  });
+}
+
+export async function forgotPassword(email) {
+  return request('POST', '/auth/forgot', { json: { email } });
+}
+
+export async function logout() {
+  return request('POST', '/auth/logout');
+}
+
+export async function me() {
+  return (await request('GET', '/me')).user;
+}
+
+/** Edit profile; `photo` is a picked image { uri, mimeType, fileName } or null. */
+export async function updateProfile(fields, photo) {
+  const form = new FormData();
+  ['name', 'email', 'phone', 'country'].forEach((k) => form.append(k, fields[k] || ''));
+  if (photo && photo.uri) {
+    form.append('profile_picture', {
+      uri: photo.uri,
+      name: photo.fileName || 'profile.jpg',
+      type: photo.mimeType || 'image/jpeg',
+    });
+  }
+  return request('POST', '/me', { form, timeout: 60000 });
+}
+
+export async function changePassword(current, next, confirm) {
+  return request('PUT', '/me/password', { json: { current_password: current, password: next, password_confirmation: confirm } });
+}
+
+export async function getOrders() {
+  return (await request('GET', '/orders')).orders;
+}
+
+/** The website's "Submit Order for Checking". */
+export async function checkout(slugs, form, percent, amount) {
+  return request('POST', '/checkout', {
+    json: {
+      items: slugs,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      country: form.country,
+      city: form.city,
+      port: form.port,
+      message: form.message,
+      payment_percentage: percent,
+      payment_amount: amount || undefined,
+      password: form.password || undefined,
+      password_confirmation: form.confirm || undefined,
+    },
+  });
+}
+
+export async function sendContact(form) {
+  return request('POST', '/contact', { json: form });
+}

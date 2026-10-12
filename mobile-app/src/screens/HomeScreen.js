@@ -39,6 +39,7 @@ export default function HomeScreen() {
 
   const refresh = async () => {
     setRefreshing(true);
+    await api.refresh();
     await load();
     setRefreshing(false);
   };

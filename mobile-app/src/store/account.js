@@ -1,84 +1,99 @@
-/* The customer's account.
+/* The customer's account - ONE account with the website.
 
-   PHASE 1 (now): nothing is sent to the website yet, so signing in or
-   registering keeps the details on this phone only, to show every account
-   screen as it will be. The screens say so. PHASE 2: signIn/register call the
-   website, which returns the customer and a token; the token is kept here in
-   the phone's secure store and sent with every request, and nothing else in
-   the app changes. */
+   Signing in checks the website's own users table and returns a token, kept in
+   the phone's secure store and sent with every call; signing out ends that
+   token on the website. The account is checked with the website each time the
+   app opens, so a password changed or an account removed on the website takes
+   effect here too. */
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
-const KEY = 'sbk.account.v1';
-const PROFILES = 'sbk.profiles.v1';
+import * as api from '../api';
+import { setAuthToken } from '../api/http';
+
+const KEY = 'sbk.account.v2';
 
 const AccountContext = createContext(null);
 
-async function read(key, fallback) {
+async function readSaved() {
   try {
-    const raw = await SecureStore.getItemAsync(key);
-    return raw ? JSON.parse(raw) : fallback;
+    const raw = await SecureStore.getItemAsync(KEY);
+    const v = raw ? JSON.parse(raw) : null;
+    return v && v.token && v.user ? v : null;
   } catch (e) {
-    return fallback;
+    return null;
   }
 }
 
-function write(key, value) {
-  const job = value == null ? SecureStore.deleteItemAsync(key) : SecureStore.setItemAsync(key, JSON.stringify(value));
+function save(v) {
+  const job = v ? SecureStore.setItemAsync(KEY, JSON.stringify(v)) : SecureStore.deleteItemAsync(KEY);
   job.catch(() => {});
 }
 
-const clean = (u) => ({
-  name: String(u.name || '').trim(),
-  email: String(u.email || '').trim().toLowerCase(),
-  phone: String(u.phone || '').trim(),
-  country: String(u.country || '').trim(),
-  photo: u.photo || null,
-});
-
 export function AccountProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null); // { token, user }
   const [ready, setReady] = useState(false);
 
-  useEffect(() => {
-    read(KEY, null).then((u) => {
-      setUser(u && u.email ? u : null);
-      setReady(true);
-    });
+  const adopt = useCallback((v) => {
+    setAuthToken(v ? v.token : null);
+    setSession(v);
+    save(v);
   }, []);
 
-  const keep = useCallback((u) => {
-    setUser(u);
-    write(KEY, u);
-    if (u) {
-      // Remember who registered on this phone, so signing in again brings
-      // their details back (phase 1 only; the website does this in phase 2).
-      read(PROFILES, {}).then((all) => write(PROFILES, { ...all, [u.email]: u }));
-    }
-  }, []);
+  useEffect(() => {
+    // The phase-1 preview kept a pretend account here; it never existed on the website.
+    SecureStore.deleteItemAsync('sbk.account.v1').catch(() => {});
+    readSaved().then((v) => {
+      if (v) setAuthToken(v.token);
+      setSession(v);
+      setReady(true);
+      if (!v) return;
+      api.me()
+        .then((user) => adopt({ token: v.token, user }))
+        .catch((e) => {
+          if (e instanceof api.ApiError && e.status === 401) adopt(null);
+        });
+    });
+  }, [adopt]);
 
   const value = useMemo(() => ({
     ready,
-    user,
-    preview: true,
-    async signIn({ email }) {
-      const all = await read(PROFILES, {});
-      const known = all[String(email).trim().toLowerCase()];
-      keep(known || clean({ email }));
+    user: session ? session.user : null,
+    async signIn({ email, password }) {
+      const r = await api.login(String(email).trim(), password);
+      adopt({ token: r.token, user: r.user });
+      return r.user;
     },
     async register(fields) {
-      keep(clean(fields));
+      const r = await api.register(fields);
+      adopt({ token: r.token, user: r.user });
+      return r.user;
     },
-    async update(fields) {
-      keep(clean({ ...user, ...fields }));
+    /** A token the website handed over elsewhere (a new customer's checkout). */
+    adopt(token, user) {
+      adopt({ token, user });
     },
-    async changePassword() {
-      return true;
+    async update(fields, photo) {
+      const r = await api.updateProfile(fields, photo);
+      if (session) adopt({ token: session.token, user: r.user });
+      return r.message;
+    },
+    async changePassword(current, next, confirm) {
+      const r = await api.changePassword(current, next, confirm);
+      return r.message;
+    },
+    async forgot(email) {
+      const r = await api.forgotPassword(String(email).trim());
+      return r.message;
+    },
+    async orders() {
+      return api.getOrders();
     },
     signOut() {
-      keep(null);
+      api.logout().catch(() => {});
+      adopt(null);
     },
-  }), [ready, user, keep]);
+  }), [ready, session, adopt]);
 
   return <AccountContext.Provider value={value}>{children}</AccountContext.Provider>;
 }

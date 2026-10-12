@@ -24,10 +24,13 @@ export default function FiltersScreen() {
   const [count, setCount] = useState(null);
 
   useEffect(() => { api.getFilterOptions().then(setOptions); }, []);
+  // How many vehicles these choices find, asked a moment after the last tap.
   useEffect(() => {
     let live = true;
-    api.getProducts(draft).then((r) => live && setCount(r.total));
-    return () => { live = false; };
+    const t = setTimeout(() => {
+      api.getProducts(draft, 1, 1).then((r) => live && setCount(r.total)).catch(() => live && setCount(null));
+    }, 250);
+    return () => { live = false; clearTimeout(t); };
   }, [draft]);
 
   const set = (part) => setDraft((d) => ({ ...d, ...part }));

@@ -36,11 +36,19 @@ export function ShopProvider({ children }) {
   useEffect(() => {
     let live = true;
     Promise.all([load(CART), load(WISH)]).then(async ([c, w]) => {
-      // A vehicle sold or taken off the website since it was saved drops out.
-      const [cs, ws] = await Promise.all([api.getProductsBySlugs(c), api.getProductsBySlugs(w)]);
+      let cart = c;
+      let wish = w;
+      try {
+        // A vehicle sold or taken off the website since it was saved drops out.
+        const [cs, ws] = await Promise.all([api.getProductsBySlugs(c), api.getProductsBySlugs(w)]);
+        cart = cs.map((p) => p.slug);
+        wish = ws.map((p) => p.slug);
+      } catch (e) {
+        // Without the website the saved lists stay as they are.
+      }
       if (!live) return;
-      setCart(cs.map((p) => p.slug));
-      setWish(ws.map((p) => p.slug));
+      setCart(cart);
+      setWish(wish);
       setReady(true);
     });
     return () => { live = false; };

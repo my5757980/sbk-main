@@ -30,12 +30,15 @@ Branch `native-app`. Code in `mobile-app/`. Phase 1 is the UI/UX; phase 2 connec
 
 ## Phase 2 — the website's database (sbk-main)
 
-- [ ] T30 `routes/api.php` → `/api/app/*`, read: home rows, vehicles (search, filters, sort, paging), vehicle, blogs, filter lists.
-- [ ] T31 Accounts: register, login (token), logout, forgot password, profile, picture, password, orders. One account for the website and the app.
-- [ ] T32 Cart and checkout: send the order and pay by PayPal or card, as `checkout.store` does.
-- [ ] T33 Contact form → `contact_us`, as the website's form.
-- [ ] T34 Chat: the app signs in to the website's chat with its token; send, poll, pictures, voice notes, calls, push notifications.
-- [ ] T35 `src/api/index.js` switches from `content.json` to the API; nothing else in the app changes.
+- [x] T30 `routes/app.php` → `/api/app/*`, read: home rows, vehicles (search, filters, sort, pages), vehicle, blogs, filter lists.
+- [x] T31 Accounts: register, login (Sanctum token), logout, forgot password, profile, picture, password, orders. One account for the website and the app.
+- [x] T32 Checkout: the website's "Submit Order for Checking" (a new customer's order makes the account). PayPal / card in the app: not yet.
+- [x] T33 Contact form → `contact_us`, as the website's form.
+- [x] T34 Chat: the website chat's own endpoints with the app's token (AppChatIdentity) - text, pictures, voice notes, the desk's ticks. Calls and push notifications: not yet.
+- [x] T35 `src/api/index.js` reads the API; when the website cannot be reached it falls back to the bundled copy (`bundled.js`).
+- [x] T36 Tests on a local copy of the website (MariaDB + php -S): API 85/85 (`appapi_test.py`), app end to end 17/17 (`e2e_app.py`) - both in `E:\cw\sbk-app-web`.
+- [ ] T37 Mohsin deploys sbk-main. This change adds no migration; the token table is the 2019 `personal_access_tokens` migration, which `php artisan migrate:status` should show as run. Until the deploy the app shows its bundled copy and cannot sign in, order or chat.
+- [ ] T38 A new APK with phase 2, opened on a real phone against the live website.
 
 ## Acceptance (phase 1)
 - Every screen opens from a tab or a link; there is no dead end; Back always goes back.

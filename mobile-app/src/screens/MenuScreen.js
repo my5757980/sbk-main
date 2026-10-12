@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 
 import { C, GRAD, R, lift, useUI } from '../theme';
 import { FOOTER_TEXT, LOGO } from '../api/static';
-import { Badge, Button, Img, Pill, Press, T } from '../components/base';
+import { Badge, Button, Img, Press, T } from '../components/base';
 import { TabHeader, Wrap } from '../components/layout';
 import { useAccount } from '../store/account';
 import { useShop } from '../store/shop';
@@ -44,7 +44,6 @@ export default function MenuScreen() {
               <View style={{ flex: 1, marginLeft: 14 }}>
                 <T v="h3" lines={1}>{user.name || 'SBK Customer'}</T>
                 <T v="sub" color={C.muted} lines={1}>{user.email}</T>
-                {account.preview ? <Pill text="Preview account" tone="grey" style={{ marginTop: 6 }} /> : null}
               </View>
               <Ionicons name="chevron-forward" size={20} color={C.faint} />
             </Press>
