@@ -4337,3 +4337,10 @@ the dropdown stays underneath navbar.
         min-height: 78px !important;
     }
 }
+
+.footer a.footer__logo-link { display: contents !important; padding: 0 !important; margin: 0 !important; }
+.footer a.footer__logo-link::before { content: none !important; }
+
+@media (min-width: 901px) {
+    .sbk-brand-dropdown::before { top: -26px; height: 44px; }
+}

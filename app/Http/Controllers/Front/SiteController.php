@@ -86,6 +86,7 @@ class SiteController extends Controller
         $selectedYear = $request->input('year');
         $selectedMileage = $request->input('max_mileage');
         $selectedTransmission = $request->input('transmission');
+        $selectedSteering = $request->input('steering');
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
         $sort = $request->input('sort', 'default');
@@ -127,6 +128,7 @@ class SiteController extends Controller
             ->when($selectedGrades, fn ($collection) => $collection->filter(fn ($product) => in_array($this->productGrade($product), $selectedGrades, true)))
             ->when($selectedMileage, fn ($collection) => $collection->filter(fn ($product) => $product->mileage !== null && $product->mileage !== '' && (int) $product->mileage <= (int) $selectedMileage))
             ->when($selectedTransmission, fn ($collection) => $collection->filter(fn ($product) => Str::contains(Str::lower((string) $product->transmission), Str::lower($selectedTransmission))))
+            ->when(in_array($selectedSteering, ['LHD', 'RHD'], true), fn ($collection) => $collection->filter(fn ($product) => Str::startsWith(Str::lower(trim((string) $product->steering)), $selectedSteering === 'LHD' ? ['left', 'lhd'] : ['right', 'rhd'])))
             ->when($minPrice !== null && $minPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price >= (float) $minPrice))
             ->when($maxPrice !== null && $maxPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price <= (float) $maxPrice));
 
@@ -170,6 +172,7 @@ class SiteController extends Controller
             'selectedYear',
             'selectedMileage',
             'selectedTransmission',
+            'selectedSteering',
             'minPrice',
             'maxPrice',
             'sort',

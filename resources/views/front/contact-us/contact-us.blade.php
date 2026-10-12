@@ -18,7 +18,7 @@ $offices = [
     [
         'name' => 'Japan Office',
         'phone' => '+81 70-9427-5106',
-        'address' => 'Yokohama-Shi, Kanagawa-Ken, Japan',
+        'address' => 'Aichi-ken Nagoyashi Midoriku Shikayama 2-1-1 Royal Shikayama A503, Nagoya-shi, Aichi, Japan',
         'time' => 'Asia/Tokyo',
     ],
     [

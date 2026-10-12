@@ -122,6 +122,14 @@ $assetBase = asset('assets/front');
                         <option value="Manual" @selected($selectedTransmission === 'Manual')>Manual Transmission</option>
                     </select>
                 </div>
+                <div class="sbk-filter-group">
+                    <div class="sbk-filter-title">Steering</div>
+                    <select id="sbkSteering" name="steering" aria-label="Steering">
+                        <option value="">Any Steering</option>
+                        <option value="LHD" @selected($selectedSteering === 'LHD')>Left Hand Drive</option>
+                        <option value="RHD" @selected($selectedSteering === 'RHD')>Right Hand Drive</option>
+                    </select>
+                </div>
                 <div class="sbk-filter-actions"><button class="sbk-apply" id="sbkApply" type="submit">Apply Filters</button><a class="sbk-reset" id="sbkReset" href="{{ route('shop') }}" style="display:grid;place-items:center;text-decoration:none">Reset</a></div>
             </form>
 

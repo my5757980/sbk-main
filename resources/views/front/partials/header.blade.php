@@ -541,7 +541,7 @@
                 @if($cartCount > 0)<b>{{ $cartCount }}</b>@endif
             </a>
 
-            <button>Buy Now</button>
+            <button type="button" onclick="window.location.href='{{ route('shop') }}'">Buy Now</button>
 
         </div>
 

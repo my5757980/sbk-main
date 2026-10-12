@@ -41,8 +41,8 @@
         ['Toyota Crown Sport Z Black', '$41,930.00', 'img/home-cutout-crown-sport-black.png'],
     ];
     $bodyTypes = [
-        ['Sedan', 'img/home-cutout-markx-white-2016.png'], ['SUV', 'img/home-cutout-mercedes-gls-black-2016.png'], ['Sports', 'img/hero-bmw.webp'], ['Convertible', 'img/hero-mercedes.webp'],
-        ['Compact', 'img/home-cutout-honda-fit-white-2015.png'], ['Pick Up', 'img/home-cutout-hilux-travo.png'], ['Crossover', 'img/home-cutout-santafe-2025.png'], ['Electric', 'img/home-cutout-prius-prime-2024.png'],
+        ['Sedan', 'img/home-cutout-markx-white-2016.png', ['types' => ['Sedan']]], ['SUV', 'img/home-cutout-mercedes-gls-black-2016.png', ['types' => ['SUV']]], ['Sports', 'img/hero-bmw.webp', ['types' => ['Coupe']]], ['Convertible', 'img/hero-mercedes.webp', ['types' => ['Convertible / Roadster']]],
+        ['Compact', 'img/home-cutout-honda-fit-white-2015.png', ['types' => ['Hatchback']]], ['Pick Up', 'img/home-cutout-hilux-travo.png', ['types' => ['Truck / Double Cab']]], ['Crossover', 'img/home-cutout-santafe-2025.png', ['types' => ['SUV']]], ['Electric', 'img/home-cutout-prius-prime-2024.png', ['search' => 'Electric']],
     ];
     $faqs = [
         'Where is your showroom located?',
@@ -95,8 +95,8 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                             <span>{{ $slide[5] }}</span>
                         </div>
                         <div class="hero__buttons">
-                            <a href="#">Buy Now</a>
-                            <a href="#">View Details</a>
+                            <a href="{{ route('shop') }}">Buy Now</a>
+                            <a href="{{ route('shop') }}">View Details</a>
                         </div>
                     </div>
                 </article>
@@ -227,10 +227,10 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
             <div class="brand-marquee" aria-label="World known vehicle brands">
                 <div class="brand-row">
                     @foreach($brands as $brand)
-                        <div><img src="{{ $assetBase }}/{{ $brand[1] }}" alt="{{ $brand[0] }}"></div>
+                        <div><a href="{{ route('shop', ['brands' => [$brand[0]]]) }}" aria-label="Shop {{ $brand[0] }}" style="display:grid;place-items:center;width:100%;height:100%"><img src="{{ $assetBase }}/{{ $brand[1] }}" alt="{{ $brand[0] }}"></a></div>
                     @endforeach
                     @foreach($brands as $brand)
-                        <div><img src="{{ $assetBase }}/{{ $brand[1] }}" alt=""></div>
+                        <div><a href="{{ route('shop', ['brands' => [$brand[0]]]) }}" aria-label="Shop {{ $brand[0] }}" style="display:grid;place-items:center;width:100%;height:100%"><img src="{{ $assetBase }}/{{ $brand[1] }}" alt=""></a></div>
                     @endforeach
                 </div>
             </div>
@@ -246,7 +246,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                 </div>
                 <h3>Global Reach With Proven Expertise</h3>
                 <p>SBK Auto Trading has gained the trust of happy clients by building a reputation for dependability, honesty, and quality.</p>
-                <a class="btn" href="#">Read More</a>
+                <a class="btn" href="{{ route('about-us') }}">Read More</a>
             </div>
         </section>
 
@@ -277,7 +277,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     </div>
                     <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next best seller">›</button>
                 </div>
-                <div class="center"><a class="btn" href="#">View All Recent Seller</a></div>
+                <div class="center"><a class="btn" href="{{ route('shop') }}">View All Recent Seller</a></div>
             </div>
         </section>
 
@@ -323,7 +323,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                                 <div class="why-card__face why-card__back">
                                     <h3>{{ $item[0] }}</h3>
                                     <p>{{ $item[1] }}</p>
-                                    <a href="#">Learn More</a>
+                                    <a href="{{ route('about-us') }}">Learn More</a>
                                 </div>
                             </div>
                         </article>
@@ -375,7 +375,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     </div>
                     <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next upcoming car">›</button>
                 </div>
-                <div class="center"><a class="btn" href="#">View All Upcoming Cars</a></div>
+                <div class="center"><a class="btn" href="{{ route('shop') }}">View All Upcoming Cars</a></div>
             </div>
         </section>
 
@@ -398,7 +398,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     </div>
                     <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next arrival">›</button>
                 </div>
-                <div class="center"><a class="btn" href="#">View All New Cars</a></div>
+                <div class="center"><a class="btn" href="{{ route('shop') }}">View All New Cars</a></div>
             </div>
         </section>
 
@@ -420,7 +420,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     <p class="eyebrow">Auction Buying Support</p>
                     <h2>Tell Us What You Need, We Bid for You</h2>
                     <p>Share your preferred model, budget, year, mileage, and condition. Our agent searches Japanese auctions and bids on your behalf for the right car at the right price.</p>
-                    <a class="btn" href="#">Request Auction Support</a>
+                    <a class="btn" href="{{ route('contact-us') }}">Request Auction Support</a>
                 </div>
                 <img src="{{ $assetBase }}/img/home-cutout-hilux-travo.png" alt="Auction support vehicle">
             </div>
@@ -432,10 +432,10 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                 <h2>Search by Body Type</h2>
                 <div class="body-grid">
                     @foreach($bodyTypes as $type)
-                        <article><img src="{{ $assetBase }}/{{ $type[1] }}" alt="{{ $type[0] }}"><h3>{{ $type[0] }}</h3></article>
+                        <article><a href="{{ route('shop', $type[2]) }}" style="display:block;color:inherit;text-decoration:none"><img src="{{ $assetBase }}/{{ $type[1] }}" alt="{{ $type[0] }}"><h3>{{ $type[0] }}</h3></a></article>
                     @endforeach
                 </div>
-                <a class="btn" href="#">Check Our Shop</a>
+                <a class="btn" href="{{ route('shop') }}">Check Our Shop</a>
             </div>
         </section>
 
@@ -471,7 +471,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     <p class="eyebrow">Ready to Import?</p>
                     <h2>Register with SBK Today for Unbeatable Prices</h2>
                     <p>Tell us what you need, and our team will help you buy a car from Japan through a simple process.</p>
-                    <a class="btn btn--light" href="#">Register Now</a>
+                    <a class="btn btn--light" href="{{ route('register') }}">Register Now</a>
                 </div>
                 <img src="{{ $assetBase }}/img/home-cutout-hiace-van-2016.png" alt="Register vehicle">
             </div>

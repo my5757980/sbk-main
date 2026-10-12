@@ -26,3 +26,4 @@ yarn-error.log
 /mobile-app/release/
 /mobile-app/*.log
 *.apk
+/public/uploads/front.zip

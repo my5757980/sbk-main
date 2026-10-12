@@ -20,9 +20,9 @@ $locations = [
     [
         'title' => 'Japan Office',
         'description' => 'SBK Auto Trading Japan office handles direct Japanese auction sourcing, vehicle inspection, and worldwide export logistics.',
-        'address' => 'Yokohama-Shi, Kanagawa-Ken, Japan',
+        'address' => 'Aichi-ken Nagoyashi Midoriku Shikayama 2-1-1 Royal Shikayama A503, Nagoya-shi, Aichi, Japan',
         'phone' => '+81 70-9427-5106',
-        'map' => 'Yokohama-Shi Kanagawa-Ken Japan',
+        'map' => 'Aichi-ken Nagoyashi Midoriku Shikayama 2-1-1 Royal Shikayama A503, Nagoya-shi, Aichi, Japan',
     ],
     [
         'title' => 'Kenya Office (Showroom Mombasa)',
