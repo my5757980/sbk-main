@@ -146,6 +146,11 @@
   #sbk-chat-panel{right:0;left:0;bottom:0;top:0;width:auto;height:auto;border-radius:0}
   #sbk-chat-toast{left:14px;right:14px;bottom:78px;width:auto}
 }
+/* Small phones: the logo pushed "SBK Global Auto Trading" and its line under it onto
+   four lines; the name already says SBK. */
+@media (max-width:380px){
+  #sbk-chat-panel .bar img{display:none}
+}
 @media (prefers-reduced-motion:reduce){
   #sbk-chat-fab,#sbk-chat-fab .i svg,#sbk-chat-n,#sbk-chat-panel{
     animation:none!important;transition:none!important}

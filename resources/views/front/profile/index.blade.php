@@ -87,8 +87,8 @@
 .sbk-order-item p{margin:0;color:#666;font-size:13px}
 .sbk-order-price{text-align:right;font-size:15px}
 .sbk-vehicle-specs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:12px}
-.sbk-vehicle-specs span{display:grid;gap:3px;min-height:48px;padding:8px 10px;border-radius:6px;background:#f7f7f8;color:#111;font-size:12px}
-.sbk-vehicle-specs small{color:#777;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
+.sbk-vehicle-specs span{display:grid;gap:3px;min-height:48px;padding:8px 10px;border-radius:6px;background:#f7f7f8;color:#111;font-size:12px;overflow-wrap:anywhere}
+.sbk-vehicle-specs small{color:#777;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.5px}
 .sbk-empty{display:grid;justify-items:center;gap:8px;padding:44px 24px;color:#6b7079;text-align:center;line-height:1.6}
 .sbk-empty svg{width:40px;height:40px;color:#c4c8cf}
 

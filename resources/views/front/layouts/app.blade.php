@@ -67,6 +67,8 @@
         .footer .copyright{margin:0!important;padding:18px 14px!important;background:#050505!important;color:#d8d8d8!important;font-size:12px!important;line-height:1.45!important;}
     }
     </style>
+    {{-- Fixes at the widths where the layout broke (specs/006-responsive); last, so it wins. --}}
+    <link rel="stylesheet" href="{{ $assetBase }}/css/responsive.css?v={{ @filemtime(public_path('assets/front/css/responsive.css')) }}">
 </head>
 <body>
     <div class="site-preloader" aria-hidden="true">

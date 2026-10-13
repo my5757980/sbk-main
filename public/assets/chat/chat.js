@@ -32,6 +32,17 @@ var emojiPad = el('emojiPad'), recBar = el('recBar'), recTime = el('recTime');
 var headAv = el('headAv'), headName = el('headName'), headSub = el('headSub');
 var bellDot = el('bellDot'), body = el('body'), backBtn = el('backBtn');
 
+/* On the smallest phones "Write a message…" broke onto a second line inside the
+   one-line box and was cut; there it says "Message…" (kept in step if the width
+   changes, e.g. a phone turned on its side). */
+(function () {
+  if (!box || !window.matchMedia) { return; }
+  var narrow = window.matchMedia('(max-width: 340px)'), full = box.getAttribute('placeholder');
+  function fit() { box.setAttribute('placeholder', narrow.matches ? 'Message…' : full); }
+  fit();
+  if (narrow.addEventListener) { narrow.addEventListener('change', fit); } else if (narrow.addListener) { narrow.addListener(fit); }
+})();
+
 var state = {
   thread: 0,          // which conversation is open
   group: 0,           // or which group - never both, the pane holds one
