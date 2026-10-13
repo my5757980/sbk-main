@@ -30,6 +30,7 @@ Branch `responsive` (from main 544853b). Measuring kit outside the repo: `E:\cw\
   - Three cards per row only above 1100px (at 992-1100px "Chassis" ran out of its card).
 - [x] T23 My Profile orders: long values wrap inside their cell; labels are 11px.
 - [x] T24 Admin user page (users/show): the password boxes were 40px wide on phones. They now take the full width below 576px.
+- [x] T25 Admin "CRM customer passwords" one-time list (after Generate passwords): on phones the Password column sat off-screen in a sideways-scrolling table. Each customer is now a small card (Customer, Email, Phone, Password). Checked at every width, 320-2560px.
 
 ## Fix - admin panel (public/assets/admin/assets/css/responsive.css, linked last in admin/layouts/app)
 - [x] T30 Phones: small buttons and badges (9.3-9.8px text, 20-26px tall) are now 11px and 32px tall.
