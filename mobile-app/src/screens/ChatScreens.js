@@ -9,7 +9,6 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/elements';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -234,7 +233,6 @@ export function ChatThreadScreen() {
   const ui = useUI();
   const nav = useNavigation();
   const route = useRoute();
-  const insets = useSafeAreaInsets();
   const headerH = useHeaderHeight();
   const chat = useChat();
   const calls = useCallEngine();
@@ -453,7 +451,7 @@ export function ChatThreadScreen() {
       />
       {err ? <Notice tone="error" text={err} style={{ marginHorizontal: ui.gutter, marginBottom: 8 }} /> : null}
       {recording ? (
-        <View style={[styles.compose, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+        <View style={styles.compose}>
           <IconButton name="trash-outline" onPress={async () => { await stopRecorder(); setRecSecs(0); }} label="Cancel voice note" color={C.ink2} />
           <View style={styles.recBox}>
             <View style={styles.recDot} />
@@ -465,7 +463,7 @@ export function ChatThreadScreen() {
           </Press>
         </View>
       ) : (
-        <View style={[styles.compose, { paddingBottom: Math.max(insets.bottom, 8) }]}>
+        <View style={styles.compose}>
           <IconButton name="image-outline" onPress={pickPicture} label="Send a picture" color={C.ink2} />
           <View style={styles.inputBox}>
             <TextInput
@@ -625,7 +623,7 @@ const styles = StyleSheet.create({
   mine: { backgroundColor: C.red, borderBottomRightRadius: 4 },
   theirs: { backgroundColor: C.card, borderBottomLeftRadius: 4 },
   stamp: { flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', marginTop: 3 },
-  compose: { flexDirection: 'row', alignItems: 'flex-end', backgroundColor: C.card, paddingHorizontal: 8, paddingTop: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.line },
+  compose: { flexDirection: 'row', alignItems: 'flex-end', backgroundColor: C.card, paddingHorizontal: 8, paddingVertical: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.line },
   inputBox: { flex: 1, backgroundColor: C.bg, borderRadius: 22, borderWidth: 1, borderColor: C.line, marginHorizontal: 6, minHeight: 44, justifyContent: 'center' },
   input: { color: C.ink, paddingHorizontal: 14, paddingTop: 10, paddingBottom: 10, maxHeight: 120 },
   send: { width: 44, height: 44, borderRadius: 22, backgroundColor: C.red, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },

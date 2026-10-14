@@ -94,7 +94,7 @@ export default function ProductScreen() {
   const summary = p.summary || PRODUCT_TEXT.summary;
   const shownSpecs = allSpecs ? specs : specs.slice(0, FIRST_SPECS);
   const half = ui.tablet ? '32%' : '48.5%';
-  const bottomBar = 64 + Math.max(insets.bottom, 10);
+  const bottomBar = 74; // the buying bar, which sits on the tab bar
 
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
@@ -241,7 +241,7 @@ export default function ProductScreen() {
       </View>
 
       {/* buying actions */}
-      <View style={[styles.buyBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+      <View style={styles.buyBar}>
         <Wrap style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1, marginRight: 12 }}>
             <T v="label" size={10} color={C.muted}>FOB Price</T>
@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: C.card,
     paddingTop: 10,
+    paddingBottom: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: C.line,
     elevation: 12,

@@ -8,6 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { C, R, lift, useUI } from '../theme';
 import { money, mileageLabel } from '../format';
 import { useShop } from '../store/shop';
+import { toTab } from '../nav';
 import { Img, Pill, Press, T } from './base';
 
 /* "5% OFF, Japanese Used Cars" -> "5% OFF": a card has room for one tag. */
@@ -29,8 +30,13 @@ function ProductCard({ product: p, width, style }) {
   const inWish = shop.inWish(p.slug);
   const narrow = (width || ui.width) < 190;
 
+  // A card given a width keeps it. With flexGrow as well, React Native's
+  // layout (Yoga's legacy stretch) widened the card while measuring a
+  // horizontal list, the 4:3 photo grew with it, and every card in the rail
+  // came out far too tall (Mohsin's phone, 14 Oct: price and cart button out
+  // of sight). The browser preview lays out differently and never showed it.
   return (
-    <View style={[styles.card, width ? { width } : null, style]}>
+    <View style={[styles.card, width ? { width } : { flexGrow: 1 }, style]}>
       <Press onPress={() => nav.navigate('Product', { slug: p.slug })} style={{ flex: 1 }} accessibilityLabel={p.title}>
         <View>
           <Img src={p.image} style={styles.photo} />
@@ -50,7 +56,7 @@ function ProductCard({ product: p, width, style }) {
               <T v="h3" size={narrow ? 15 : 16.5} weight="900" lines={1} adjustsFontSizeToFit>{money(p.price)}</T>
             </View>
             <Press
-              onPress={() => (inCart ? nav.navigate('Tabs', { screen: 'Cart' }) : shop.addToCart(p.slug))}
+              onPress={() => (inCart ? toTab(nav, 'Cart') : shop.addToCart(p.slug))}
               style={[styles.cartBtn, inCart && { backgroundColor: C.ink }]}
               ripple="rgba(255,255,255,0.25)"
               accessibilityLabel={inCart ? 'In cart' : 'Add to cart'}
@@ -85,7 +91,7 @@ function Spec({ icon, text }) {
 export default memo(ProductCard);
 
 const styles = StyleSheet.create({
-  card: { flexGrow: 1, backgroundColor: C.card, borderRadius: R.lg, overflow: 'hidden', ...lift },
+  card: { backgroundColor: C.card, borderRadius: R.lg, overflow: 'hidden', ...lift },
   photo: { width: '100%', aspectRatio: 4 / 3 },
   tag: { position: 'absolute', left: 10, top: 10 },
   heart: {

@@ -6,8 +6,10 @@
    the website. One database: the website's. The UI/UX comes first; the data is
    then connected to the website's database (src/api is the only door to it).
 
-   Five tabs - Home, Shop, Chat, Cart, Menu - and every other page on a native
-   stack above them, so Back always does what a phone user expects. */
+   Five tabs - Home, Shop, Chat, Cart, Menu. Each tab has its own native stack
+   that every page opens on, so the tab bar stays under every page (Mohsin's
+   test, 14 Oct) and Back always does what a phone user expects; only the
+   full-screen photo and video viewers open above the tabs. */
 import { Component, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer, DefaultTheme, createNavigationContainerRef } from '@react-navigation/native';
@@ -46,7 +48,63 @@ import ChatBeat from './src/calls/beat';
 import { onTap, startPush, stopPush } from './src/push';
 
 const Stack = createNativeStackNavigator();
+const PageStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const STACK_OPTIONS = {
+  headerTintColor: C.ink,
+  headerTitleStyle: { fontWeight: '800', fontSize: 17 },
+  headerShadowVisible: false,
+  headerStyle: { backgroundColor: C.card },
+  headerBackButtonDisplayMode: 'minimal',
+  contentStyle: { backgroundColor: C.bg },
+  animation: 'slide_from_right',
+};
+
+/* The pages any tab can open on top of itself - the same list in every tab, so
+   a page opens in the tab it was reached from and the tab bar stays under it. */
+function pageScreens() {
+  return [
+    <PageStack.Screen key="Product" name="Product" component={ProductScreen} options={{ headerShown: false }} />,
+    <PageStack.Screen key="Filters" name="Filters" component={FiltersScreen} options={{ title: 'Filters', animation: 'slide_from_bottom' }} />,
+    <PageStack.Screen key="Wishlist" name="Wishlist" component={WishlistScreen} options={{ title: 'Your Wishlist' }} />,
+    <PageStack.Screen key="Checkout" name="Checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />,
+    <PageStack.Screen key="Login" name="Login" component={LoginScreen} options={{ title: 'Login' }} />,
+    <PageStack.Screen key="Register" name="Register" component={RegisterScreen} options={{ title: 'Create Account' }} />,
+    <PageStack.Screen key="Forgot" name="Forgot" component={ForgotScreen} options={{ title: 'Forgot Password' }} />,
+    <PageStack.Screen key="Profile" name="Profile" component={ProfileScreen} options={{ title: 'My Profile' }} />,
+    <PageStack.Screen key="About" name="About" component={AboutScreen} options={{ title: 'About SBK' }} />,
+    <PageStack.Screen key="Services" name="Services" component={ServicesScreen} options={{ title: 'Services' }} />,
+    <PageStack.Screen key="Partners" name="Partners" component={PartnersScreen} options={{ title: 'Official Partners' }} />,
+    <PageStack.Screen key="Locations" name="Locations" component={LocationsScreen} options={{ title: 'Our Locations' }} />,
+    <PageStack.Screen key="Bank" name="Bank" component={BankScreen} options={{ title: 'Bank Details' }} />,
+    <PageStack.Screen key="Contact" name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />,
+    <PageStack.Screen key="Faq" name="Faq" component={FaqScreen} options={{ title: 'FAQ' }} />,
+    <PageStack.Screen key="Blog" name="Blog" component={BlogScreen} options={{ title: 'Blogs' }} />,
+    <PageStack.Screen key="BlogPost" name="BlogPost" component={BlogPostScreen} options={{ title: '' }} />,
+    <PageStack.Screen key="ChatThread" name="ChatThread" component={ChatThreadScreen} options={{ title: '' }} />,
+  ];
+}
+
+/** A tab: its own screen first ("<Tab>Main"), then any page on top of it. */
+function tabStack(Main, mainName) {
+  function TabPages() {
+    return (
+      <PageStack.Navigator screenOptions={STACK_OPTIONS}>
+        <PageStack.Screen name={mainName} component={Main} options={{ headerShown: false }} />
+        {pageScreens()}
+      </PageStack.Navigator>
+    );
+  }
+  TabPages.displayName = mainName + 'Pages';
+  return TabPages;
+}
+
+const HomeTab = tabStack(HomeScreen, 'HomeMain');
+const ShopTab = tabStack(ShopScreen, 'ShopMain');
+const ChatTab = tabStack(ChatScreen, 'ChatMain');
+const CartTab = tabStack(CartScreen, 'CartMain');
+const MenuTab = tabStack(MenuScreen, 'MenuMain');
 
 const navTheme = {
   ...DefaultTheme,
@@ -84,11 +142,11 @@ function Tabs() {
         tabBarBadgeStyle: { backgroundColor: C.red, color: C.white, fontSize: 10, fontWeight: '800' },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Shop" component={ShopScreen} />
-      <Tab.Screen name="Chat" component={ChatScreen} options={{ tabBarBadge: chat.unread || undefined }} />
-      <Tab.Screen name="Cart" component={CartScreen} options={{ tabBarBadge: shop.cart.length || undefined }} />
-      <Tab.Screen name="Menu" component={MenuScreen} />
+      <Tab.Screen name="Home" component={HomeTab} />
+      <Tab.Screen name="Shop" component={ShopTab} />
+      <Tab.Screen name="Chat" component={ChatTab} options={{ tabBarBadge: chat.unread || undefined }} />
+      <Tab.Screen name="Cart" component={CartTab} options={{ tabBarBadge: shop.cart.length || undefined }} />
+      <Tab.Screen name="Menu" component={MenuTab} />
     </Tab.Navigator>
   );
 }
@@ -105,8 +163,13 @@ function Push({ who }) {
   }, [who]);
   useEffect(() => onTap((b) => {
     const go = () => {
-      if (b.type === 'message' && b.to) navRef.navigate('ChatThread', { staffId: b.to, threadId: b.thread || null, name: b.name || 'SBK' });
-      else navRef.navigate('Tabs', { screen: 'Chat' });
+      // In the Chat tab, over its list (Back returns to the conversations).
+      if (b.type === 'message' && b.to) {
+        navRef.navigate('Tabs', { screen: 'Chat', params: { screen: 'ChatThread', initial: false,
+          params: { staffId: b.to, threadId: b.thread || null, name: b.name || 'SBK' } } });
+      } else {
+        navRef.navigate('Tabs', { screen: 'Chat', params: { screen: 'ChatMain', pop: true } });
+      }
     };
     if (navRef.isReady()) go();
     else setTimeout(go, 800);
@@ -165,38 +228,11 @@ export default function App() {
                 <WithCalls>
                 <NavigationContainer ref={navRef} theme={navTheme}>
                   <StatusBar style="dark" />
-                  <Stack.Navigator
-                    screenOptions={{
-                      headerTintColor: C.ink,
-                      headerTitleStyle: { fontWeight: '800', fontSize: 17 },
-                      headerShadowVisible: false,
-                      headerStyle: { backgroundColor: C.card },
-                      headerBackButtonDisplayMode: 'minimal',
-                      contentStyle: { backgroundColor: C.bg },
-                      animation: 'slide_from_right',
-                    }}
-                  >
+                  <Stack.Navigator screenOptions={STACK_OPTIONS}>
                     <Stack.Screen name="Tabs" component={Tabs} options={{ headerShown: false }} />
-                    <Stack.Screen name="Product" component={ProductScreen} options={{ headerShown: false }} />
+                    {/* Full-screen viewers only: everything else opens inside a tab */}
                     <Stack.Screen name="Gallery" component={GalleryScreen} options={{ headerShown: false, animation: 'fade', contentStyle: { backgroundColor: '#000' } }} />
                     <Stack.Screen name="Video" component={VideoScreen} options={{ headerShown: false, animation: 'fade', contentStyle: { backgroundColor: '#000' } }} />
-                    <Stack.Screen name="Filters" component={FiltersScreen} options={{ title: 'Filters', animation: 'slide_from_bottom' }} />
-                    <Stack.Screen name="Wishlist" component={WishlistScreen} options={{ title: 'Your Wishlist' }} />
-                    <Stack.Screen name="Checkout" component={CheckoutScreen} options={{ title: 'Checkout' }} />
-                    <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Login' }} />
-                    <Stack.Screen name="Register" component={RegisterScreen} options={{ title: 'Create Account' }} />
-                    <Stack.Screen name="Forgot" component={ForgotScreen} options={{ title: 'Forgot Password' }} />
-                    <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'My Profile' }} />
-                    <Stack.Screen name="About" component={AboutScreen} options={{ title: 'About SBK' }} />
-                    <Stack.Screen name="Services" component={ServicesScreen} options={{ title: 'Services' }} />
-                    <Stack.Screen name="Partners" component={PartnersScreen} options={{ title: 'Official Partners' }} />
-                    <Stack.Screen name="Locations" component={LocationsScreen} options={{ title: 'Our Locations' }} />
-                    <Stack.Screen name="Bank" component={BankScreen} options={{ title: 'Bank Details' }} />
-                    <Stack.Screen name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />
-                    <Stack.Screen name="Faq" component={FaqScreen} options={{ title: 'FAQ' }} />
-                    <Stack.Screen name="Blog" component={BlogScreen} options={{ title: 'Blogs' }} />
-                    <Stack.Screen name="BlogPost" component={BlogPostScreen} options={{ title: '' }} />
-                    <Stack.Screen name="ChatThread" component={ChatThreadScreen} options={{ title: '' }} />
                   </Stack.Navigator>
                 </NavigationContainer>
                 </WithCalls>

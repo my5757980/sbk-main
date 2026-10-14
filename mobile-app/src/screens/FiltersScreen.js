@@ -3,7 +3,6 @@
 import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { C, MAX_FONT, R, useUI } from '../theme';
 import * as api from '../api';
@@ -17,7 +16,6 @@ import { money } from '../format';
 export default function FiltersScreen() {
   const ui = useUI();
   const nav = useNavigation();
-  const insets = useSafeAreaInsets();
   const { filters, setFilters } = useFilters();
   const [draft, setDraft] = useState(filters);
   const [options, setOptions] = useState(null);
@@ -137,7 +135,7 @@ export default function FiltersScreen() {
           </Group>
         </Wrap>
       </ScrollView>
-      <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+      <View style={styles.footer}>
         <Wrap>
           <Button
             title={count == null ? 'Show vehicles' : count === 0 ? 'No vehicles match' : 'Show ' + count + (count === 1 ? ' vehicle' : ' vehicles')}
@@ -185,5 +183,5 @@ const styles = StyleSheet.create({
   priceRow: { flexDirection: 'row', alignItems: 'center' },
   priceBox: { flex: 1, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#DFE2E7', borderRadius: R.sm + 2, backgroundColor: C.field },
   priceInput: { flex: 1, color: C.ink, paddingHorizontal: 8, paddingVertical: 8 },
-  footer: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.line, backgroundColor: C.card, paddingTop: 12 },
+  footer: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: C.line, backgroundColor: C.card, paddingVertical: 12 },
 });

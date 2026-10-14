@@ -35,6 +35,7 @@ export class ApiError extends Error {
 }
 
 const NO_CONNECTION = 'Could not reach SBK. Please check your internet connection and try again.';
+const NOT_READY = 'This service is not available on SBK right now. Please try again later.';
 
 /** "brands[]=Toyota&brands[]=BMW&sort=price-low" from { brands: [...], sort }. */
 export function queryOf(params) {
@@ -107,9 +108,14 @@ export async function request(method, path, opts = {}) {
     throw new ApiError(NO_CONNECTION, 0);
   }
   if (!res.ok) {
+    // The framework's words for developers ("The route api/app/contact could
+    // not be found.", "No query results for model ...") never reach a customer.
     let message = firstError(data);
     if (res.status === 429) message = 'Too many tries. Please wait a minute and try again.';
-    else if (res.status === 401 && !message) message = 'Please sign in again.';
+    else if (res.status === 401 && (!message || message === 'Unauthenticated.')) message = 'Please sign in again.';
+    else if (res.status === 405 || /^The route .* could not be found/i.test(message)) message = NOT_READY;
+    else if (/^No query results/i.test(message)) message = 'Not found.';
+    else if (res.status === 413) message = 'This file is too large to send.';
     else if (res.status >= 500 || !message || message === 'Server Error') message = res.status === 404 ? 'Not found.' : NO_CONNECTION;
     throw new ApiError(message, res.status, data && data.errors);
   }
