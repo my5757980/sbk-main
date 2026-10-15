@@ -18,6 +18,7 @@
                         <th>Brand</th>
                         <th>Model</th>
                         <th>Year</th>
+                        <th>Vehicle Country</th>
                         <th>Price</th>
                         <th>Home Section</th>
                         <th>Status</th>
@@ -32,6 +33,7 @@
                         <td>{{ optional($result->brand)->name }}</td>
                         <td>{{ optional($result->vehicleModel)->name }}</td>
                         <td>{{ $result->year }}</td>
+                        <td>{{ $result->vehicle_country ?: '-' }}</td>
                         <td>${{ number_format($result->price, 2) }}</td>
                         <td>{{ \App\Models\Product::HOME_SECTION_OPTIONS[$result->home_section] ?? '-' }}</td>
                         <td><span class="badge badge-{{ $result->status === 'published' ? 'success' : ($result->status === 'sold' ? 'danger' : 'secondary') }}">{{ strtoupper($result->status) }}</span></td>
