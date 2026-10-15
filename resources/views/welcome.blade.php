@@ -5,6 +5,7 @@
     $bestSellerProducts = $bestSellerProducts ?? collect();
     $upcomingCollectionProducts = $upcomingCollectionProducts ?? collect();
     $newArrivalProducts = $newArrivalProducts ?? collect();
+    $commercialProducts = $commercialProducts ?? collect();
     $homeBlogs = $homeBlogs ?? collect();
     $cartProductIds = $cartProductIds ?? [];
     $wishlistProductIds = $wishlistProductIds ?? [];
@@ -41,7 +42,7 @@
         ['Toyota Crown Sport Z Black', '$41,930.00', 'img/home-cutout-crown-sport-black.png'],
     ];
     $bodyTypes = [
-        ['Sedan', 'img/home-cutout-markx-white-2016.png', ['types' => ['Sedan']]], ['SUV', 'img/home-cutout-mercedes-gls-black-2016.png', ['types' => ['SUV']]], ['Sports', 'img/hero-bmw.webp', ['types' => ['Coupe']]], ['Convertible', 'img/hero-mercedes.webp', ['types' => ['Convertible / Roadster']]],
+        ['Sedan', 'img/home-cutout-markx-white-2016.png', ['types' => ['Sedan']]], ['SUV', 'img/home-cutout-mercedes-gls-black-2016.png', ['types' => ['SUV']]], ['Sports', 'img/body-type-sports-cutout.png', ['types' => ['Coupe']]], ['Convertible', 'img/body-type-convertible-cutout.png', ['types' => ['Convertible / Roadster']]],
         ['Compact', 'img/home-cutout-honda-fit-white-2015.png', ['types' => ['Hatchback']]], ['Pick Up', 'img/home-cutout-hilux-travo.png', ['types' => ['Truck / Double Cab']]], ['Crossover', 'img/home-cutout-santafe-2025.png', ['types' => ['SUV']]], ['Electric', 'img/home-cutout-prius-prime-2024.png', ['search' => 'Electric']],
     ];
     $faqs = [
@@ -80,6 +81,31 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
 </style>
 
  
+<style>
+/* Homepage banner: full-width photography with a soft readability overlay. */
+.hero .hero__slide {
+    background-color: #0b0e12;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center 62%;
+}
+.hero .hero__shade {
+    background: linear-gradient(90deg, rgba(5,9,14,.76) 0%, rgba(5,9,14,.48) 35%, rgba(5,9,14,.12) 72%, rgba(5,9,14,.08) 100%);
+}
+@media (min-width: 981px) {
+    .hero, .hero .hero__slide, .hero .hero__content {
+        min-height: clamp(560px, 48vw, 740px);
+    }
+}
+@media (max-width: 620px) {
+    .hero .hero__slide {
+        background-position: 58% center;
+    }
+    .hero .hero__shade {
+        background: linear-gradient(180deg, rgba(5,9,14,.18), rgba(5,9,14,.48) 35%, rgba(5,9,14,.86) 100%);
+    }
+}
+</style>
         <section class="hero" data-slider data-autoplay="true">
             @foreach($hero as $index => $slide)
                 <article class="hero__slide {{ $index === 0 ? 'is-active' : '' }}" data-slide style="background-image: url('{{ $assetBase }}/{{ $slide[6] }}')">
@@ -206,6 +232,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                             </div>
                         </div>
                         <button class="sbk-home-submit" type="submit">Search Cars</button>
+                        @include('front.partials.home-advanced-search')
                     </form>
                     <div class="sbk-home-search__quick">
                         <a href="{{ route('shop') }}">View all stock</a>
@@ -215,6 +242,8 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                 </div>
             </div>
         </section>
+
+        @include('front.partials.home-steering')
 
         <section class="brand-intro reveal-on-scroll">
             <div class="container center">
@@ -358,10 +387,10 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
 
         <section class="section">
             <div class="container">
-                <h2>The Exclusive Upcoming Collection</h2>
-                <p class="lead">Get an early look at vehicles that will be added soon.</p>
+                <h2>The Exclusive New Stock</h2>
+                <p class="lead">Explore our newest uploaded vehicles.</p>
                 <div class="rail-slider rail-slider--mini" data-rail-slider>
-                    <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous upcoming car">‹</button>
+                    <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous new stock vehicle">‹</button>
                     <div class="{{ $upcomingCollectionProducts->count() ? 'product-grid' : 'mini-row' }} rail-track">
                         @if($upcomingCollectionProducts->count())
                             @foreach($upcomingCollectionProducts as $product)
@@ -373,35 +402,51 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                             @endforeach
                         @endif
                     </div>
-                    <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next upcoming car">›</button>
+                    <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next new stock vehicle">›</button>
                 </div>
-                <div class="center"><a class="btn" href="{{ route('shop') }}">View All Upcoming Cars</a></div>
+                <div class="center"><a class="btn" href="{{ route('shop') }}">View All New Stock</a></div>
             </div>
         </section>
 
         <section class="section section--tint">
             <div class="container">
-                <h2>New In-Demand Arrivals</h2>
-                <p class="lead">View our latest Japanese vehicle arrivals with clear prices and key details.</p>
+                <h2>Luxury Vehicles</h2>
+                <p class="lead">Explore our luxury vehicles priced at $70,000 and above.</p>
                 <div class="rail-slider" data-rail-slider>
-                    <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous arrival">‹</button>
+                    <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous luxury vehicle">‹</button>
                     <div class="product-grid product-grid--four rail-track">
                         @if($newArrivalProducts->count())
                             @foreach($newArrivalProducts as $product)
                                 @include('front.partials.home-product-card', ['product' => $product])
                             @endforeach
                         @else
-                            @foreach(array_slice($cars, 4, 4) as $car)
-                            <article class="product-card rail-item"><img src="{{ \Illuminate\Support\Str::startsWith($car[3], ['http://', 'https://', '/']) ? $car[3] : $assetBase . '/' . $car[3] }}" alt="{{ $car[0] }}"><div><h3>{{ $car[0] }}</h3><p>{{ $car[1] }}</p><strong>{{ $car[2] }}</strong></div></article>
-                            @endforeach
+                            <p>No luxury vehicles are currently available.</p>
                         @endif
                     </div>
-                    <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next arrival">›</button>
+                    <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next luxury vehicle">›</button>
                 </div>
-                <div class="center"><a class="btn" href="{{ route('shop') }}">View All New Cars</a></div>
+                <div class="center"><a class="btn" href="{{ route('shop', ['min_price' => 70000]) }}">View All Luxury Vehicles</a></div>
             </div>
         </section>
 
+        <section class="section">
+            <div class="container">
+                <h2>Commercial Vehicles</h2>
+                <p class="lead">Explore our trucks, with the latest uploads shown first.</p>
+                <div class="rail-slider" data-rail-slider>
+                    <button class="rail-arrow rail-arrow--prev" type="button" data-rail-prev aria-label="Previous commercial vehicle">&#8249;</button>
+                    <div class="product-grid product-grid--four rail-track">
+                        @forelse($commercialProducts as $product)
+                            @include('front.partials.home-product-card', ['product' => $product])
+                        @empty
+                            <p>No commercial vehicles are currently available.</p>
+                        @endforelse
+                    </div>
+                    <button class="rail-arrow rail-arrow--next" type="button" data-rail-next aria-label="Next commercial vehicle">&#8250;</button>
+                </div>
+                <div class="center"><a class="btn" href="{{ route('shop', ['types' => ['Truck / Double Cab']]) }}">View All Commercial Vehicles</a></div>
+            </div>
+        </section>
         <section class="section steps">
             <div class="container">
                 <p class="eyebrow">How It Works</p>
@@ -432,7 +477,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                 <h2>Search by Body Type</h2>
                 <div class="body-grid">
                     @foreach($bodyTypes as $type)
-                        <article><a href="{{ route('shop', $type[2]) }}" style="display:block;color:inherit;text-decoration:none"><img src="{{ $assetBase }}/{{ $type[1] }}" alt="{{ $type[0] }}"><h3>{{ $type[0] }}</h3></a></article>
+                        <article><a href="{{ route('shop', $type[2]) }}" style="display:block;color:inherit;text-decoration:none"><img src="{{ $assetBase }}/{{ $type[1] }}" alt="{{ $type[0] }}" @if(in_array($type[0], ['SUV', 'Compact', 'Pick Up', 'Electric'], true)) style="transform:scaleX(-1)" @endif><h3>{{ $type[0] }}</h3></a></article>
                     @endforeach
                 </div>
                 <a class="btn" href="{{ route('shop') }}">Check Our Shop</a>
@@ -473,7 +518,7 @@ img[src*="/img/home-cutout-"]{object-fit:contain!important;filter:drop-shadow(0 
                     <p>Tell us what you need, and our team will help you buy a car from Japan through a simple process.</p>
                     <a class="btn btn--light" href="{{ route('register') }}">Register Now</a>
                 </div>
-                <img src="{{ $assetBase }}/img/home-cutout-hiace-van-2016.png" alt="Register vehicle">
+                <img src="{{ $assetBase }}/img/register-lexus-lc500-cutout.png" alt="Pearl white Lexus LC 500 luxury coupe facing right">
             </div>
         </section>
 

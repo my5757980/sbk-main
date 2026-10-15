@@ -48,6 +48,7 @@ $assetBase = asset('assets/front');
 
         <div class="sbk-shop-layout">
             <form class="sbk-filter" id="sbkFilterForm" method="GET" action="{{ route('shop') }}">
+                @include('front.partials.shop-advanced-parameters')
                 @if($search !== '')
                     <input type="hidden" name="search" value="{{ $search }}">
                 @endif

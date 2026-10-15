@@ -79,6 +79,7 @@
                                 'Coupe',
                                 'Convertible / Cabriolet',
                                 'Pickup Truck',
+                                'Truck',
                                 'Van',
                                 'Microvan / Kei Van',
                                 'Minibus',
@@ -173,6 +174,7 @@
                                 <option value="{{ $value }}" {!! matchSelected($value, old('home_section', $data->home_section)) !!}>{{ $label }}</option>
                             @endforeach
                         </select>
+                        <small class="form-text text-muted">Luxury Vehicles automatically shows published vehicles priced at $70,000 or more. Commercial Vehicles automatically shows published trucks.</small>
                     </div></div>
                     <div class="col-md-3"><div class="form-group mt-2">
                         <fieldset class="checkbox">

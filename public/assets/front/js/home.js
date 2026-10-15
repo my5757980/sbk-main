@@ -72,6 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const resizeAmounts = () => {
+            [usdInput, jpyInput].forEach((input) => {
+                input.style.width = `${Math.max(8, input.value.length + 2)}ch`;
+            });
+        };
+
+        usdInput.addEventListener('input', resizeAmounts);
+        jpyInput.addEventListener('input', resizeAmounts);
+        resizeAmounts();
         const formatValue = (value) => {
             if (!Number.isFinite(value)) {
                 return '';
@@ -86,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             jpyInput.value = formatValue(Number(usdInput.value) * rate);
+            resizeAmounts();
         };
 
         const convertFromJpy = () => {
@@ -94,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             usdInput.value = formatValue(Number(jpyInput.value) / rate);
+            resizeAmounts();
         };
 
         usdInput.addEventListener('input', convertFromUsd);

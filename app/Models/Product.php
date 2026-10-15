@@ -11,8 +11,9 @@ class Product extends Model
 
     public const HOME_SECTION_OPTIONS = [
         'best_seller' => 'Best Seller',
-        'upcoming_collection' => 'Upcoming Collection',
-        'new_in_demand_arrivals' => 'New In-Demand Arrivals',
+        'upcoming_collection' => 'The Exclusive New Stock',
+        'new_in_demand_arrivals' => 'Luxury Vehicles',
+        'commercial_vehicles' => 'Commercial Vehicles',
     ];
 
     protected $guarded = [];

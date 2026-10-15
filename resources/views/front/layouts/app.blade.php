@@ -37,7 +37,7 @@
     .footer__offices p:first-of-type{font-weight:600!important;white-space:nowrap!important;}
     .footer__offices p:first-of-type::before{content:'☎';color:#e30613;font-weight:700;line-height:1.6;}
     .footer__offices p:last-of-type::before{content:'•';color:#e30613;font-size:17px;line-height:1.15;font-weight:900;}
-    .footer .copyright{margin:58px auto 0!important;padding:22px 15px!important;border-top:0!important;text-align:center!important;color:#fff!important;background:#000!important;font-size:14px!important;}
+    .footer .copyright{margin:8px auto 0!important;padding:10px 15px 22px!important;border-top:0!important;text-align:center!important;color:#fff!important;background:#000!important;font-size:14px!important;}
     @media(max-width:1000px){.footer .footer__grid{grid-template-columns:1.5fr 1fr 1fr!important}.footer .footer__grid>div:nth-child(4){grid-column:auto!important}.footer__offices{grid-template-columns:repeat(3,1fr)!important}.footer__offices>div{border-bottom:1px solid #444!important;padding:20px!important}.footer__offices strong{min-height:auto!important}}
     @media(max-width:700px){.footer .footer__grid{grid-template-columns:1fr 1fr!important}.footer__about{grid-column:1/-1!important}.footer__offices{grid-template-columns:1fr!important}.footer__offices>div{border-right:0!important;padding:20px 0!important}.footer .footer__grid>div:nth-child(4){grid-template-columns:1fr 1fr!important}}
     @media(max-width:430px){.footer .footer__grid{grid-template-columns:1fr!important}.footer .footer__grid>div:nth-child(4){grid-template-columns:1fr 1fr!important}}
@@ -67,8 +67,12 @@
         .footer .copyright{margin:0!important;padding:18px 14px!important;background:#050505!important;color:#d8d8d8!important;font-size:12px!important;line-height:1.45!important;}
     }
     </style>
+<<<<<<< HEAD
     {{-- Fixes at the widths where the layout broke (specs/006-responsive); last, so it wins. --}}
     <link rel="stylesheet" href="{{ $assetBase }}/css/responsive.css?v={{ @filemtime(public_path('assets/front/css/responsive.css')) }}">
+=======
+    <link rel="stylesheet" href="{{ $assetBase }}/css/typography.css">
+>>>>>>> 12c3034 (changes)
 </head>
 <body>
     <div class="site-preloader" aria-hidden="true">

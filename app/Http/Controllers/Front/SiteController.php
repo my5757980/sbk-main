@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Support\AdvancedVehicleSearch;
 use App\Models\Blog;
 use App\Models\CartItem;
 use App\Models\ContactUs;
@@ -22,7 +23,7 @@ class SiteController extends Controller
         $featuredProducts = Product::with(['brand', 'vehicleModel'])
             ->published()
             ->where('is_featured', true)
-            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->take(8)
             ->get();
@@ -30,6 +31,7 @@ class SiteController extends Controller
         $bestSellerProducts = $this->homeSectionProducts('best_seller');
         $upcomingCollectionProducts = $this->homeSectionProducts('upcoming_collection');
         $newArrivalProducts = $this->homeSectionProducts('new_in_demand_arrivals');
+        $commercialProducts = $this->homeSectionProducts('commercial_vehicles');
         $homeBlogs = Blog::active()->orderByDesc('created_at')->take(12)->get();
         $cartProductIds = CartItem::where('session_id', request()->session()->getId())->pluck('product_id')->all();
         $wishlistProductIds = WishlistItem::where('session_id', request()->session()->getId())->pluck('product_id')->all();
@@ -37,17 +39,25 @@ class SiteController extends Controller
         $homeFilterModels = VehicleModel::with('brand')->published()->orderBy('name')->get();
         $homeFilterYears = Product::published()->whereNotNull('year')->pluck('year')->unique()->sortDesc()->values();
 
+        $homeAdvancedProducts = Product::published()->get();
+        $homeAdvancedOptions = AdvancedVehicleSearch::options($homeAdvancedProducts);
+        $homeAdvancedTypes = $homeAdvancedProducts->map(fn ($product) => $this->vehicleTypeLabel($product->body_type))->filter()->unique()->sort()->values();
+        $homeAdvancedGrades = $homeAdvancedProducts->map(fn ($product) => $this->productGrade($product))->filter()->unique()->sort()->values();
         return view('front.index', compact(
             'featuredProducts',
             'bestSellerProducts',
             'upcomingCollectionProducts',
             'newArrivalProducts',
+            'commercialProducts',
             'homeBlogs',
             'cartProductIds',
             'wishlistProductIds',
             'homeFilterBrands',
             'homeFilterModels',
-            'homeFilterYears'
+            'homeFilterYears',
+            'homeAdvancedOptions',
+            'homeAdvancedTypes',
+            'homeAdvancedGrades'
         ));
     }
 
@@ -63,19 +73,26 @@ class SiteController extends Controller
 
     private function homeSectionProducts(string $section)
     {
-        return Product::with(['brand', 'vehicleModel'])
-            ->published()
-            ->where('home_section', $section)
-            ->orderBy('sort_order')
-            ->orderByDesc('id')
-            ->take(12)
-            ->get();
+        $query = Product::with(['brand', 'vehicleModel'])->published();
+
+        if ($section === 'new_in_demand_arrivals') {
+            $query->where('price', '>=', 70000);
+        } elseif ($section === 'commercial_vehicles') {
+            $query->where(function ($query) {
+                $query->whereRaw('LOWER(body_type) LIKE ?', ['%truck%'])
+                    ->orWhereRaw('LOWER(body_type) LIKE ?', ['%double cab%']);
+            });
+        } else {
+            $query->where('home_section', $section);
+        }
+
+        return $query->orderByDesc('created_at')->orderByDesc('id')->get();
     }
     public function shop(Request $request)
     {
         $allProducts = Product::with(['brand', 'vehicleModel'])
             ->published()
-            ->orderBy('sort_order')
+            ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->get();
 
@@ -132,6 +149,9 @@ class SiteController extends Controller
             ->when($minPrice !== null && $minPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price >= (float) $minPrice))
             ->when($maxPrice !== null && $maxPrice !== '', fn ($collection) => $collection->filter(fn ($product) => (float) $product->price <= (float) $maxPrice));
 
+        $advancedSearchParameters = AdvancedVehicleSearch::parameters($request);
+        $filteredProducts = AdvancedVehicleSearch::filter($filteredProducts, $advancedSearchParameters);
+
         $filteredProducts = match ($sort) {
             'price-low' => $filteredProducts->sortBy('price'),
             'price-high' => $filteredProducts->sortByDesc('price'),
@@ -173,6 +193,7 @@ class SiteController extends Controller
             'selectedMileage',
             'selectedTransmission',
             'selectedSteering',
+            'advancedSearchParameters',
             'minPrice',
             'maxPrice',
             'sort',
