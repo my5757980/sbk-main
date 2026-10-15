@@ -1,0 +1,226 @@
+/* Responsive fixes for the front pages, at the widths where the layout broke.
+
+   Measured page by page from 320px to 2560px (specs/006-responsive). This file is
+   linked last in front/layouts/app.blade.php, after home.css and the layout's own
+   <style>, so the rules here win over earlier ones of the same weight. Where a page
+   sets its rule in an in-page <style> (which comes later in the document), the rule
+   here is written as "html body ..." to outweigh it. Nothing here changes colours or
+   content - only sizes and placement at the widths named on each block. */
+
+/* ---- Home: hero slider ---------------------------------------------------------- */
+
+/* 621-900px: the 188px "Ready to ship" stamp sat on the car's name. Smaller, in the
+   empty top corner of the photo (as on phones). */
+@media (min-width: 621px) and (max-width: 900px) {
+    .hero .hero__stamp {
+        width: 140px;
+        height: 140px;
+        top: 18px;
+        right: 18px;
+    }
+
+    .hero .hero__stamp-core {
+        width: 88px;
+        height: 88px;
+    }
+
+    .hero .hero__stamp-core strong { font-size: 18px; }
+    .hero .hero__stamp-core small { font-size: 10px; }
+}
+
+/* 621-980px: the slide arrows sat on the heading's first letters (the content starts
+   20px from the edge here). Side by side in the photo's bottom-right corner instead,
+   above the search panel that overlaps the hero's foot. */
+@media (min-width: 621px) and (max-width: 980px) {
+    .hero .hero__arrow {
+        top: auto;
+        bottom: 64px;
+        transform: none;
+    }
+
+    .hero .hero__arrow--prev {
+        left: auto;
+        right: 62px;
+    }
+
+    .hero .hero__arrow--next { right: 22px; }
+}
+
+/* ---- Product cards (home rails, shop, related) ---------------------------------- */
+
+/* Four cards per view at every width above 620px made each card ~150px wide on a
+   tablet: the price and "Add Cart" no longer fitted and the button was cut by the
+   card. (`.rail-track .sbk-car` outweighed the 980px rule that meant to show two.) */
+@media (min-width: 621px) and (max-width: 860px) {
+    .rail-track .sbk-car { flex-basis: calc((100% - 18px) / 2); }
+}
+
+@media (min-width: 861px) and (max-width: 1100px) {
+    .rail-track .sbk-car { flex-basis: calc((100% - 36px) / 3); }
+}
+
+/* When a card is narrow the button goes under the price instead of being cut off. */
+.sbk-car__foot { flex-wrap: wrap; }
+.sbk-car__foot .sbk-actions { margin-left: auto; }
+
+/* A long tag ran under the heart button. */
+.sbk-car__tag {
+    max-width: calc(100% - 80px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Phones: the card's small print was 9-10px, and its title link 27px tall. */
+@media (max-width: 480px) {
+    html body .sbk-car__brand,
+    html body .sbk-car__tag,
+    html body .sbk-price small { font-size: 11px; }
+
+    html body .sbk-car h3 a {
+        display: inline-block;
+        padding: 2px 0;
+    }
+}
+
+/* ---- Small print on phones elsewhere (10px labels) ------------------------------- */
+@media (max-width: 480px) {
+    html body .sbk-global-card small,
+    html body .sbk-bank-card__top small,
+    html body .sbk-about-cta-content > span { font-size: 11px; }
+
+    /* Office phone numbers on Contact Us: a 17px-tall tap target */
+    html body .sbk-office p a {
+        display: inline-block;
+        padding: 6px 0;
+    }
+}
+
+/* ---- Product page ---------------------------------------------------------------- */
+
+/* 981-1180px: four spec cards per row in the gallery column left ~63px for a value -
+   "SB 210920262" and "Passenger Capacity" ran out of their cards. Three per row. */
+@media (min-width: 981px) and (max-width: 1180px) {
+    html body .sbk-spec-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Phones: "View Details" under a related car was a 19px-tall target. */
+@media (max-width: 480px) {
+    html body .sbk-related-card a {
+        display: inline-block;
+        padding: 6px 0;
+    }
+}
+
+/* ---- Home: search panel --------------------------------------------------------- */
+
+/* 1181px and up: six dropdowns in one row left "Any Transmission" cut to
+   "Any Transmissior" - less padding around the words, a slimmer button. */
+@media (min-width: 1181px) {
+    html body .sbk-home-filter { gap: 10px; }
+    html body .sbk-home-control select { padding: 0 30px 0 12px; }
+    html body .sbk-home-submit { min-width: 132px; }
+}
+
+/* ---- Header: the menu bar ------------------------------------------------------- */
+
+/* 981-1279px: logo, eight menu links, the search box and four buttons need ~1160px.
+   Below that the centred links spilled both ways - "Home" slid under the logo, the
+   last link under the search box - and the wishlist/cart circles were squeezed to
+   23px ovals. Links a size smaller and closer, the buttons kept at full size, the
+   search box narrower; at 981-1100px the header search gives way (search stays on
+   the home page panel and the shop page; below 981px the phone menu takes over). */
+@media (min-width: 981px) and (max-width: 1279px) {
+    html body #frontNavMenu { gap: 0; }
+
+    html body #frontNavMenu > a,
+    html body #frontNavMenu .sbk-about-trigger,
+    html body #frontNavMenu .sbk-brand-trigger {
+        font-size: 14px;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    html body .navactions > * { flex-shrink: 0; }
+    html body .navactions .sbk-search input { width: 124px; }
+}
+
+@media (min-width: 981px) and (max-width: 1100px) {
+    html body .navactions .sbk-search { display: none; }
+}
+
+/* 1280-1440px: the links needed 4-10px more than their space. */
+@media (min-width: 1280px) and (max-width: 1440px) {
+    html body #frontNavMenu { gap: 2px; }
+}
+
+/* ---- Header: top bar ------------------------------------------------------------ */
+
+/* 901-1180px: the top bar's right side has a fixed width; the currency box did not fit
+   in it and its JPY box was cut. The currency box takes the room its contents need
+   and the clock pill shares what is left. */
+@media (min-width: 901px) and (max-width: 1180px) {
+    .topbar__right .currency-converter {
+        flex: 0 0 auto;
+        width: auto;
+    }
+
+    .topbar__right .topbar__clocks {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+}
+
+/* 901-1000px: with the currency box at full size the clock pill was 6px short of
+   "USA (MN) 10:06:41 AM". The two amount boxes are a little narrower here (they hold
+   "1" and "159"). */
+@media (min-width: 901px) and (max-width: 1000px) {
+    .topbar__right .currency-converter input { width: 34px; }
+}
+
+/* ---- Footer --------------------------------------------------------------------- */
+
+/* 1001-1180px: the four columns were too narrow ("Quick link" and "Contact us" broke
+   in two), and six office columns left the phone numbers (kept on one line) running
+   into the next office. Wider list columns; the offices three to a row, as below 1000px. */
+@media (min-width: 1001px) and (max-width: 1180px) {
+    .footer .footer__grid { grid-template-columns: 1.6fr 1fr 1fr 1.7fr !important; }
+    .footer .footer__offices { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    .footer .footer__offices > div {
+        border-bottom: 1px solid #444 !important;
+        padding: 20px !important;
+    }
+    .footer .footer__offices > div:first-of-type { padding-left: 20px !important; }
+    .footer .footer__offices strong { min-height: 0 !important; }
+}
+
+/* Three offices to a row: no divider after the last one in each row. */
+@media (min-width: 701px) and (max-width: 1180px) {
+    .footer .footer__offices > div:nth-of-type(3n) { border-right: 0 !important; }
+}
+
+/* 701-1000px: the about text full width, the lists under it (By Brands was left
+   alone on its own row). Three side by side from 761px; below that By Brands (two
+   columns of names) needs the full width, under Quick link and By Types. */
+@media (min-width: 701px) and (max-width: 1000px) {
+    .footer .footer__grid > .footer__about { grid-column: 1 / -1 !important; }
+}
+
+@media (min-width: 761px) and (max-width: 1000px) {
+    .footer .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+
+@media (min-width: 701px) and (max-width: 760px) {
+    .footer .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+    .footer .footer__grid > div:nth-child(4) { grid-column: 1 / -1 !important; }
+}
+
+/* The first office kept a 10px indent of its own when the offices stack (the others
+   have 20px sides at 701-1000px and none below). */
+@media (min-width: 701px) and (max-width: 1000px) {
+    .footer .footer__offices > div:first-of-type { padding-left: 20px !important; }
+}
+
+@media (max-width: 700px) {
+    .footer .footer__offices > div:first-of-type { padding-left: 0 !important; }
+}

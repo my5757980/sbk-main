@@ -1,5 +1,20 @@
 @extends('admin.layouts.app')
 
+@section('css')
+    {{-- Phones: each customer as a small card (the Password column sat off-screen, to the right of a
+         table that had to be scrolled sideways to find it). --}}
+    <style>
+        @media (max-width: 575.98px) {
+            .crm-pw-table thead { display: none; }
+            .crm-pw-table, .crm-pw-table tbody, .crm-pw-table tr, .crm-pw-table td { display: block; width: 100%; }
+            .crm-pw-table tr { padding: 10px 12px; border-bottom: 1px solid #ebe9f1; }
+            .crm-pw-table td { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+                padding: 4px 0; border: 0; text-align: right; overflow-wrap: anywhere; }
+            .crm-pw-table td::before { content: attr(data-label); flex: 0 0 auto; color: #6e6b7b; font-weight: 600; text-align: left; }
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -21,18 +36,18 @@
                             a new password can always be generated on the customer's page.
                         </div>
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped crm-pw-table">
                                 <thead>
                                     <tr><th>#</th><th>Customer</th><th>Email (login)</th><th>Phone</th><th>Password</th></tr>
                                 </thead>
                                 <tbody>
                                     @foreach($rows as $n => $row)
                                         <tr>
-                                            <td>{{ $n + 1 }}</td>
-                                            <td><a href="{{ route('admin.users.show', $row['id']) }}">{{ $row['name'] }}</a></td>
-                                            <td>{{ $row['email'] }}</td>
-                                            <td>{{ $row['phone'] ?: '-' }}</td>
-                                            <td><code style="font-size:14px">{{ $row['password'] }}</code></td>
+                                            <td data-label="#">{{ $n + 1 }}</td>
+                                            <td data-label="Customer"><a href="{{ route('admin.users.show', $row['id']) }}">{{ $row['name'] }}</a></td>
+                                            <td data-label="Email (login)">{{ $row['email'] }}</td>
+                                            <td data-label="Phone">{{ $row['phone'] ?: '-' }}</td>
+                                            <td data-label="Password"><code style="font-size:14px">{{ $row['password'] }}</code></td>
                                         </tr>
                                     @endforeach
                                 </tbody>

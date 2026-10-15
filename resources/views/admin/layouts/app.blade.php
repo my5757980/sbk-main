@@ -73,6 +73,8 @@
     </style>
     @yield('css')
     @stack('css')
+    {{-- Phone-width fixes for the panel (specs/006-responsive); last, so it wins. --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/assets/css/responsive.css') }}?v={{ @filemtime(public_path('assets/admin/assets/css/responsive.css')) }}">
 </head>
 <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
     @include('admin.layouts.partials.header')

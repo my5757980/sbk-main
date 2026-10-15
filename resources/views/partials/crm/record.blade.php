@@ -305,11 +305,11 @@
 .crm-card--wide{margin-top:14px}
 .crm-card h4{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-size:13px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
 .crm-card h4:before{content:"";width:4px;height:14px;border-radius:2px;background:var(--crm-red)}
-.crm-count{padding:1px 8px;border-radius:99px;background:var(--crm-soft);color:var(--crm-muted);font-size:11px}
+.crm-count{padding:1px 8px;border-radius:99px;background:var(--crm-soft);color:var(--crm-muted);font-size:11px;white-space:nowrap}
 .crm-specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}
 .crm-specs--single{grid-template-columns:1fr}
 .crm-specs div{padding:8px 10px;border-radius:7px;background:var(--crm-soft);min-width:0}
-.crm-specs dt{color:var(--crm-muted);font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.crm-specs dt{color:var(--crm-muted);font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
 .crm-specs dd{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
 .crm-price{margin:0;display:grid;gap:6px}
 .crm-price div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--crm-line)}
@@ -358,7 +358,7 @@
 .crm-lightbox__btn{position:absolute;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:30px;line-height:1;cursor:pointer}
 .crm-lightbox__btn:hover{background:#d71920}
 .crm-lightbox__close{top:18px;right:18px}.crm-lightbox__prev{left:18px}.crm-lightbox__next{right:18px}
-@media (max-width:991px){.crm-grid{grid-template-columns:1fr 1fr}.crm-grid .crm-card:last-child{grid-column:1/-1}.crm-grid--two .crm-card:last-child{grid-column:auto}}
+@media (max-width:1100px){.crm-grid{grid-template-columns:1fr 1fr}.crm-grid .crm-card:last-child{grid-column:1/-1}.crm-grid--two .crm-card:last-child{grid-column:auto}}
 @media (max-width:767px){
  .crm-rec__summary{grid-template-columns:1fr}
  .crm-rec__summary--solo .crm-rec__tiles{grid-template-columns:1fr 1fr}
@@ -367,6 +367,8 @@
  .crm-tile strong{font-size:19px}
  .crm-inv__bar{grid-template-columns:52px minmax(0,1fr) 18px;gap:10px;padding:12px}
  .crm-inv__thumb{width:52px;height:40px}
+ /* phones: the car, "+2 more", invoice number and date wrap instead of being cut short */
+ .crm-inv__title strong,.crm-inv__title small{white-space:normal}
  .crm-inv__bar .crm-badge,.crm-inv__money{grid-column:2/3}
  .crm-inv__bar .crm-badge{justify-self:start}
  .crm-inv__money{text-align:left;display:flex;gap:10px;align-items:baseline}

@@ -1025,4 +1025,6 @@ html.framed .gate-body{padding:4px 22px 24px}
 
 @media (max-width:760px){
   .notice-stack{top:66px;left:12px;right:12px;width:auto}
+  /* the bar's close button was a 26px target on phones */
+  .notify-ask .x{width:32px;height:32px}
 }

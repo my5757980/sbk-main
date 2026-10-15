@@ -35,7 +35,8 @@
                                     </div>
                                     {{-- Only a hash of the password is stored, so the current one cannot be shown;
                                          a new one can be set here (the eye shows what is being typed). --}}
-                                    <div class="col-6">
+                                    {{-- full width on phones: half of 320px left the boxes 40px wide --}}
+                                    <div class="col-12 col-sm-6">
                                         <h5>Password: </h5>
                                         <p class="mb-50"><span style="letter-spacing:3px">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
                                             @if($data->crm_password_generated_at)

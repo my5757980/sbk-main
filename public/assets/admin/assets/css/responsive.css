@@ -1,0 +1,40 @@
+/* Admin panel: fixes at phone widths (specs/006-responsive).
+
+   Linked last in admin/layouts/app.blade.php, after the template's styles and each
+   page's own. Measured page by page from 320px to 2560px: the panel's layout holds at
+   every width; on phones its small buttons and badges were 9.3-9.8px text in 20-26px
+   tall targets, too small to read or to hit with a thumb. */
+
+/* Search-as-you-type dropdowns (select2) take their width once, when the page loads;
+   turning a tablet or resizing the window left the chosen text cut short. */
+.content-wrapper .select2-container {
+    width: 100% !important;
+    max-width: 100%;
+}
+
+/* The blog picture preview squeezed a 4:3 photo into a 70px square. */
+.content-wrapper .avatar img.img-responsive { object-fit: cover; }
+
+@media (max-width: 575.98px) {
+    .content-wrapper .btn-sm,
+    .content-wrapper .btn-group-sm > .btn,
+    .content-wrapper .input-group-sm .btn,
+    .content-wrapper td .btn {
+        min-height: 32px;
+        font-size: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-wrapper .badge { font-size: 11px; }
+
+    /* "View all" in a card's header, a name that links to its record (not buttons:
+       they keep their own padding, e.g. "Add New") */
+    .content-wrapper .card-header > a:not(.btn),
+    .content-wrapper td > a:not(.btn) {
+        display: inline-block;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+}
