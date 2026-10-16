@@ -129,6 +129,18 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
                     </div>
                 </div>
 
+                @if($product->video)
+                    <div class="sbk-section sbk-video-section">
+                        <h2>Vehicle Video</h2>
+                        <div class="sbk-section-body">
+                            <video controls playsinline preload="metadata" poster="{{ $mainImage }}" style="display:block;width:100%;height:auto" aria-label="{{ $product->title }} video">
+                                <source src="{{ asset(uploadsDir('front') . $product->video) }}">
+                                Your browser does not support video playback.
+                            </video>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="sbk-section sbk-description-section">
                     <h2>Description</h2>
                     <div class="sbk-section-body sbk-description">

@@ -241,6 +241,26 @@
                     @endif
                 </div>
 
+                <h5 class="mt-2 mb-1">Video</h5>
+                <div class="row">
+                    <div class="col-md-12"><div class="form-group">
+                        <label for="productVideo">Upload Video (Optional)</label>
+                        <input type="file" name="video" id="productVideo" class="form-control" accept="video/mp4,video/webm,video/ogg,.mp4,.webm,.ogv">
+                        <small class="text-muted">MP4, WebM or OGV. Maximum 100 MB. Select a new video to replace the current one.</small>
+                        @error('video')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div></div>
+                    @if($data->video)
+                        <div class="col-md-12 mb-2">
+                            <label class="d-block">Current Video</label>
+                            <video controls preload="metadata" style="display:block;width:100%;max-width:640px" aria-label="Current product video">
+                                <source src="{{ asset(uploadsDir('front') . $data->video) }}">
+                                Your browser does not support video playback.
+                            </video>
+                            <label class="mt-1"><input type="checkbox" name="remove_video" value="1" {{ old('remove_video') ? 'checked' : '' }}> Remove current video</label>
+                        </div>
+                    @endif
+                </div>
+
                 <button type="submit" class="btn btn-primary mr-1">Save Changes</button>
                 <a href="{{ $form['cancel_url'] }}" class="btn btn-danger" style="color:white">Cancel</a>
             </form>

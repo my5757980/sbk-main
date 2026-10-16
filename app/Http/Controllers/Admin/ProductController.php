@@ -44,7 +44,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $this->validatedData($request);
-        unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values']);
+        unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values'], $validated['video'], $validated['remove_video']);
         $this->ensureModelBelongsToBrand($validated['vehicle_model_id'], $validated['vehicle_brand_id']);
         $validated['slug'] = $this->uniqueSlug($validated['title']);
         $validated['ref_no'] = $this->generateRefNo();
@@ -52,9 +52,17 @@ class ProductController extends Controller
         $validated['images'] = $this->uploadImages($request);
         $validated['vehicle_specifications'] = $this->formatSpecifications($request);
 
-        Product::create($validated);
+        $validated['video'] = $this->uploadVideo($request);
 
-        return redirect()->route('admin.product.index')->with('success', 'Product has been added successfully.');
+        try {
+            $product = Product::create($validated);
+        } catch (\Throwable $exception) {
+            $this->deleteVideo($validated['video']);
+            throw $exception;
+        }
+
+        return redirect()->route('admin.product.index')
+            ->with('success', 'Product has been added successfully.');
     }
 
     public function edit($id)
@@ -78,7 +86,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $validated = $this->validatedData($request, false);
-        unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values']);
+        unset($validated['existing_images'], $validated['specification_names'], $validated['specification_values'], $validated['video'], $validated['remove_video']);
         $this->ensureModelBelongsToBrand($validated['vehicle_model_id'], $validated['vehicle_brand_id']);
         $validated['slug'] = $this->uniqueSlug($validated['title'], $product->slug);
         $validated['ref_no'] = $product->ref_no ?: $this->generateRefNo();
@@ -94,9 +102,23 @@ class ProductController extends Controller
 
         $validated['images'] = array_values(array_merge($existingImages, $this->uploadImages($request)));
 
-        $product->update($validated);
+        $previousVideo = $product->video;
+        $uploadedVideo = $this->uploadVideo($request);
+        $validated['video'] = $uploadedVideo ?: ($request->boolean('remove_video') ? null : $previousVideo);
 
-        return redirect()->route('admin.product.index')->with('success', 'Product has been updated successfully.');
+        try {
+            $product->update($validated);
+        } catch (\Throwable $exception) {
+            $this->deleteVideo($uploadedVideo);
+            throw $exception;
+        }
+
+        if ($previousVideo !== $validated['video']) {
+            $this->deleteVideo($previousVideo);
+        }
+
+        return redirect()->route('admin.product.index')
+            ->with('success', 'Product has been updated successfully.');
     }
 
     public function destroy($id)
@@ -109,6 +131,7 @@ class ProductController extends Controller
             }
 
             $product->delete();
+            $this->deleteVideo($product->video);
         });
 
         return redirect()->route('admin.product.index')->with('success', 'Product has been deleted successfully.');
@@ -150,6 +173,8 @@ class ProductController extends Controller
             'images' => [$imagesRequired ? 'required' : 'nullable', 'array'],
             'images.*' => ['image', 'max:4096'],
             'existing_images' => ['nullable', 'array'],
+            'video' => ['nullable', 'file', 'mimes:mp4,webm,ogv', 'max:102400'],
+            'remove_video' => ['nullable', 'boolean'],
             'status' => ['required', 'in:published,draft,sold'],
             'home_section' => ['nullable', 'in:' . implode(',', array_keys(Product::HOME_SECTION_OPTIONS))],
             'sort_order' => ['nullable', 'integer', 'min:0'],
@@ -165,6 +190,26 @@ class ProductController extends Controller
         }
 
         return $images;
+    }
+
+    private function uploadVideo(Request $request): ?string
+    {
+        if (!$request->hasFile('video')) {
+            return null;
+        }
+
+        $file = $request->file('video');
+        $filename = 'product-video-' . Str::uuid() . '.' . $file->extension();
+        $file->move(public_path(uploadsDir('front')), $filename);
+
+        return $filename;
+    }
+
+    private function deleteVideo(?string $video): void
+    {
+        if ($video && is_file(public_path(uploadsDir('front') . basename($video)))) {
+            unlink(public_path(uploadsDir('front') . basename($video)));
+        }
     }
 
     private function formatSpecifications(Request $request)
