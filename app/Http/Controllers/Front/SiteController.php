@@ -111,11 +111,10 @@ class SiteController extends Controller
 
         $years = $allProducts->pluck('year')->filter()->unique()->sortDesc()->values();
         $maxAvailablePrice = max(1, (int) $allProducts->max('price'));
-        $types = $allProducts
-            ->map(fn ($product) => $this->vehicleTypeLabel($product->body_type))
+        $types = collect(Product::BODY_TYPES)
+            ->merge($allProducts->pluck('body_type')->map(fn ($type) => trim((string) $type)))
             ->filter()
             ->unique()
-            ->sort()
             ->values();
         $grades = $allProducts
             ->map(fn ($product) => $this->productGrade($product))
@@ -141,7 +140,10 @@ class SiteController extends Controller
             ->when($selectedBrands, fn ($collection) => $collection->whereIn('brand.name', $selectedBrands))
             ->when($selectedModel, fn ($collection) => $collection->where('vehicleModel.name', $selectedModel))
             ->when($selectedYear, fn ($collection) => $collection->where('year', (int) $selectedYear))
-            ->when($selectedTypes, fn ($collection) => $collection->filter(fn ($product) => in_array($this->vehicleTypeLabel($product->body_type), $selectedTypes, true)))
+            ->when($selectedTypes, fn ($collection) => $collection->filter(fn ($product) => collect($selectedTypes)->contains(
+                fn ($type) => strcasecmp(trim((string) $product->body_type), trim($type)) === 0
+                    || (!in_array($type, Product::BODY_TYPES, true) && $this->vehicleTypeLabel($product->body_type) === $type)
+            )))
             ->when($selectedGrades, fn ($collection) => $collection->filter(fn ($product) => in_array($this->productGrade($product), $selectedGrades, true)))
             ->when($selectedMileage, fn ($collection) => $collection->filter(fn ($product) => $product->mileage !== null && $product->mileage !== '' && (int) $product->mileage <= (int) $selectedMileage))
             ->when($selectedTransmission, fn ($collection) => $collection->filter(fn ($product) => Str::contains(Str::lower((string) $product->transmission), Str::lower($selectedTransmission))))

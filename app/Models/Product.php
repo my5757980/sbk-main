@@ -9,6 +9,25 @@ class Product extends Model
 {
     use HasFactory;
 
+    public const BODY_TYPES = [
+        'Sedan',
+        'Hatchback',
+        'SUV',
+        'Crossover',
+        'MPV / Minivan',
+        'Wagon / Estate',
+        'Coupe',
+        'Convertible / Cabriolet',
+        'Pickup Truck',
+        'Truck',
+        'Van',
+        'Microvan / Kei Van',
+        'Minibus',
+        'Roadster',
+        'Liftback',
+        'Fastback',
+    ];
+
     public const HOME_SECTION_OPTIONS = [
         'best_seller' => 'Best Seller',
         'upcoming_collection' => 'The Exclusive New Stock',

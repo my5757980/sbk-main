@@ -69,24 +69,7 @@
                         <label>Body Type</label>
                         <select name="body_type" class="form-control">
                             <option value="">Select Body Type</option>
-                            @foreach([
-                                'Sedan',
-                                'Hatchback',
-                                'SUV',
-                                'Crossover',
-                                'MPV / Minivan',
-                                'Wagon / Estate',
-                                'Coupe',
-                                'Convertible / Cabriolet',
-                                'Pickup Truck',
-                                'Truck',
-                                'Van',
-                                'Microvan / Kei Van',
-                                'Minibus',
-                                'Roadster',
-                                'Liftback',
-                                'Fastback',
-                            ] as $bodyType)
+                            @foreach(\App\Models\Product::BODY_TYPES as $bodyType)
                                 <option value="{{ $bodyType }}" {!! matchSelected($bodyType, old('body_type', $data->body_type)) !!}>{{ $bodyType }}</option>
                             @endforeach
                         </select>
