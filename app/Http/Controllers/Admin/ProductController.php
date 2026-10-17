@@ -139,6 +139,8 @@ class ProductController extends Controller
 
     private function validatedData(Request $request, $imagesRequired = true)
     {
+        $request->merge(['body_type' => Product::normalizeBodyType($request->input('body_type'))]);
+
         return $request->validate([
             'vehicle_brand_id' => ['required', 'exists:vehicle_brands,id'],
             'vehicle_model_id' => ['required', 'exists:vehicle_models,id'],
@@ -151,7 +153,7 @@ class ProductController extends Controller
             'mileage' => ['required', 'integer', 'min:0'],
             'fuel_type' => ['nullable', 'string', 'max:100'],
             'transmission' => ['nullable', 'string', 'max:100'],
-            'body_type' => ['nullable', 'string', 'max:100'],
+            'body_type' => ['nullable', 'string', \Illuminate\Validation\Rule::in(Product::BODY_TYPES)],
             'engine' => ['nullable', 'string', 'max:100'],
             'color' => ['nullable', 'string', 'max:100'],
             'dimension' => ['required', 'string', 'max:100'],

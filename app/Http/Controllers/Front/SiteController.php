@@ -41,7 +41,7 @@ class SiteController extends Controller
 
         $homeAdvancedProducts = Product::published()->get();
         $homeAdvancedOptions = AdvancedVehicleSearch::options($homeAdvancedProducts);
-        $homeAdvancedTypes = $homeAdvancedProducts->map(fn ($product) => $this->vehicleTypeLabel($product->body_type))->filter()->unique()->sort()->values();
+        $homeAdvancedTypes = collect(Product::BODY_TYPES);
         $homeAdvancedGrades = $homeAdvancedProducts->map(fn ($product) => $this->productGrade($product))->filter()->unique()->sort()->values();
         return view('front.index', compact(
             'featuredProducts',
@@ -111,11 +111,7 @@ class SiteController extends Controller
 
         $years = $allProducts->pluck('year')->filter()->unique()->sortDesc()->values();
         $maxAvailablePrice = max(1, (int) $allProducts->max('price'));
-        $types = collect(Product::BODY_TYPES)
-            ->merge($allProducts->pluck('body_type')->map(fn ($type) => trim((string) $type)))
-            ->filter()
-            ->unique()
-            ->values();
+        $types = collect(Product::BODY_TYPES);
         $grades = $allProducts
             ->map(fn ($product) => $this->productGrade($product))
             ->filter()
@@ -141,7 +137,7 @@ class SiteController extends Controller
             ->when($selectedModel, fn ($collection) => $collection->where('vehicleModel.name', $selectedModel))
             ->when($selectedYear, fn ($collection) => $collection->where('year', (int) $selectedYear))
             ->when($selectedTypes, fn ($collection) => $collection->filter(fn ($product) => collect($selectedTypes)->contains(
-                fn ($type) => strcasecmp(trim((string) $product->body_type), trim($type)) === 0
+                fn ($type) => Product::normalizeBodyType($product->body_type) === Product::normalizeBodyType($type)
                     || (!in_array($type, Product::BODY_TYPES, true) && $this->vehicleTypeLabel($product->body_type) === $type)
             )))
             ->when($selectedGrades, fn ($collection) => $collection->filter(fn ($product) => in_array($this->productGrade($product), $selectedGrades, true)))

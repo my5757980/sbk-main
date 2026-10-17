@@ -70,7 +70,7 @@
                         <select name="body_type" class="form-control">
                             <option value="">Select Body Type</option>
                             @foreach(\App\Models\Product::BODY_TYPES as $bodyType)
-                                <option value="{{ $bodyType }}" {!! matchSelected($bodyType, old('body_type', $data->body_type)) !!}>{{ $bodyType }}</option>
+                                <option value="{{ $bodyType }}" {!! matchSelected($bodyType, \App\Models\Product::normalizeBodyType(old('body_type', $data->body_type))) !!}>{{ $bodyType }}</option>
                             @endforeach
                         </select>
                     </div></div>

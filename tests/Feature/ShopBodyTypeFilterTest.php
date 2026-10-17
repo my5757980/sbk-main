@@ -12,6 +12,23 @@ class ShopBodyTypeFilterTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function test_body_type_values_are_standardized_before_saving(): void
+    {
+        foreach ([
+            ' suv ' => 'SUV',
+            'SEDAN' => 'Sedan',
+            'MPV/Minivan' => 'MPV / Minivan',
+            'mpv' => 'MPV / Minivan',
+            'Wagon' => 'Wagon / Estate',
+            'pickup' => 'Pickup Truck',
+            'mini  bus' => 'Minibus',
+            '   ' => null,
+        ] as $input => $expected) {
+            $this->assertSame($expected, (new Product(['body_type' => $input]))->body_type);
+        }
+        $this->assertCount(count(Product::BODY_TYPES), array_unique(array_map('strtolower', Product::BODY_TYPES)));
+    }
+
     public function test_admin_body_types_are_all_available_and_filter_individually(): void
     {
         $token = 'body-filter-' . Str::uuid();
@@ -30,9 +47,14 @@ class ShopBodyTypeFilterTest extends TestCase
             $ids[$type] = $product->id;
         }
 
+        // Simulate older database values without invoking the model normalizer.
+        foreach (['SUV' => ' suv ', 'Van' => 'VAN', 'MPV / Minivan' => 'MPV/Minivan', 'Wagon / Estate' => 'Wagon'] as $type => $legacy) {
+            \Illuminate\Support\Facades\DB::table('products')->where('id', $ids[$type])->update(['body_type' => $legacy]);
+        }
+
         $this->get('/shop?' . http_build_query(['search' => 'no-matching-' . $token]))
             ->assertOk()
-            ->assertViewHas('types', fn ($types) => collect(Product::BODY_TYPES)->diff($types)->isEmpty())
+            ->assertViewHas('types', fn ($types) => $types->all() === Product::BODY_TYPES)
             ->assertViewHas('products', fn ($products) => $products->total() === 0);
 
         foreach ($ids as $type => $id) {

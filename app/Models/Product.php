@@ -28,6 +28,36 @@ class Product extends Model
         'Fastback',
     ];
 
+    public static function normalizeBodyType(?string $type): ?string
+    {
+        $type = preg_replace('/\s+/u', ' ', trim((string) $type));
+        if ($type === '') {
+            return null;
+        }
+
+        $key = strtolower(preg_replace('/\s*\/\s*/', '/', $type));
+        foreach (self::BODY_TYPES as $option) {
+            if (strtolower(str_replace(' / ', '/', $option)) === $key) {
+                return $option;
+            }
+        }
+
+        return match ($key) {
+            'mpv', 'minivan' => 'MPV / Minivan',
+            'wagon', 'estate' => 'Wagon / Estate',
+            'convertible', 'cabriolet', 'convertible/roadster' => 'Convertible / Cabriolet',
+            'pickup', 'double cab', 'truck/double cab' => 'Pickup Truck',
+            'microvan', 'kei van' => 'Microvan / Kei Van',
+            'bus', 'mini bus' => 'Minibus',
+            default => $type,
+        };
+    }
+
+    public function setBodyTypeAttribute($value): void
+    {
+        $this->attributes['body_type'] = self::normalizeBodyType($value);
+    }
+
     public const HOME_SECTION_OPTIONS = [
         'best_seller' => 'Best Seller',
         'upcoming_collection' => 'The Exclusive New Stock',
