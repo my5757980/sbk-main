@@ -39,7 +39,10 @@ $assetBase = asset('assets/front');
                 <p><span id="sbkResultCount">{{ $products->total() }}</span> vehicles found</p>
             </div>
             <select class="sbk-sort" id="sbkSort" name="sort" form="sbkFilterForm" onchange="document.getElementById('sbkFilterForm').submit()">
-                <option value="default" selected>Newest Added</option>
+                <option value="default" @selected($sort === 'default')>Sort by: Featured</option>
+                <option value="price-low" @selected($sort === 'price-low')>Price: Low to High</option>
+                <option value="price-high" @selected($sort === 'price-high')>Price: High to Low</option>
+                <option value="year-new" @selected($sort === 'year-new')>Year: Newest</option>
             </select>
         </div>
 
