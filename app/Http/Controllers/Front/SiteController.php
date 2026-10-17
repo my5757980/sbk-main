@@ -92,7 +92,6 @@ class SiteController extends Controller
     {
         $allProducts = Product::with(['brand', 'vehicleModel'])
             ->published()
-            ->orderByDesc('created_at')
             ->orderByDesc('id')
             ->get();
 
@@ -106,7 +105,7 @@ class SiteController extends Controller
         $selectedSteering = $request->input('steering');
         $minPrice = $request->input('min_price');
         $maxPrice = $request->input('max_price');
-        $sort = $request->input('sort', 'default');
+        $sort = 'default';
         $search = trim((string) $request->input('search', ''));
 
         $years = $allProducts->pluck('year')->filter()->unique()->sortDesc()->values();
@@ -153,13 +152,6 @@ class SiteController extends Controller
 
         $advancedSearchParameters = AdvancedVehicleSearch::parameters($request);
         $filteredProducts = AdvancedVehicleSearch::filter($filteredProducts, $advancedSearchParameters);
-
-        $filteredProducts = match ($sort) {
-            'price-low' => $filteredProducts->sortBy('price'),
-            'price-high' => $filteredProducts->sortByDesc('price'),
-            'year-new' => $filteredProducts->sortByDesc('year'),
-            default => $filteredProducts,
-        };
 
         $page = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 10;
