@@ -103,7 +103,7 @@
         </div>
     </section>
 
-    <section class="sbk-global-partners">
+    <!-- <section class="sbk-global-partners">
         <div class="container">
             <div class="sbk-global-head">
                 <h2>Partners Behind Our Global Network</h2>
@@ -130,7 +130,7 @@
                 </article>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- <section class="sbk-network">
         <div class="container sbk-network-grid">
