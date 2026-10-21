@@ -47,7 +47,7 @@
                 'ROUTING' => '091000022',
                 'ACCOUNT NUMBER' => '167505708112',
                 'SWIFT' => 'USBKUS44IMT',
-                'ACCOUNT NO' => '3708512932302',
+               
                 'BANK ADDRESS' => '200 S 6th St Minneapolis, MN 55402',
             ],
         ],

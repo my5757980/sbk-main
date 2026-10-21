@@ -38,11 +38,9 @@
     @elseif(empty($rec['invoices']))
         <div class="crm-rec__notice">There are no invoices in the CRM for this account yet.</div>
     @else
-        @php
-            $customer = $rec['customer'] ?? [];
-            $totals = $rec['totals'];
-            $paidPct = $totals['total'] > 0 ? min(100, round($totals['paid'] / $totals['total'] * 100)) : 0;
-        @endphp
+      
+    
+    
 
         {{-- Staff see whose record this is; the customer already sees their own account beside it. --}}
         <div class="crm-rec__summary {{ $isAdmin ? '' : 'crm-rec__summary--solo' }}">
