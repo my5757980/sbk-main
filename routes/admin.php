@@ -60,6 +60,7 @@ Route::name('admin.')->middleware('admin.permission')->group(
         Route::post('users/crm-sync', 'CrmController@sync')->name('users.edit.crm-sync');
         Route::post('users/{user}/crm-link', 'CrmController@link')->name('users.edit.crm-link');
         Route::post('users/{user}/change-password', 'UserController@changePassword')->name('users.edit.change-password');
+        Route::post('users/{user}/vehicle-tracking', 'VehicleTrackingController@store')->name('users.edit.vehicle-tracking');
         Route::post('users/crm-passwords', 'CrmController@generatePasswords')->name('users.edit.crm-passwords');
         Route::get('users/crm-passwords', 'CrmController@generatedPasswords')->name('users.edit.crm-passwords-result');
         Route::get('users/{user}/crm/files/{file}', 'CrmController@file')->name('users.show.crm-file');

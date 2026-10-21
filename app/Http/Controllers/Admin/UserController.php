@@ -122,6 +122,9 @@ class UserController extends Controller
                 'fileUrl' => fn ($file, $download = false) => route('admin.users.show.crm-file', ['user' => $data->id, 'file' => $file['id']] + ($download ? ['download' => 1] : [])),
                 'pdfUrl' => fn ($invoice, $download = false) => route('admin.users.show.crm-pdf', ['user' => $data->id, 'invoice' => $invoice['id']] + ($download ? ['download' => 1] : [])),
                 'audience' => 'admin',
+                'tracking' => \App\Services\VehicleTracking::forUser($data, $record),
+                'trackingUrl' => $this->admin()->hasAdminPermission('users.edit')
+                    ? route('admin.users.edit.vehicle-tracking', $data->id) : null,
             ];
         }
 

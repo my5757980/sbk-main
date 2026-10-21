@@ -29,6 +29,7 @@ class ProfileController extends Controller
                 'fileUrl' => fn ($file, $download = false) => route('profile.crm.file', ['file' => $file['id']] + ($download ? ['download' => 1] : [])),
                 'pdfUrl' => fn ($invoice, $download = false) => route('profile.crm.pdf', ['invoice' => $invoice['id']] + ($download ? ['download' => 1] : [])),
                 'audience' => 'customer',
+                'tracking' => \App\Services\VehicleTracking::forUser($user, $record ? CrmRecord::forAudience($record, true) : null),
             ];
         }
 
