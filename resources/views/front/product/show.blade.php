@@ -75,6 +75,7 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
 .sbk-product-content:before{display:none}
 .sbk-description-section:after,.sbk-product-content:after,.sbk-product-content .sbk-section:not(.sbk-description-section):after,.sbk-product-grid:after{display:none}
 @media(max-width:620px){.sbk-description-section:after{top:36px;font-size:70px}.sbk-description-section h2{text-align:left;justify-content:flex-start}.sbk-description{margin-bottom:8px}}
+.sbk-gallery-arrow{position:absolute;top:50%;z-index:3;display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font:32px/1 Arial,sans-serif;cursor:pointer;transform:translateY(-50%)}.sbk-gallery-arrow:hover{background:var(--red)}.sbk-gallery-arrow:focus-visible{outline:3px solid var(--red);outline-offset:3px}.sbk-gallery-arrow--prev{left:12px}.sbk-gallery-arrow--next{right:12px}
 </style>
 
 <section class="sbk-product">
@@ -103,6 +104,10 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
                     <div class="sbk-gallery-shell">
                         <div class="sbk-gallery-main">
                             <img id="sbkMainProductImage" src="{{ $mainImage }}" alt="{{ $product->title }}">
+                            @if(count($images) > 1)
+                                <button type="button" class="sbk-gallery-arrow sbk-gallery-arrow--prev" data-gallery-step="-1" aria-label="Previous picture" aria-controls="sbkMainProductImage"><span aria-hidden="true">&#8249;</span></button>
+                                <button type="button" class="sbk-gallery-arrow sbk-gallery-arrow--next" data-gallery-step="1" aria-label="Next picture" aria-controls="sbkMainProductImage"><span aria-hidden="true">&#8250;</span></button>
+                            @endif
                         </div>
                     </div>
                     @if(count($images) > 1)
@@ -128,6 +133,18 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
                         </div>
                     </div>
                 </div>
+
+                @if($product->video)
+                    <div class="sbk-section sbk-video-section">
+                        <h2>Vehicle Video</h2>
+                        <div class="sbk-section-body">
+                            <video controls playsinline preload="metadata" poster="{{ $mainImage }}" style="display:block;width:100%;height:auto" aria-label="{{ $product->title }} video">
+                                <source src="{{ asset(uploadsDir('front') . $product->video) }}">
+                                Your browser does not support video playback.
+                            </video>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="sbk-section sbk-description-section">
                     <h2>Description</h2>
@@ -193,11 +210,26 @@ foreach (($product->vehicle_specifications ?: []) as $specification) {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const main = document.getElementById('sbkMainProductImage');
-    document.querySelectorAll('.sbk-gallery-thumbs button').forEach(function (button) {
+    const thumbnails = Array.from(document.querySelectorAll('.sbk-gallery-thumbs button'));
+    let currentIndex = Math.max(0, thumbnails.findIndex(button => button.dataset.image === main.src));
+
+    function showImage(index) {
+        currentIndex = (index + thumbnails.length) % thumbnails.length;
+        main.src = thumbnails[currentIndex].dataset.image;
+        thumbnails.forEach((button, position) => button.classList.toggle('is-active', position === currentIndex));
+    }
+
+    thumbnails.forEach(function (button, index) {
         button.addEventListener('click', function () {
-            main.src = button.dataset.image;
-            document.querySelectorAll('.sbk-gallery-thumbs button').forEach(item => item.classList.remove('is-active'));
-            button.classList.add('is-active');
+            showImage(index);
+        });
+    });
+
+    document.querySelectorAll('[data-gallery-step]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            if (thumbnails.length > 1) {
+                showImage(currentIndex + Number(button.dataset.galleryStep));
+            }
         });
     });
 });

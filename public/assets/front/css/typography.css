@@ -1,0 +1,49 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../fonts/roboto-variable.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/montserrat-variable.ttf') format('truetype');
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+}
+
+/* Typography only; shared by every public website page. */
+body,
+body :where(div, section, article, header, footer, nav, main, aside, p, span, a, li, dt, dd, td, th, blockquote, small, strong, b, em, summary, input, textarea, select, option, legend) {
+    font-family: 'Roboto', Arial, sans-serif !important;
+}
+
+body,
+body :where(p, input, textarea, select, option) {
+    font-weight: 400;
+}
+
+body :where(strong, b, nav a, .navlinks a, .topbar a) {
+    font-weight: 500 !important;
+}
+
+body :is(h1, h2, h3, h4, h5, h6, :where([role='heading'])),
+body :is(h1, h2, h3, h4, h5, h6, :where([role='heading'])) :where(a, span, strong, b, em, small) {
+    font-family: 'Montserrat', Arial, sans-serif !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}
+
+body :is(h1, h2),
+body :is(h1, h2) :where(a, span, strong, b, em, small) {
+    font-weight: 700 !important;
+}
+
+body :is(button, label, legend, [role='button'], input[type='submit'], input[type='button'], input[type='reset'], .btn, [class*='-btn'], [class*='__button'], [class*='-button'], [class*='-submit'], [class*='-kicker'], [class*='-label'], .badge, .sbk-filter-title, .sbk-apply, .sbk-reset, .sbk-steering__action, .hero__buttons a, .sbk-contact-card a),
+body :is(button, label, legend, [role='button'], .btn, [class*='-btn'], [class*='__button'], [class*='-button'], [class*='-submit'], [class*='-kicker'], [class*='-label'], .badge, .sbk-filter-title, .sbk-apply, .sbk-reset, .sbk-steering__action, .hero__buttons a, .sbk-contact-card a) :where(span, strong, b, small) {
+    font-family: 'Montserrat', Arial, sans-serif !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}

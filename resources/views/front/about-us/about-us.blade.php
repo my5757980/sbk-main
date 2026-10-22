@@ -233,6 +233,8 @@ $assetBase = asset('assets/front');
 
     </div>
 </section>
+@include('front.partials.about-services')
+@include('front.partials.about-contact')
 @endsection
 
 

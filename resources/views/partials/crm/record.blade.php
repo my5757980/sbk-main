@@ -122,6 +122,9 @@
                 </summary>
 
                 <div class="crm-inv__body">
+                    @if(!empty($crm['tracking'][$inv['id']] ?? []))
+                        @include('partials.crm.tracking', ['trackingCars' => $crm['tracking'][$inv['id']], 'trackingInvoice' => $inv['id']])
+                    @endif
                     {{-- Several vehicles: their list leads (it replaces the one-vehicle card). --}}
                     @if(count($vehicles) > 1)
                         <section class="crm-card crm-card--wide crm-card--first">

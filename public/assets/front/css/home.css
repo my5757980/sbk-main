@@ -2334,8 +2334,8 @@ body {
 }
 
 .currency-converter {
-    flex: 0 0 clamp(150px, 18vw, 210px);
-    width: clamp(150px, 18vw, 210px);
+    flex: 0 0 auto;
+    width: max-content;
     height: 30px;
     display: flex;
     align-items: center;
@@ -2368,7 +2368,12 @@ body {
 }
 
 .currency-converter input {
-    width: 42px;
+    width: 8ch;
+    min-width: 8ch;
+    flex: 0 0 auto;
+    padding: 0 4px;
+    appearance: textfield;
+    -moz-appearance: textfield;
     height: 18px;
     border: 0;
     border-radius: 999px;
@@ -2381,6 +2386,17 @@ body {
     outline: none;
 }
 
+.topbar__right:has(> .currency-converter) {
+    flex: 0 0 auto;
+    width: max-content;
+    overflow: visible;
+}
+
+.currency-converter input::-webkit-inner-spin-button,
+.currency-converter input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 .currency-converter input:focus {
     box-shadow: 0 0 0 2px rgba(213, 0, 0, .18);
 }
@@ -4353,4 +4369,51 @@ the dropdown stays underneath navbar.
 
 @media (max-width: 900px) {
     .navgrid > .topbar__clocks > span { border: 1px solid #000;background-color: black;color: white; }
+}
+
+
+/* Footer social icons */
+.footer .footer__social {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+}
+.footer .footer__social a.footer__social-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #fff !important;
+    background: #171717;
+    border: 1px solid #444;
+    border-radius: 50%;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+.footer .footer__social-link svg {
+    display: block;
+    width: 21px;
+    height: 21px;
+    flex-shrink: 0;
+}
+.footer .footer__social a.footer__social-link::before {
+    content: none !important;
+}
+.footer .footer__social a.footer__social-link:hover,
+.footer .footer__social a.footer__social-link:focus-visible {
+    background: #e30613;
+    border-color: #e30613;
+}
+.footer .footer__social a.footer__social-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .footer .footer__social a.footer__social-link { transition: none; }
 }

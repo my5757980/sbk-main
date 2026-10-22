@@ -86,20 +86,9 @@
         <div class="navlinks" id="frontNavMenu">
 
             <a href="{!! route('index') !!}" class="{{ request()->routeIs('index') ? 'is-active' : '' }}">Home</a>
-            <div class="sbk-about-menu">
-                <a href="{!! route('about-us') !!}" class="sbk-about-trigger {{ request()->routeIs('about-us', 'official-partners') ? 'is-active' : '' }}" aria-haspopup="true">
-                    About Us
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                </a>
-                <div class="sbk-about-dropdown">
-                    <a href="{!! route('about-us') !!}" class="{{ request()->routeIs('about-us') ? 'is-active' : '' }}">About SBK</a>
-                    <a href="{!! route('official-partners') !!}" class="{{ request()->routeIs('official-partners') ? 'is-active' : '' }}">Official Partners</a>
-                </div>
-            </div>
-            <a href="{!! route('shop') !!}" class="{{ request()->routeIs('shop') ? 'is-active' : '' }}">Shop</a>
-            <a href="{!! route('services') !!}" class="{{ request()->routeIs('services') ? 'is-active' : '' }}">Services</a>
+            
+            <!-- <a href="{!! route('shop') !!}" class="{{ request()->routeIs('shop') ? 'is-active' : '' }}">Shop</a> -->
+            <!-- <a href="{!! route('services') !!}" class="{{ request()->routeIs('services') ? 'is-active' : '' }}">Services</a> -->
 
 
             <!-- ==========================================
@@ -467,7 +456,19 @@
             <a href="{!! route('blog') !!}" class="{{ request()->routeIs('blog') ? 'is-active' : '' }}">Blogs</a>
            
             <a href="{!! route('our-locations') !!}" class="{{ request()->routeIs('our-locations') ? 'is-active' : '' }}">Our Locations</a>
-            <a href="{!! route('contact-us') !!}" class="{{ request()->routeIs('contact-us', 'contact-us.submit') ? 'is-active' : '' }}">Contact Us</a>
+           <div class="sbk-about-menu">
+                <a href="{!! route('about-us') !!}" class="sbk-about-trigger {{ request()->routeIs('about-us', 'official-partners') ? 'is-active' : '' }}" aria-haspopup="true">
+                    About Us
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </a>
+                <div class="sbk-about-dropdown">
+                    <a href="{!! route('about-us') !!}" class="{{ request()->routeIs('about-us') ? 'is-active' : '' }}">About SBK</a>
+                    <a href="{!! route('official-partners') !!}" class="{{ request()->routeIs('official-partners') ? 'is-active' : '' }}">Official Partners</a>
+                </div>
+            </div>
+            <!-- <a href="{!! route('contact-us') !!}" class="{{ request()->routeIs('contact-us', 'contact-us.submit') ? 'is-active' : '' }}">Contact Us</a> -->
 
         </div>
 
@@ -533,7 +534,7 @@
                 </div>
             @else
                 <a class="sbk-auth-link {{ request()->routeIs('login') ? 'is-active' : '' }}" href="{{ route('login') }}">Login</a>
-                <!-- <a class="sbk-auth-link sbk-auth-link--red {{ request()->routeIs('register') ? 'is-active' : '' }}" href="{{ route('register') }}">Sign Up</a> -->
+                <a class="sbk-auth-link sbk-auth-link--red {{ request()->routeIs('register') ? 'is-active' : '' }}" href="{{ route('register') }}">Sign Up</a>
             @endauth
 
             <a class="sbk-head-icon {{ request()->routeIs('cart.*') ? 'is-active' : '' }}" href="{{ route('cart.index') }}" aria-label="Cart" title="Cart">
@@ -541,7 +542,7 @@
                 @if($cartCount > 0)<b>{{ $cartCount }}</b>@endif
             </a>
 
-            <button type="button" onclick="window.location.href='{{ route('shop') }}'">Buy Now</button>
+            <!-- <button type="button" onclick="window.location.href='{{ route('shop') }}'">Buy Now</button> -->
 
         </div>
 

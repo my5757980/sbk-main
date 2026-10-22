@@ -51,7 +51,7 @@
                         <label>Fuel Type</label>
                         <select name="fuel_type" class="form-control">
                             <option value="">Select Fuel Type</option>
-                            @foreach(['Petrol', 'Diesel', 'Electric'] as $fuelType)
+                            @foreach(collect(['Petrol', 'Diesel', 'Electric', old('fuel_type', $data->fuel_type)])->filter()->unique() as $fuelType)
                                 <option value="{{ $fuelType }}" {!! matchSelected($fuelType, old('fuel_type', $data->fuel_type)) !!}>{{ $fuelType }}</option>
                             @endforeach
                         </select>
@@ -60,7 +60,7 @@
                         <label>Transmission</label>
                         <select name="transmission" class="form-control">
                             <option value="">Select Transmission</option>
-                            @foreach(['Automatic Transmission', 'Manual Transmission'] as $transmission)
+                            @foreach(collect(['Automatic Transmission', 'Manual Transmission', old('transmission', $data->transmission)])->filter()->unique() as $transmission)
                                 <option value="{{ $transmission }}" {!! matchSelected($transmission, old('transmission', $data->transmission)) !!}>{{ $transmission }}</option>
                             @endforeach
                         </select>
@@ -69,24 +69,8 @@
                         <label>Body Type</label>
                         <select name="body_type" class="form-control">
                             <option value="">Select Body Type</option>
-                            @foreach([
-                                'Sedan',
-                                'Hatchback',
-                                'SUV',
-                                'Crossover',
-                                'MPV / Minivan',
-                                'Wagon / Estate',
-                                'Coupe',
-                                'Convertible / Cabriolet',
-                                'Pickup Truck',
-                                'Van',
-                                'Microvan / Kei Van',
-                                'Minibus',
-                                'Roadster',
-                                'Liftback',
-                                'Fastback',
-                            ] as $bodyType)
-                                <option value="{{ $bodyType }}" {!! matchSelected($bodyType, old('body_type', $data->body_type)) !!}>{{ $bodyType }}</option>
+                            @foreach(\App\Models\Product::BODY_TYPES as $bodyType)
+                                <option value="{{ $bodyType }}" {!! matchSelected($bodyType, \App\Models\Product::normalizeBodyType(old('body_type', $data->body_type))) !!}>{{ $bodyType }}</option>
                             @endforeach
                         </select>
                     </div></div>
@@ -113,6 +97,13 @@
                         </select>
                     </div></div>
                     <div class="col-md-3"><div class="form-group"><label>Location</label><input type="text" name="location" class="form-control" value="{{ old('location', $data->location) }}" placeholder="Japan"></div></div>
+                    <div class="col-md-3"><div class="form-group">
+                        <label for="vehicle_country">Vehicle Country</label>
+                        <input type="text" id="vehicle_country" name="vehicle_country" class="form-control" value="{{ old('vehicle_country', $data->vehicle_country) }}" placeholder="e.g. Thailand, Philippines" maxlength="100" list="vehicle_country_options">
+                        <datalist id="vehicle_country_options">
+                            <option value="Thailand"><option value="Philippines"><option value="Vietnam"><option value="Japan"><option value="Indonesia"><option value="United Arab Emirates">
+                        </datalist>
+                    </div></div>
                     <div class="col-md-3"><div class="form-group"><label>Tag</label><input type="text" name="tag" class="form-control" value="{{ old('tag', $data->tag) }}" placeholder="FEATURED"></div></div>
                 </div>
 
@@ -173,6 +164,7 @@
                                 <option value="{{ $value }}" {!! matchSelected($value, old('home_section', $data->home_section)) !!}>{{ $label }}</option>
                             @endforeach
                         </select>
+                        <small class="form-text text-muted">Luxury Vehicles automatically shows published vehicles priced at $70,000 or more. Commercial Vehicles automatically shows published trucks.</small>
                     </div></div>
                     <div class="col-md-3"><div class="form-group mt-2">
                         <fieldset class="checkbox">
@@ -191,7 +183,7 @@
                 <div class="row">
                     <div class="col-md-6"><div class="form-group">
                         <label>Meta Title</label>
-                        <input type="text" name="meta_title" class="form-control" value="{{ old('meta_title', $data->meta_title) }}" maxlength="192">
+                        <input type="text" name="meta_title" class="form-control" value="{{ old('meta_title', $data->meta_title) }}" maxlength="55">
                     </div></div>
                     <div class="col-md-6"><div class="form-group">
                         <label>Meta Keywords</label>
@@ -200,7 +192,7 @@
                     </div></div>
                     <div class="col-md-12"><div class="form-group">
                         <label>Meta Description</label>
-                        <textarea name="meta_description" rows="3" class="form-control" maxlength="1000">{{ old('meta_description', $data->meta_description) }}</textarea>
+                        <textarea name="meta_description" rows="3" class="form-control" maxlength="155">{{ old('meta_description', $data->meta_description) }}</textarea>
                     </div></div>
                 </div>
 
@@ -228,6 +220,26 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+                    @endif
+                </div>
+
+                <h5 class="mt-2 mb-1">Video</h5>
+                <div class="row">
+                    <div class="col-md-12"><div class="form-group">
+                        <label for="productVideo">Upload Video (Optional)</label>
+                        <input type="file" name="video" id="productVideo" class="form-control" accept="video/mp4,video/webm,video/ogg,.mp4,.webm,.ogv">
+                        <small class="text-muted">MP4, WebM or OGV. Maximum 100 MB. Select a new video to replace the current one.</small>
+                        @error('video')<div class="text-danger">{{ $message }}</div>@enderror
+                    </div></div>
+                    @if($data->video)
+                        <div class="col-md-12 mb-2">
+                            <label class="d-block">Current Video</label>
+                            <video controls preload="metadata" style="display:block;width:100%;max-width:640px" aria-label="Current product video">
+                                <source src="{{ asset(uploadsDir('front') . $data->video) }}">
+                                Your browser does not support video playback.
+                            </video>
+                            <label class="mt-1"><input type="checkbox" name="remove_video" value="1" {{ old('remove_video') ? 'checked' : '' }}> Remove current video</label>
                         </div>
                     @endif
                 </div>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#18222e"/><stop offset="1" stop-color="#06090f"/></linearGradient><linearGradient id="glass" x2="0" y2="1"><stop stop-color="#bdd5df"/><stop offset="1" stop-color="#ecf1f0"/></linearGradient><linearGradient id="dash" x2="0" y2="1"><stop stop-color="#45505b"/><stop offset="1" stop-color="#141a21"/></linearGradient></defs>
+<rect width="600" height="320" fill="url(#bg)"/>
+<path d="M73 30Q300 0 527 30L565 158H35Z" fill="url(#glass)"/>
+<path d="M240 147L283 67H317L360 147" fill="#a5b3b7"/><path d="M300 72V87M300 101V124" stroke="#fff" stroke-width="3"/>
+<path d="M0 150Q300 117 600 150V320H0Z" fill="url(#dash)"/>
+<path d="M0 180Q300 151 600 180" fill="none" stroke="#d71920" stroke-width="3"/>
+<rect x="260" y="144" width="80" height="53" rx="6" fill="#070d15" stroke="#697683"/><path d="M272 181L286 163L301 172L324 157" fill="none" stroke="#a6ccd8" stroke-width="3"/>
+<rect x="265" y="209" width="70" height="12" rx="4" fill="#090e14"/><circle cx="279" cy="241" r="9" fill="#111922" stroke="#87929b"/><circle cx="321" cy="241" r="9" fill="#111922" stroke="#87929b"/>
+<path d="M260 320L275 265H325L340 320" fill="#10161e"/><path d="M300 290V308" stroke="#afb8bd" stroke-width="9" stroke-linecap="round"/>
+<g transform="translate(155 208)"><rect x="-57" y="-58" width="114" height="46" rx="20" fill="#091018"/><path d="M-40-27A24 24 0 0 1-5-38M5-38A24 24 0 0 1 40-27" fill="none" stroke="#c1d9e0" stroke-width="3"/><circle r="59" fill="none" stroke="#090d12" stroke-width="17"/><circle r="59" fill="none" stroke="#626c76" stroke-width="2"/><path d="M-49-9L-17 7M49-9L17 7M0 49V18" stroke="#7f8a94" stroke-width="12"/><rect x="-24" y="-16" width="48" height="35" rx="12" fill="#202b36" stroke="#66727c"/><circle r="6" fill="#cbd2d6"/></g>
+<rect x="24" y="24" width="70" height="30" rx="15" fill="#d71920"/><text x="59" y="45" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#fff">LHD</text>
+</svg>
