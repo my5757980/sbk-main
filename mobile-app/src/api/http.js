@@ -21,6 +21,14 @@ export function hasAuth() {
   return !!authToken;
 }
 
+/** The headers a chat call carries - the same ones request() adds for `chat: true`. */
+export function chatHeaders() {
+  const headers = { Accept: 'application/json' };
+  if (authToken) headers.Authorization = 'Bearer ' + authToken;
+  else if (guestToken) headers['X-Chat-Guest'] = guestToken;
+  return headers;
+}
+
 export class ApiError extends Error {
   constructor(message, status, errors) {
     super(message);
@@ -102,22 +110,28 @@ export async function request(method, path, opts = {}) {
   } catch (e) {
     data = null;
   }
+  return answer(res.status, res.ok, data);
+}
+
+/** The website's answer, or the ApiError it amounts to - request() and the
+    chat's file uploader both read the website through this. */
+export function answer(status, ok, data) {
   // A page that is not the website's answer (a hotel Wi-Fi sign-in, an error
   // page) counts as no connection.
-  if (res.ok && (data === null || typeof data !== 'object')) {
+  if (ok && (data === null || typeof data !== 'object')) {
     throw new ApiError(NO_CONNECTION, 0);
   }
-  if (!res.ok) {
+  if (!ok) {
     // The framework's words for developers ("The route api/app/contact could
     // not be found.", "No query results for model ...") never reach a customer.
     let message = firstError(data);
-    if (res.status === 429) message = 'Too many tries. Please wait a minute and try again.';
-    else if (res.status === 401 && (!message || message === 'Unauthenticated.')) message = 'Please sign in again.';
-    else if (res.status === 405 || /^The route .* could not be found/i.test(message)) message = NOT_READY;
+    if (status === 429) message = 'Too many tries. Please wait a minute and try again.';
+    else if (status === 401 && (!message || message === 'Unauthenticated.')) message = 'Please sign in again.';
+    else if (status === 405 || /^The route .* could not be found/i.test(message)) message = NOT_READY;
     else if (/^No query results/i.test(message)) message = 'Not found.';
-    else if (res.status === 413) message = 'This file is too large to send.';
-    else if (res.status >= 500 || !message || message === 'Server Error') message = res.status === 404 ? 'Not found.' : NO_CONNECTION;
-    throw new ApiError(message, res.status, data && data.errors);
+    else if (status === 413) message = 'This file is too large to send.';
+    else if (status >= 500 || !message || message === 'Server Error') message = status === 404 ? 'Not found.' : NO_CONNECTION;
+    throw new ApiError(message, status, data && data.errors);
   }
   return data;
 }

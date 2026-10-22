@@ -4,8 +4,9 @@
    app reads all of its data from the website's API, so the address is set at
    BUILD time, the same code serving today's address and the final domain:
        EXPO_PUBLIC_SITE_URL=https://<the website> npx expo prebuild ...
-   Today the website runs at v2.sbkautotrading.com. */
-export const SITE_URL = String(process.env.EXPO_PUBLIC_SITE_URL || 'https://v2.sbkautotrading.com').replace(/\/+$/, '');
+   The Laravel website and its /api/app live at sbkautotrading.com - v2 is a
+   WordPress site now, so the app must point at the apex domain. */
+export const SITE_URL = String(process.env.EXPO_PUBLIC_SITE_URL || 'https://sbkautotrading.com').replace(/\/+$/, '');
 
 /** A path on the website ("/uploads/front/x.webp") as a full address. */
 export function siteUrl(path) {

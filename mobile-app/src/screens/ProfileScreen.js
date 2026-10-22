@@ -3,6 +3,7 @@
    profile with its picture and password, saved on the website. */
 import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardView } from '../components/KeyboardView';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -41,7 +42,7 @@ export default function ProfileScreen() {
   ]);
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 36 }}>
         <LinearGradient colors={GRAD.dark} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }}>
           <Wrap style={{ paddingTop: 22, paddingBottom: 40 }}>
@@ -81,7 +82,7 @@ export default function ProfileScreen() {
           {tab === 'orders' ? <Orders onShop={() => go.shop({})} account={account} /> : <EditProfile key={user.email} user={user} account={account} />}
         </Wrap>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardView>
   );
 }
 

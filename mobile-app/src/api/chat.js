@@ -1,7 +1,8 @@
 /* The website's live chat, from the app: the same endpoints the website's chat
    page uses (sbk-main routes/chat.php), under /api/app/chat with the app's
    token, so a message sent here is in the same conversation the desk sees. */
-import { request } from './http';
+import { SITE_URL } from '../config';
+import { answer, chatHeaders, request } from './http';
 
 /** Who the chat knows this phone as (a signed-in customer needs no details). */
 export async function who() {
@@ -22,23 +23,75 @@ export async function poll({ thread, after, open, me } = {}) {
   });
 }
 
-/** A message to a member of the team (`to`, first message) or into a thread. */
+/** A message to a member of the team. A customer always sends `to` - the website's
+    send.php reads `to` for every customer; `thread` is only the desk's way in. */
 export async function send({ to, thread, body }) {
   return request('POST', '/chat/send', { chat: true, json: thread ? { thread, body } : { to, body } });
 }
 
-/** A picture (kind 'image') or a voice note (kind 'voice', with its seconds). */
+/** expo-audio hands back a bare path on some phones; everything wants a scheme. */
+function withScheme(uri) {
+  const s = String(uri || '');
+  if (!s || /^(file|content|https?):/i.test(s)) return s;
+  return 'file://' + s;
+}
+
+let fsMod;
+function fileSystem() {
+  if (fsMod === undefined) {
+    try {
+      // eslint-disable-next-line global-require
+      fsMod = require('expo-file-system');
+    } catch (e) {
+      fsMod = null;
+    }
+  }
+  return fsMod;
+}
+
+/**
+ * A picture (kind 'image') or a voice note (kind 'voice', with its seconds).
+ *
+ * Sent the way the SBK Chat app learned to on 18 Sep: React Native's FormData
+ * has to open the file itself, and with a recording (a bare path, a file still
+ * being written) it fails inside the phone as "no connection" - the request
+ * never reaches the website. So the phone's own uploader streams the file from
+ * disk with the same fields; FormData stays as the second chance.
+ */
 export async function upload({ to, thread, uri, kind, secs, mimeType, fileName }) {
+  const file = withScheme(uri);
+  const name = fileName || (kind === 'voice' ? 'voice.m4a' : 'photo.jpg');
+  const type = mimeType || (kind === 'voice' ? 'audio/mp4' : 'image/jpeg');
+  const fields = { kind };
+  if (to) fields.to = String(to);
+  else fields.thread = String(thread);
+  if (kind === 'voice') fields.secs = String(Math.round(secs || 0));
+
+  const F = fileSystem();
+  if (F && F.File && F.UploadType) {
+    let res = null;
+    try {
+      res = await new F.File(file).upload(SITE_URL + '/api/app/chat/upload', {
+        httpMethod: 'POST',
+        uploadType: F.UploadType.MULTIPART,
+        fieldName: 'file',
+        mimeType: type,
+        parameters: fields,
+        headers: chatHeaders(),
+      });
+    } catch (e) {
+      res = null; // it could not go this way - FormData below gets its chance
+    }
+    if (res) {
+      let data = null;
+      try { data = JSON.parse(res.body); } catch (e) { data = null; }
+      return answer(res.status, res.status >= 200 && res.status < 300, data);
+    }
+  }
+
   const form = new FormData();
-  form.append('kind', kind);
-  if (thread) form.append('thread', String(thread));
-  else form.append('to', String(to));
-  if (secs) form.append('secs', String(Math.round(secs)));
-  form.append('file', {
-    uri,
-    name: fileName || (kind === 'voice' ? 'voice.m4a' : 'photo.jpg'),
-    type: mimeType || (kind === 'voice' ? 'audio/mp4' : 'image/jpeg'),
-  });
+  Object.keys(fields).forEach((k) => form.append(k, fields[k]));
+  form.append('file', { uri: file, name, type });
   return request('POST', '/chat/upload', { chat: true, form, timeout: 90000 });
 }
 

@@ -7,6 +7,7 @@
    voice notes and voice/video calls, with the desk's ticks. */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { KeyboardView } from '../components/KeyboardView';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -123,7 +124,7 @@ function Gate({ details, me }) {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingVertical: 20 }}>
         <Wrap>
           <View style={styles.gate}>
@@ -152,7 +153,7 @@ function Gate({ details, me }) {
           </View>
         </Wrap>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardView>
   );
 }
 
@@ -334,7 +335,10 @@ export function ChatThreadScreen() {
     if (!body || busy) return;
     setBusy(true);
     try {
-      sent(await chatApi.send(threadId ? { thread: threadId, body } : { to: p.staffId, body }));
+      // A customer always names the member of staff, as the website's chat does:
+      // send.php reads `to` for every customer and never `thread`, so sending
+      // only `thread` once a conversation existed came back "That person is not available."
+      sent(await chatApi.send(p.staffId ? { to: p.staffId, body } : { thread: threadId, body }));
       setText('');
       setErr('');
     } catch (e) {
@@ -347,7 +351,8 @@ export function ChatThreadScreen() {
   const sendFile = async (file) => {
     setBusy(true);
     try {
-      sent(await chatApi.upload({ ...(threadId ? { thread: threadId } : { to: p.staffId }), ...file }));
+      // Pictures and voice notes the same way - upload.php reads `to` for a customer too.
+      sent(await chatApi.upload({ ...(p.staffId ? { to: p.staffId } : { thread: threadId }), ...file }));
       setErr('');
     } catch (e) {
       setErr(e.message);
@@ -431,7 +436,7 @@ export function ChatThreadScreen() {
   const openPicture = (m) => nav.navigate('Gallery', { images: [mediaSource(m.id)], index: 0, title: p.name });
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#ECEEF2' }} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={Platform.OS === 'ios' ? headerH : 0}>
+    <KeyboardView style={{ flex: 1, backgroundColor: '#ECEEF2' }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'} keyboardVerticalOffset={Platform.OS === 'ios' ? headerH : 0}>
       <FlatList
         data={rows}
         inverted
@@ -492,7 +497,7 @@ export function ChatThreadScreen() {
           )}
         </View>
       )}
-    </KeyboardAvoidingView>
+    </KeyboardView>
   );
 }
 

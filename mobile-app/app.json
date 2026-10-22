@@ -2,7 +2,7 @@
   "expo": {
     "name": "SBK Global Auto Trading",
     "slug": "sbk-website",
-    "version": "2.1.1",
+    "version": "2.1.6",
     "scheme": "sbkapp",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.sbkautotrading.app",
-      "versionCode": 4,
+      "versionCode": 9,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/android-icon-foreground.png",

@@ -5,6 +5,7 @@
    customer's order makes their account, as on the website. */
 import { useEffect, useMemo, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardView } from '../components/KeyboardView';
 import { useNavigation } from '@react-navigation/native';
 import * as WebBrowser from 'expo-web-browser';
 
@@ -212,7 +213,7 @@ export default function CheckoutScreen() {
   }
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 36 }}>
         <PageHero eyebrow={CHECKOUT_TEXT.eyebrow} title={CHECKOUT_TEXT.title} text={CHECKOUT_TEXT.text} compact />
         <Wrap style={{ paddingTop: 16 }}>
@@ -299,7 +300,7 @@ export default function CheckoutScreen() {
           </View>
         </Wrap>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardView>
   );
 }
 

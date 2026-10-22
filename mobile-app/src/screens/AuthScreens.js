@@ -3,6 +3,7 @@
    accounts: one account for the website and the app. */
 import { useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
+import { KeyboardView } from '../components/KeyboardView';
 import { useNavigation } from '@react-navigation/native';
 
 import { C, R, lift } from '../theme';
@@ -14,7 +15,7 @@ import { useAccount } from '../store/account';
 
 function AuthPage({ text, children }) {
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+    <KeyboardView style={{ flex: 1, backgroundColor: C.bg }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingBottom: 36 }}>
         <PageHero title={text.title} text={text.text} compact />
         <Wrap style={{ marginTop: -14 }}>
@@ -25,7 +26,7 @@ function AuthPage({ text, children }) {
           </View>
         </Wrap>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardView>
   );
 }
 
