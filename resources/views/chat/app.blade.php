@@ -289,6 +289,7 @@ window.SBK = {
     ice:    @json(route('chat.api.ice')),
     call:   @json(route('chat.api.call')),
     group:  @json(route('chat.api.group')),
+    del:    @json(route('chat.api.delete')),
     start:  @json(route('chat.start'))
   }
 };

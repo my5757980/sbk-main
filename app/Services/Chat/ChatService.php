@@ -530,18 +530,21 @@ class ChatService
     /** One message, shaped for the browser. */
     public function messageOut(array $m, bool $viewerIsGuest): array
     {
+        $deleted = !empty($m['deleted_at']);
+
         return [
             'id' => (int) $m['id'],
             'thread' => (int) $m['thread_id'],
             'mine' => $viewerIsGuest === ((int) $m['from_guest'] === 1),
-            'kind' => $m['kind'],
-            'body' => (string) $m['body'],
-            'media' => $m['media_path'] ? route('chat.media', ['message' => (int) $m['id']]) : null,
-            'mime' => $m['media_mime'],
-            'secs' => $m['media_secs'] !== null ? (int) $m['media_secs'] : null,
+            'kind' => $deleted ? 'text' : $m['kind'],
+            'body' => $deleted ? '' : (string) $m['body'],
+            'media' => (!$deleted && $m['media_path']) ? route('chat.media', ['message' => (int) $m['id']]) : null,
+            'mime' => $deleted ? null : $m['media_mime'],
+            'secs' => (!$deleted && $m['media_secs'] !== null) ? (int) $m['media_secs'] : null,
             'at' => $m['created_at'],
             'delivered' => !empty($m['delivered_at']),
             'read' => !empty($m['read_at']),
+            'deleted' => $deleted,
         ];
     }
 
@@ -589,6 +592,88 @@ class ChatService
         }
 
         return $rc;
+    }
+
+    /**
+     * A person deletes their OWN message ("delete for everyone"). The row is
+     * kept - text and media wiped, the media file removed - so the other side
+     * can turn its bubble into a placeholder on the next poll (deletionsSince).
+     * Only the sender may delete; no time limit. Returns the id, or null.
+     */
+    public function deleteMessage(int $id, bool $viewerIsGuest, int $meId): ?int
+    {
+        $row = DB::table('sbk_chat_messages')->where('id', $id)->first();
+        if (!$row) {
+            return null;
+        }
+        $m = (array) $row;
+        $groupId = (int) ($m['group_id'] ?? 0);
+        if ($groupId > 0) {
+            if ($viewerIsGuest || (int) $m['staff_id'] !== $meId || !$this->mayReadGroup($groupId)) {
+                return null;
+            }
+        } else {
+            if (!$this->mayReadThread((int) $m['thread_id'])) {
+                return null;
+            }
+            $fromGuest = ((int) $m['from_guest'] === 1);
+            if ($fromGuest !== $viewerIsGuest) {
+                return null;
+            }
+            if (!$viewerIsGuest && (int) $m['staff_id'] !== $meId) {
+                return null;
+            }
+        }
+
+        if (!empty($m['deleted_at'])) {
+            return $id;
+        }
+
+        if (!empty($m['media_path'])) {
+            $base = self::mediaDir();
+            $real = realpath($base . '/' . $m['media_path']);
+            $root = realpath($base);
+            if ($real && $root && strpos($real, $root) === 0) {
+                @unlink($real);
+            }
+        }
+
+        DB::table('sbk_chat_messages')->where('id', $id)->update([
+            'deleted_at' => self::now(),
+            'body' => '',
+            'media_path' => null,
+            'media_mime' => null,
+            'media_bytes' => null,
+            'media_secs' => null,
+        ]);
+
+        $preview = "\xF0\x9F\x9A\xAB This message was deleted";
+        if ($groupId > 0) {
+            if ((int) DB::table('sbk_chat_messages')->where('group_id', $groupId)->max('id') === $id) {
+                DB::table('sbk_chat_groups')->where('id', $groupId)->update(['last_preview' => $preview]);
+            }
+        } else {
+            $tid = (int) $m['thread_id'];
+            if ((int) DB::table('sbk_chat_messages')->where('thread_id', $tid)->max('id') === $id) {
+                DB::table('sbk_chat_threads')->where('id', $tid)->update(['last_preview' => $preview]);
+            }
+        }
+
+        return $id;
+    }
+
+    /** Ids of deleted messages in a thread, newest first (see receipts()). */
+    public function deletionsSince(int $threadId, int $limit = 100): array
+    {
+        return DB::table('sbk_chat_messages')->where('thread_id', $threadId)->whereNotNull('deleted_at')
+            ->orderByDesc('id')->limit($limit)->pluck('id')->map(fn ($x) => (int) $x)->all();
+    }
+
+    /** Ids of deleted messages in a group, newest first. */
+    public function groupDeletions(int $groupId, int $limit = 100): array
+    {
+        return DB::table('sbk_chat_messages')->where('group_id', $groupId)->whereNotNull('deleted_at')
+            ->orderByDesc('id')->limit($limit)->pluck('id')->map(fn ($x) => (int) $x)->all();
     }
 
     /**
@@ -950,21 +1035,24 @@ class ChatService
         $from = (int) $m['staff_id'];
         $name = (string) ($names[$from] ?? 'Someone');
 
+        $deleted = !empty($m['deleted_at']);
+
         return [
             'id' => (int) $m['id'],
             'group' => (int) $m['group_id'],
             'mine' => $from === $meId,
-            'kind' => $m['kind'],
-            'body' => (string) $m['body'],
-            'media' => $m['media_path'] ? route('chat.media', ['message' => (int) $m['id']]) : null,
-            'mime' => $m['media_mime'],
-            'secs' => $m['media_secs'] !== null ? (int) $m['media_secs'] : null,
+            'kind' => $deleted ? 'text' : $m['kind'],
+            'body' => $deleted ? '' : (string) $m['body'],
+            'media' => (!$deleted && $m['media_path']) ? route('chat.media', ['message' => (int) $m['id']]) : null,
+            'mime' => $deleted ? null : $m['media_mime'],
+            'secs' => (!$deleted && $m['media_secs'] !== null) ? (int) $m['media_secs'] : null,
             'at' => $m['created_at'],
             'who' => $name,
             'hue' => self::avatarHue($from . $name),
             'ini' => self::initials($name),
             'delivered' => true,
             'read' => false,
+            'deleted' => $deleted,
         ];
     }
 

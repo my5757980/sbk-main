@@ -58,6 +58,7 @@ class ChatApiController extends Controller
                 $chat->markGroupRead($groupId, (int) $s['id']);
             }
             $out['receipts'] = $chat->groupReceipts($groupId, (int) $s['id']);
+            $out['deletions'] = $chat->groupDeletions($groupId);
         }
 
         // The thread that is open, and the ticks on our own messages in it.
@@ -71,6 +72,7 @@ class ChatApiController extends Controller
                 $chat->markRead($threadId, $viewerIsGuest);
             }
             $out['receipts'] = $chat->receipts($threadId, $viewerIsGuest);
+            $out['deletions'] = $chat->deletionsSince($threadId);
         }
 
         if ($viewerIsGuest) {
@@ -213,6 +215,30 @@ class ChatApiController extends Controller
      * the camera's location data gone), files spread over two directory levels,
      * nothing under the public folder.
      */
+    /** Delete one of YOUR OWN messages ("delete for everyone"). Sender-only. */
+    public function delete(Request $request, ChatService $chat)
+    {
+        $g = $chat->guest();
+        $s = $chat->staff();
+        if (!$g && !$s) {
+            return ChatService::json(['ok' => false, 'signedout' => true], 401);
+        }
+        ChatService::refuseUntilDetails($g, $s);
+        $viewerIsGuest = $g && !$s;
+
+        $id = (int) $request->input('id', 0);
+        if ($id <= 0) {
+            return ChatService::json(['ok' => false, 'error' => 'No message named.'], 400);
+        }
+        $meId = $viewerIsGuest ? 0 : (int) $s['id'];
+        $done = $chat->deleteMessage($id, $viewerIsGuest, $meId);
+        if (!$done) {
+            return ChatService::json(['ok' => false, 'error' => 'You can only delete your own message.'], 403);
+        }
+
+        return ChatService::json(['ok' => true, 'id' => (int) $done]);
+    }
+
     public function upload(Request $request, ChatService $chat)
     {
         $g = $chat->guest();

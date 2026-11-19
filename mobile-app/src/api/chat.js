@@ -29,6 +29,12 @@ export async function send({ to, thread, body }) {
   return request('POST', '/chat/send', { chat: true, json: thread ? { thread, body } : { to, body } });
 }
 
+/* Delete one of YOUR OWN messages ("delete for everyone"). The other side turns
+   the bubble into a placeholder on its next poll (r.deletions). */
+export async function del(id) {
+  return request('POST', '/chat/delete', { chat: true, json: { id } });
+}
+
 /** expo-audio hands back a bare path on some phones; everything wants a scheme. */
 function withScheme(uri) {
   const s = String(uri || '');

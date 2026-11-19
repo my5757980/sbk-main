@@ -6,7 +6,7 @@
    then the team, with who is online; then the conversation - text, pictures,
    voice notes and voice/video calls, with the desk's ticks. */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, KeyboardAvoidingView, Platform, Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { KeyboardView } from '../components/KeyboardView';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -282,7 +282,7 @@ export function ChatThreadScreen() {
     calls.start(kind, { to: p.staffId, peer: p.name || 'SBK', peerId: p.staffId, hue: p.hue });
   };
 
-  const merge = useCallback((incoming, receipts) => {
+  const merge = useCallback((incoming, receipts, deletions) => {
     setMessages((prev) => {
       const byId = new Map(prev.map((m) => [m.id, m]));
       (incoming || []).forEach((m) => byId.set(m.id, m));
@@ -290,11 +290,39 @@ export function ChatThreadScreen() {
         const m = byId.get(r.id);
         if (m) byId.set(r.id, { ...m, delivered: !!r.d, read: !!r.r });
       });
+      (deletions || []).forEach((id) => {
+        const m = byId.get(id);
+        if (m && !m.deleted) byId.set(id, { ...m, deleted: true, body: '', media: null, kind: 'text' });
+      });
       const list = [...byId.values()].sort((a, b) => a.id - b.id);
       if (list.length) after.current = list[list.length - 1].id;
       return list;
     });
   }, []);
+
+  const markDeletedLocal = useCallback((id) => {
+    setMessages((prev) => prev.map((m) => (m.id === id
+      ? { ...m, deleted: true, body: '', media: null, kind: 'text' } : m)));
+  }, []);
+
+  /* Long-press your own bubble to delete it for everyone. No time limit. */
+  const askDelete = useCallback((m) => {
+    if (!m || !m.mine || m.deleted) return;
+    Alert.alert('Delete message', 'Delete this message for everyone?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete', style: 'destructive', onPress: async () => {
+          try {
+            const r = await chatApi.del(m.id);
+            if (r && r.ok) markDeletedLocal(m.id);
+            else Alert.alert('Could not delete', (r && r.error) || 'Please try again.');
+          } catch (e) {
+            Alert.alert('Could not delete', 'Please try again.');
+          }
+        },
+      },
+    ]);
+  }, [markDeletedLocal]);
 
   // No conversation yet: the first message or call makes one - a call says which.
   useEffect(() => {
@@ -308,7 +336,7 @@ export function ChatThreadScreen() {
     }
     try {
       const r = await chatApi.poll({ thread: threadId, after: after.current, open: 1 });
-      merge(r.messages, r.receipts);
+      merge(r.messages, r.receipts, r.deletions);
       if (r.call && calls) calls.notePoll(r.call);
       if (typeof r.unread === 'number') chat.setUnread(r.unread);
       setErr('');
@@ -442,7 +470,7 @@ export function ChatThreadScreen() {
         inverted
         keyExtractor={(m) => String(m.id)}
         contentContainerStyle={{ paddingHorizontal: ui.gutter, paddingVertical: 12, flexGrow: 1 }}
-        renderItem={({ item }) => (item.day ? <Day text={item.day} /> : <Bubble m={item} maxW={maxW} onPicture={openPicture} />)}
+        renderItem={({ item }) => (item.day ? <Day text={item.day} /> : <Bubble m={item} maxW={maxW} onPicture={openPicture} onDelete={askDelete} />)}
         ListEmptyComponent={loading ? <ActivityIndicator color={C.red} style={{ marginTop: 40 }} /> : (
           <View style={styles.hello}>
             <View style={styles.helloIcon}>
@@ -577,7 +605,7 @@ function Ticks({ m }) {
   return <Ionicons name={name} size={14} color={m.read ? '#8FD0FF' : 'rgba(255,255,255,0.85)'} style={{ marginLeft: 4 }} />;
 }
 
-function Bubble({ m, maxW, onPicture }) {
+function Bubble({ m, maxW, onPicture, onDelete }) {
   const mine = m.mine;
   if (m.kind === 'call') {
     const c = callLine(m);
@@ -592,13 +620,15 @@ function Bubble({ m, maxW, onPicture }) {
   const picW = Math.min(maxW, 240);
   return (
     <View style={[styles.bubbleRow, mine ? { justifyContent: 'flex-end' } : null]}>
-      <View style={[styles.bubble, mine ? styles.mine : styles.theirs, { maxWidth: maxW }, m.kind === 'image' && { padding: 4 }]}>
+      <Pressable onLongPress={mine && !m.deleted && onDelete ? () => onDelete(m) : undefined} delayLongPress={350} style={[styles.bubble, mine ? styles.mine : styles.theirs, { maxWidth: maxW }, m.kind === 'image' && { padding: 4 }]}>
         {m.kind === 'image' ? (
           <Press onPress={() => onPicture(m)} accessibilityLabel="Open picture">
             <Img src={mediaSource(m.id)} style={{ width: picW, height: Math.round(picW * 0.75), borderRadius: R.md }} />
           </Press>
         ) : m.kind === 'voice' ? (
           <VoiceBubble source={mediaSource(m.id)} mine={mine} knownSecs={m.secs} />
+        ) : m.deleted ? (
+          <T v="body" color={mine ? 'rgba(255,255,255,0.7)' : C.faint} style={{ fontStyle: 'italic' }}>{'\uD83D\uDEAB This message was deleted'}</T>
         ) : (
           <T v="body" color={mine ? C.white : C.ink} selectable>{m.body}</T>
         )}
@@ -606,7 +636,7 @@ function Bubble({ m, maxW, onPicture }) {
           <T v="small" size={10.5} weight="500" color={mine ? 'rgba(255,255,255,0.78)' : C.faint}>{clock(m.at)}</T>
           <Ticks m={m} />
         </View>
-      </View>
+      </Pressable>
     </View>
   );
 }

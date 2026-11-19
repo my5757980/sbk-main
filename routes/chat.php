@@ -26,6 +26,7 @@ Route::prefix('chat')->name('chat.')->group(function () {
     Route::prefix('api')->name('api.')->group(function () {
         Route::get('poll', [ChatApiController::class, 'poll'])->name('poll');
         Route::post('send', [ChatApiController::class, 'send'])->name('send');
+        Route::post('delete', [ChatApiController::class, 'delete'])->name('delete');
         Route::post('upload', [ChatApiController::class, 'upload'])->name('upload');
         Route::post('name', [ChatApiController::class, 'name'])->name('name');
         Route::get('ping', [ChatApiController::class, 'ping'])->name('ping');
